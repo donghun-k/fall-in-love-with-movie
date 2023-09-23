@@ -3,15 +3,18 @@ import queryClient from './queryClient';
 import { Outlet } from 'react-router-dom';
 import { CssBaseline, Grid, ThemeProvider } from '@mui/material';
 import theme from './theme';
+import NavBar from './components/layout/NavBar';
 
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        <NavBar />
         <Grid
           container
           sx={{
+            paddingTop: '80px',
             background: '#000000',
             width: '100vw',
             height: '100vh',
