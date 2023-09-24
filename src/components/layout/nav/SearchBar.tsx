@@ -64,11 +64,11 @@ const SearchBarView = ({
       <IconButton
         type="submit"
         sx={{
-          color: 'primary.dark',
+          color: 'text.button',
           p: '10px',
           transition: '0.3s',
           '&:hover': {
-            color: 'primary.light',
+            color: 'text.buttonHover',
           },
         }}
       >

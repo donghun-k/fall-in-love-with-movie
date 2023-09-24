@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
-import NavBar from './components/layout/NavBar';
+import NavBar from './components/layout/nav/NavBar';
 import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './theme';
 
