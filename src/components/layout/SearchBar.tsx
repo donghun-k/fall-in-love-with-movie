@@ -36,7 +36,7 @@ const SearchBarView = ({
       component="form"
       onSubmit={handleSubmit}
       sx={{
-        backgroundColor: '#222',
+        backgroundColor: 'background.paper',
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
@@ -45,7 +45,7 @@ const SearchBarView = ({
         mr: '20px',
         transition: '0.3s',
         '&:hover, &:focus-within': {
-          backgroundColor: '#333',
+          backgroundColor: 'background.paperFocus',
         },
         '&:focus-within': {
           width: 250,
@@ -55,7 +55,7 @@ const SearchBarView = ({
       <InputBase
         sx={{
           ml: 1,
-          color: 'primary.light',
+          color: 'text.secondary',
         }}
         value={searchInput}
         onChange={handleInputChange}

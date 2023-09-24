@@ -30,9 +30,9 @@ const NavBarView = ({ isMobile, isTablet, isDesktop }: ViewProps) => {
         display: 'flex',
         height: '80px',
         justifyContent: 'center',
-        backgroundColor: '#111',
-        boxShadow: '0 3px 3px #111',
+        backgroundColor: 'background.nav',
       }}
+      // enableColorOnDark
     >
       <Grid container>
         <Grid item xs={0} md={1} lg={2} />

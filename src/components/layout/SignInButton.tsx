@@ -12,9 +12,9 @@ const SignInButton = ({ isTablet }: Props) => {
       <Button
         variant="text"
         sx={{
-          color: 'primary.dark',
+          color: 'text.button',
           '&:hover': {
-            color: 'primary.light',
+            color: 'text.buttonHover',
           },
         }}
       >
