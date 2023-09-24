@@ -4,16 +4,14 @@ import { Outlet } from 'react-router-dom';
 import {
   CssBaseline,
   Grid,
-  IconButton,
   PaletteMode,
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import NavBar from './components/layout/nav/NavBar';
+import NavBar from './components/layout/nav-bar/NavBar';
 import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './theme';
+import TabBar from './components/layout/tab-bar/TabBar';
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>('light');
@@ -26,7 +24,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <NavBar />
+        <NavBar onToggleModeBtnClick={toggleMode} />
         <Grid
           container
           sx={{
@@ -39,24 +37,10 @@ function App() {
           <Grid item xs={0} md={1} lg={2} />
           <Grid item xs={12} md={10} lg={8} position="relative">
             <Outlet />
-            <IconButton
-              sx={{
-                position: 'absolute',
-                bottom: 20,
-                right: 0,
-                boxShadow: 2,
-              }}
-              onClick={toggleMode}
-            >
-              {theme.palette.mode === 'dark' ? (
-                <Brightness7Icon fontSize="large" />
-              ) : (
-                <Brightness4Icon fontSize="large" />
-              )}
-            </IconButton>
           </Grid>
           <Grid item xs={0} md={1} lg={2} />
         </Grid>
+        <TabBar />
       </ThemeProvider>
     </QueryClientProvider>
   );

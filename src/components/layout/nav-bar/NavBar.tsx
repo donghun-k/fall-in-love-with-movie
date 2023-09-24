@@ -3,13 +3,19 @@ import useMediaQueries from '../../../hooks/useMediaQueries';
 import SearchBar from './SearchBar';
 import SignInButton from './SignInButton';
 import LogoButton from './LogoButton';
+import ToggleModeButton from './ToggleModeButton';
 
-const NavBar = () => {
+interface Props {
+  onToggleModeBtnClick: () => void;
+}
+
+const NavBar = ({ onToggleModeBtnClick }: Props) => {
   const { isMobile, isTablet } = useMediaQueries();
 
   const props = {
     isMobile,
     isTablet,
+    onToggleModeBtnClick,
   };
 
   return <NavBarView {...props} />;
@@ -18,9 +24,10 @@ const NavBar = () => {
 interface ViewProps {
   isMobile: boolean;
   isTablet: boolean;
+  onToggleModeBtnClick: () => void;
 }
 
-const NavBarView = ({ isMobile, isTablet }: ViewProps) => {
+const NavBarView = ({ isMobile, onToggleModeBtnClick }: ViewProps) => {
   return (
     <AppBar
       position="fixed"
@@ -40,23 +47,24 @@ const NavBarView = ({ isMobile, isTablet }: ViewProps) => {
               width: '100%',
               display: 'flex',
               flexDirection: 'row',
-              justifyContent: isMobile ? 'center' : 'space-between',
+              justifyContent: 'space-between',
             }}
           >
             <LogoButton />
-            {isMobile ? (
-              <></>
-            ) : (
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                }}
-              >
-                <SearchBar />
-                <SignInButton isTablet={isTablet} />
-              </Box>
-            )}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+              }}
+            >
+              {!isMobile && (
+                <>
+                  <SearchBar />
+                  <SignInButton />
+                </>
+              )}
+              <ToggleModeButton onClick={onToggleModeBtnClick} />
+            </Box>
           </Toolbar>
         </Grid>
         <Grid item xs={0} md={1} lg={2} />

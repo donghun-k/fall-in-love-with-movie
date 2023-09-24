@@ -2,11 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 
-interface Props {
-  isTablet: boolean;
-}
-
-const SignInButton = ({ isTablet }: Props) => {
+const SignInButton = () => {
   return (
     <Link to="/auth">
       <Button
@@ -18,11 +14,17 @@ const SignInButton = ({ isTablet }: Props) => {
           },
         }}
       >
-        {!isTablet && (
-          <Typography variant="subtitle2" pt={2} mr={0.5} fontWeight={600}>
-            Sign In
-          </Typography>
-        )}
+        <Typography
+          variant="subtitle2"
+          pt={2}
+          mr={0.5}
+          fontWeight={600}
+          sx={{
+            display: { xs: 'none', md: 'block' },
+          }}
+        >
+          Sign In
+        </Typography>
         <LoginIcon fontSize="large" />
       </Button>
     </Link>
