@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 
 const SignInPage = () => {
@@ -16,10 +16,14 @@ const SignInPageView = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh',
+        gap: '20px',
+        height: '100%',
         paddingBottom: '20vh',
       }}
     >
+      <Typography fontSize={24} fontWeight={800}>
+        SIGN IN
+      </Typography>
       <GoogleSignInButton />
     </Container>
   );
