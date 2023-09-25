@@ -11,7 +11,8 @@ import {
 import NavBar from './components/layout/nav-bar/NavBar';
 import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './configs/theme';
-import TabBar from './components/layout/tab-bar/TabBar';
+// import TabBar from './components/layout/tab-bar/TabBar';
+import { AuthContextProvider } from './contexts/AuthContext';
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>('light');
@@ -21,28 +22,30 @@ function App() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <NavBar onToggleModeBtnClick={toggleMode} />
-        <Grid
-          container
-          sx={{
-            paddingTop: '80px',
-            background: 'background.default',
-            width: '100vw',
-            height: '100vh',
-          }}
-        >
-          <Grid item xs={0} md={1} lg={2} />
-          <Grid item xs={12} md={10} lg={8} position="relative">
-            <Outlet />
+    <AuthContextProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <NavBar onToggleModeBtnClick={toggleMode} />
+          <Grid
+            container
+            sx={{
+              paddingTop: '80px',
+              background: 'background.default',
+              width: '100vw',
+              height: '100vh',
+            }}
+          >
+            <Grid item xs={0} md={1} lg={2} />
+            <Grid item xs={12} md={10} lg={8} position="relative">
+              <Outlet />
+            </Grid>
+            <Grid item xs={0} md={1} lg={2} />
           </Grid>
-          <Grid item xs={0} md={1} lg={2} />
-        </Grid>
-        <TabBar />
-      </ThemeProvider>
-    </QueryClientProvider>
+          {/* <TabBar /> */}
+        </ThemeProvider>
+      </QueryClientProvider>
+    </AuthContextProvider>
   );
 }
 

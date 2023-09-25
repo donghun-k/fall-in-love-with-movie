@@ -1,5 +1,3 @@
-import { initializeApp } from 'firebase/app';
-
 const {
   VITE_FIREBASE_API_KEY,
   VITE_FIREBASE_AUTH_DOMAIN,
@@ -14,6 +12,4 @@ const firebaseConfig = {
   databaseURL: VITE_FIREBASE_DB_URL,
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
-
-export default firebaseApp;
+export default firebaseConfig;
