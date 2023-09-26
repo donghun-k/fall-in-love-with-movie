@@ -41,6 +41,7 @@ const GitHubSignInButtonView = ({ onSignInBtnClick }: ViewProps) => {
         '&:hover': {
           color: 'text.secondary',
           borderColor: 'text.secondary',
+          backgroundColor: 'transparent',
         },
       }}
     >

@@ -9,15 +9,7 @@ const SignInButton = () => {
 const SignInButtonView = () => {
   return (
     <Link to="/signin">
-      <Button
-        variant="text"
-        sx={{
-          color: 'text.button',
-          '&:hover': {
-            color: 'text.buttonHover',
-          },
-        }}
-      >
+      <Button variant="text">
         <Typography
           variant="subtitle2"
           pt={2}

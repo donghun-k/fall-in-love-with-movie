@@ -23,9 +23,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           text: {
             primary: '#000',
-            secondary: grey[700],
-            button: '#ff8cac',
-            buttonHover: '#ff5987',
+            secondary: grey[600],
           },
         }
       : {
@@ -43,9 +41,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
           },
           text: {
             primary: '#fff',
-            secondary: grey[500],
-            button: '#ff5987',
-            buttonHover: '#ffbfd1',
+            secondary: grey[400],
           },
         }),
   },
