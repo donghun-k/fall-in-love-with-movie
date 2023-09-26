@@ -9,10 +9,15 @@ const SignInButton = () => {
 const SignInButtonView = () => {
   return (
     <Link to="/signin">
-      <Button variant="text">
+      <Button
+        sx={{
+          height: '50px',
+        }}
+        variant="text"
+      >
         <Typography
           variant="subtitle2"
-          pt={2}
+          pt={0.5}
           mr={0.5}
           fontWeight={600}
           sx={{

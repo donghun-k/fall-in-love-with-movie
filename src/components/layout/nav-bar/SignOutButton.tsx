@@ -28,11 +28,17 @@ interface ViewProps {
 
 const SignOutButtonView = ({ onSignOutBtnClick }: ViewProps) => {
   return (
-    <Button onClick={onSignOutBtnClick} variant="text">
+    <Button
+      sx={{
+        height: '50px',
+      }}
+      onClick={onSignOutBtnClick}
+      variant="text"
+    >
       <LogoutIcon fontSize="large" />
       <Typography
         variant="subtitle2"
-        pt={2}
+        pt={0.5}
         ml={0.5}
         fontWeight={600}
         sx={{

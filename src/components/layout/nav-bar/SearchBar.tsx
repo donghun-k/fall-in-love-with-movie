@@ -40,14 +40,14 @@ const SearchBarView = ({
         p: '2px 4px',
         display: 'flex',
         alignItems: 'center',
-        height: 50,
-        width: 200,
+        height: '50px',
+        width: '200px',
         transition: '0.3s',
         '&:hover, &:focus-within': {
           backgroundColor: 'background.paperFocus',
         },
         '&:focus-within': {
-          width: 250,
+          width: '250px',
         },
       }}
     >

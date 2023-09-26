@@ -45,11 +45,11 @@ const TitleSectionView = ({ mode }: ViewProps) => {
       <Typography
         sx={{
           fontSize: { xs: '30px', md: '40px' },
-          color: 'text.primary',
+          color: 'text.secondary',
           fontWeight: 'bold',
           '& span': {
             fontSize: { xs: '45px', md: '60px' },
-            color: 'primary.main',
+            color: 'text.primary',
           },
           marginBottom: '20px',
         }}

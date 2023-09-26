@@ -15,9 +15,9 @@ import getDesignTokens from './configs/theme';
 import { AuthContextProvider } from './contexts/AuthContext';
 
 function App() {
-  const [mode, setMode] = useState<PaletteMode>('light');
+  const [mode, setMode] = useState<PaletteMode>('dark');
   const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  const toggleMode = useCallback(() => {
+  const togglePaletteMode = useCallback(() => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   }, []);
 
@@ -26,7 +26,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <NavBar onToggleModeBtnClick={toggleMode} />
+          <NavBar togglePaletteMode={togglePaletteMode} />
           <Grid
             container
             sx={{
