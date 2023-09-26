@@ -1,5 +1,6 @@
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
+import GitHubSignInButton from '../../components/signin/GithubSignInButton';
 
 const SignInPage = () => {
   const props = {};
@@ -16,15 +17,27 @@ const SignInPageView = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: '20px',
+        gap: '30px',
         height: '100%',
         paddingBottom: '20vh',
       }}
     >
-      <Typography fontSize={24} fontWeight={800}>
+      <Typography fontSize={40} fontWeight={800}>
         SIGN IN
       </Typography>
-      <GoogleSignInButton />
+      <Box
+        sx={{
+          width: '300px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '10px',
+        }}
+      >
+        <GoogleSignInButton />
+        <GitHubSignInButton />
+      </Box>
     </Container>
   );
 };

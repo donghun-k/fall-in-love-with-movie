@@ -1,5 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import {
+  AuthProvider,
+  GithubAuthProvider,
   GoogleAuthProvider,
   NextFn,
   User,
@@ -10,11 +12,17 @@ import {
 import firebaseConfig from '../configs/firebase';
 
 initializeApp(firebaseConfig);
-
-const provider = new GoogleAuthProvider();
 const auth = getAuth();
 
-export const signIn = async () => {
+type AuthType = 'google' | 'github';
+
+const AUTH_PROVIDER: Record<AuthType, AuthProvider> = {
+  google: new GoogleAuthProvider(),
+  github: new GithubAuthProvider(),
+};
+
+export const signIn = async (authType: AuthType) => {
+  const provider = AUTH_PROVIDER[authType];
   const result = await signInWithPopup(auth, provider);
   const user = result.user;
   return user;

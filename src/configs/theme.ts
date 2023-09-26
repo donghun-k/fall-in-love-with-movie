@@ -2,6 +2,9 @@ import { PaletteMode } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 const getDesignTokens = (mode: PaletteMode) => ({
+  typography: {
+    fontFamily: 'Noto Sans KR',
+  },
   palette: {
     mode,
     ...(mode === 'light'
