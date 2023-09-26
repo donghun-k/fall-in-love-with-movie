@@ -1,49 +1,135 @@
-import { Tab, Tabs } from '@mui/material';
+import { Box, Tab } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
-import { Link } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import SearchBox from './SearchBox';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthContext from '../../../hooks/useAuthContext';
+import { User } from 'firebase/auth';
+import { signOut } from '../../../api/auth';
 
 const TabBar = () => {
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
+  const [isSearchBoxOpened, setIsSearchBoxOpened] = useState(false);
+
+  const handleHomeBtnClick = () => {
+    navigate('/');
+  };
+  const handleSearchBtnClick = () => {
+    setIsSearchBoxOpened(true);
+  };
+  const handleSignInBtnClick = () => {
+    navigate('/signin');
+  };
+  const handleSignOutBtnClick = () => {
+    signOut();
+    navigate('/', { replace: true });
+  };
+  const closeSearchBox = () => {
+    setIsSearchBoxOpened(false);
+  };
+
+  const props = {
+    user,
+    isSearchBoxOpened,
+    handleHomeBtnClick,
+    handleSearchBtnClick,
+    handleSignInBtnClick,
+    handleSignOutBtnClick,
+    closeSearchBox,
+  };
+
+  return <TabBarView {...props} />;
+};
+
+interface ViewProps {
+  user: User | null;
+  isSearchBoxOpened: boolean;
+  handleHomeBtnClick: () => void;
+  handleSearchBtnClick: () => void;
+  handleSignInBtnClick: () => void;
+  handleSignOutBtnClick: () => void;
+  closeSearchBox: () => void;
+}
+
+const TabBarView = ({
+  user,
+  isSearchBoxOpened,
+  handleHomeBtnClick,
+  handleSearchBtnClick,
+  handleSignInBtnClick,
+  handleSignOutBtnClick,
+  closeSearchBox,
+}: ViewProps) => {
   return (
-    <Tabs
-      centered
+    <Box
+      component="nav"
       sx={{
+        backgroundColor: 'background.nav',
         display: { xs: 'flex', sm: 'none' },
         position: 'fixed',
         bottom: 0,
+        flexDirection: 'row',
+        height: '80px',
         width: '100vw',
-        '& a': {
-          color: 'text.primary',
+        boxShadow: (theme) => {
+          return `0 0 10px ${theme.palette.primary.main}`;
         },
       }}
     >
       <Tab
+        onClick={handleHomeBtnClick}
         sx={{
           flexGrow: 1,
         }}
-        icon={
-          <Link to="/">
-            <HomeIcon />
-          </Link>
-        }
+        icon={<HomeIcon />}
         label="HOME"
       />
       <Tab
+        onClick={handleSearchBtnClick}
         sx={{
           flexGrow: 1,
         }}
         icon={<SearchIcon />}
         label="SEARCH"
       />
-      <Tab
-        sx={{
-          flexGrow: 1,
-        }}
-        icon={<LoginIcon />}
-        label="SIGNIN"
+      {user ? (
+        <>
+          <Tab
+            sx={{
+              flexGrow: 1,
+            }}
+            icon={<AccountCircleIcon />}
+            label="MY PAGE"
+          />
+          <Tab
+            onClick={handleSignOutBtnClick}
+            sx={{
+              flexGrow: 1,
+            }}
+            icon={<LogoutIcon />}
+            label="SIGN OUT"
+          />
+        </>
+      ) : (
+        <Tab
+          onClick={handleSignInBtnClick}
+          sx={{
+            flexGrow: 1,
+          }}
+          icon={<LoginIcon />}
+          label="SIGNIN"
+        />
+      )}
+      <SearchBox
+        isSearchBoxOpened={isSearchBoxOpened}
+        closeSearchBox={closeSearchBox}
       />
-    </Tabs>
+    </Box>
   );
 };
 

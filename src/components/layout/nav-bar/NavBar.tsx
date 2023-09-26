@@ -1,6 +1,6 @@
-import { AppBar, Box, Grid, Toolbar } from '@mui/material';
+import { Box, Grid, Toolbar } from '@mui/material';
 import useMediaQueries from '../../../hooks/useMediaQueries';
-import SearchBar from './SearchBar';
+import SearchBar from '../SearchBar';
 import SignInButton from './SignInButton';
 import LogoButton from './LogoButton';
 import PaletteModeSwitch from './PaletteModeSwitch';
@@ -35,15 +35,20 @@ interface ViewProps {
 
 const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
   return (
-    <AppBar
+    <Box
+      component="nav"
       position="fixed"
       sx={{
         display: 'flex',
+        width: '100vw',
         height: '80px',
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: 'background.nav',
+        boxShadow: (theme) => {
+          return `0 0 10px ${theme.palette.primary.main}`;
+        },
       }}
-      // enableColorOnDark
     >
       <Grid container>
         <Grid item xs={0} md={1} lg={2} />
@@ -77,7 +82,7 @@ const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
         </Grid>
         <Grid item xs={0} md={1} lg={2} />
       </Grid>
-    </AppBar>
+    </Box>
   );
 };
 

@@ -11,7 +11,7 @@ import {
 import NavBar from './components/layout/nav-bar/NavBar';
 import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './configs/theme';
-// import TabBar from './components/layout/tab-bar/TabBar';
+import TabBar from './components/layout/tab-bar/TabBar';
 import { AuthContextProvider } from './contexts/AuthContext';
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
             </Grid>
             <Grid item xs={0} md={1} lg={2} />
           </Grid>
-          {/* <TabBar /> */}
+          <TabBar />
         </ThemeProvider>
       </QueryClientProvider>
     </AuthContextProvider>
