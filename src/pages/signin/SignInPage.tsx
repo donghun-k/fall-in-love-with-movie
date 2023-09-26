@@ -1,6 +1,6 @@
 import { Box, Divider, Typography } from '@mui/material';
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
-import GitHubSignInButton from '../../components/signin/GithubSignInButton';
+import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
 
 const SignInPage = () => {
   const props = {};

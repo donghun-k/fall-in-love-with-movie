@@ -61,6 +61,7 @@ const NavBarView = ({ user, isMobile, onToggleModeBtnClick }: ViewProps) => {
               sx={{
                 display: 'flex',
                 flexDirection: 'row',
+                gap: '5px',
               }}
             >
               {!isMobile && (

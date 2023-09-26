@@ -42,7 +42,6 @@ const SearchBarView = ({
         alignItems: 'center',
         height: 50,
         width: 200,
-        mr: '20px',
         transition: '0.3s',
         '&:hover, &:focus-within': {
           backgroundColor: 'background.paperFocus',
@@ -64,7 +63,6 @@ const SearchBarView = ({
       <IconButton
         type="submit"
         sx={{
-          color: 'text.button',
           p: '10px',
           transition: '0.3s',
           '&:hover': {

@@ -1,9 +1,24 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, PaletteMode, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
-import logoImage from '../../assets/logo3.png';
 import { Link } from 'react-router-dom';
+import usePalletteMode from '../../hooks/usePaletteMode';
+import LOGO_IMAGES from '../../utils/logo';
 
 const TitleSection = () => {
+  const mode = usePalletteMode();
+
+  const props = {
+    mode,
+  };
+
+  return <TitleSectionView {...props} />;
+};
+
+interface ViewProps {
+  mode: PaletteMode;
+}
+
+const TitleSectionView = ({ mode }: ViewProps) => {
   return (
     <Box
       component="section"
@@ -22,7 +37,7 @@ const TitleSection = () => {
         sx={{
           width: '250px',
           height: '200px',
-          backgroundImage: `url(${logoImage})`,
+          backgroundImage: `url(${LOGO_IMAGES[mode].logoIcon})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
