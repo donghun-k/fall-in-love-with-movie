@@ -1,24 +1,38 @@
-import { Box, CircularProgress, Divider, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  Typography,
+} from '@mui/material';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import useSearchInfiniteQuery from '../../hooks/useSearchInfiniteQuery';
 import Movie from '../../types/Movie';
 import MovieCard from '../../components/search/MovieCard';
+import { useMemo } from 'react';
 
 const SearchPage = () => {
   const [searchPrams] = useSearchParams();
   const query = searchPrams.get('query') || '';
-  const { data, isLoading, isFetching } = useSearchInfiniteQuery({ query });
+  const { data, isLoading, isFetching, fetchNextPage, hasNextPage } =
+    useSearchInfiniteQuery({ query });
 
-  if (query.trim() === '') return <Navigate to="/" />;
-
-  const movieList = data?.pages.map((page) => page.results).flat() || [];
+  const movieList = useMemo(
+    () => data?.pages.map((page) => page.results).flat() || [],
+    [data]
+  );
 
   const props = {
     query,
+    isFetching,
+    hasNextPage: hasNextPage || false,
     movieList,
+    fetchNextPage,
   };
 
-  if (isLoading || isFetching)
+  if (query.trim() === '') return <Navigate to="/" />;
+
+  if (isLoading)
     return (
       <Box
         sx={{
@@ -37,10 +51,19 @@ const SearchPage = () => {
 
 interface ViewProps {
   query: string;
+  isFetching: boolean;
+  hasNextPage: boolean;
   movieList: Movie[];
+  fetchNextPage: () => void;
 }
 
-const SearchPageView = ({ query, movieList }: ViewProps) => {
+const SearchPageView = ({
+  query,
+  isFetching,
+  hasNextPage,
+  movieList,
+  fetchNextPage,
+}: ViewProps) => {
   return (
     <Box>
       <Box
@@ -74,6 +97,26 @@ const SearchPageView = ({ query, movieList }: ViewProps) => {
         {movieList.map((movie) => (
           <MovieCard key={movie.id} movie={movie} />
         ))}
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '10px',
+          paddingBottom: '20px',
+        }}
+      >
+        {isFetching && <CircularProgress size="large" />}
+        {!isFetching && hasNextPage && (
+          <>
+            <Button size="large" onClick={fetchNextPage}>
+              View More
+            </Button>
+          </>
+        )}
       </Box>
     </Box>
   );

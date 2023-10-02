@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { searchMovie } from '../api/movies';
+import { searchMovie } from '../api/search';
 
 interface Params {
   query: string;
@@ -15,6 +15,11 @@ const useSearchInfiniteQuery = ({ query }: Params) => {
       });
     },
     {
+      getNextPageParam: (lastPage) => {
+        return lastPage.page + 1 <= lastPage.total_pages
+          ? lastPage.page + 1
+          : false;
+      },
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 1,
     }
