@@ -1,12 +1,16 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
   const [searchInput, setSearchInput] = useState('');
+
+  const navigate = useNavigate();
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    alert('Search!: ' + searchInput);
+    if (searchInput.trim() === '') return;
+    navigate(`/search?query=${searchInput.trim()}`);
   };
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setSearchInput(e.target.value);

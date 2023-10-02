@@ -79,6 +79,7 @@ const TabBarView = ({
         boxShadow: (theme) => {
           return `0 0 10px ${theme.palette.primary.main}`;
         },
+        zIndex: 100,
       }}
     >
       <Tab

@@ -48,6 +48,7 @@ const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
         boxShadow: (theme) => {
           return `0 0 10px ${theme.palette.primary.main}`;
         },
+        zIndex: 100,
       }}
     >
       <Grid container>
