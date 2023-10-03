@@ -68,10 +68,10 @@ const TabBarView = ({
   return (
     <Box
       component="nav"
+      position="sticky"
       sx={{
         backgroundColor: 'background.nav',
         display: { xs: 'flex', sm: 'none' },
-        position: 'fixed',
         bottom: 0,
         flexDirection: 'row',
         height: '80px',
@@ -80,6 +80,7 @@ const TabBarView = ({
           return `0 0 10px ${theme.palette.primary.main}`;
         },
         zIndex: 100,
+        overflow: 'hidden',
       }}
     >
       <Tab

@@ -37,8 +37,9 @@ const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
   return (
     <Box
       component="nav"
-      position="fixed"
+      position="sticky"
       sx={{
+        top: '0px',
         display: 'flex',
         width: '100vw',
         height: '80px',

@@ -30,10 +30,12 @@ function App() {
           <Grid
             container
             sx={{
-              paddingTop: '80px',
               background: 'background.default',
               width: '100vw',
-              height: '100vh',
+              minHeight: {
+                xs: 'calc(100vh - 160px)',
+                sm: 'calc(100vh - 80px)',
+              },
             }}
           >
             <Grid item xs={0} md={1} lg={2} />

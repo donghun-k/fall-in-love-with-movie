@@ -67,8 +67,12 @@ const SearchPageView = ({
   return (
     <Box>
       <Box
+        position="sticky"
         sx={{
           paddingTop: '5px',
+          top: '80px',
+          zIndex: 1,
+          backgroundColor: 'background.default',
         }}
       >
         <Typography

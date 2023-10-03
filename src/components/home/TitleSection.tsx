@@ -27,7 +27,7 @@ const TitleSectionView = ({ mode }: ViewProps) => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: 'calc(100vh - 80px)',
+        height: { xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' },
         gap: '10px',
         paddingBottom: '80px',
       }}
