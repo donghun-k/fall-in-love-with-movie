@@ -10,6 +10,7 @@ import useSearchInfiniteQuery from '../../hooks/useSearchInfiniteQuery';
 import Movie from '../../types/Movie';
 import MovieCard from '../../components/search/MovieCard';
 import { useMemo } from 'react';
+import LoadingPage from '../../components/common.tsx/LoadingPage';
 
 const SearchPage = () => {
   const [searchPrams] = useSearchParams();
@@ -32,20 +33,7 @@ const SearchPage = () => {
 
   if (query.trim() === '') return <Navigate to="/" />;
 
-  if (isLoading)
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: '100%',
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
+  if (isLoading) return <LoadingPage />;
   return <SearchPageView {...props} />;
 };
 
@@ -80,13 +68,18 @@ const SearchPageView = ({
             padding: { xs: '10px 20px', sm: '10px 10px' },
             color: 'text.secondary',
             fontSize: { xs: '1.2rem', sm: '1.5rem' },
-            '& span': {
+            '& .query': {
               color: 'text.primary',
               fontSize: { xs: '1.5rem', sm: '2rem' },
             },
+            '& .total': {
+              color: 'text.primary',
+              fontSize: { xs: '1.2rem', sm: '1.5rem' },
+            },
           }}
         >
-          <span>"{query}"</span>의 검색 결과
+          <span className="query">"{query}"</span>의 검색 결과{' '}
+          <span className="total">{movieList.length}</span>건
         </Typography>
         <Divider />
       </Box>
@@ -110,10 +103,10 @@ const SearchPageView = ({
           justifyContent: 'center',
           alignItems: 'center',
           padding: '10px',
-          paddingBottom: '20px',
+          paddingBottom: '40px',
         }}
       >
-        {isFetching && <CircularProgress size="large" />}
+        {isFetching && <CircularProgress />}
         {!isFetching && hasNextPage && (
           <>
             <Button size="large" onClick={fetchNextPage}>

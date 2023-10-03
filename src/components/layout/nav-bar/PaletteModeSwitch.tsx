@@ -36,6 +36,9 @@ const PaletteModeSwitchView = ({ mode, handleSwitchChange }: ViewProps) => {
             margin: '11px 4px',
             color: 'text.primary',
             backgroundColor: 'background.default',
+            '&:hover': {
+              backgroundColor: 'background.default',
+            },
             transition: '0.3s',
             '&.Mui-checked': {
               transform: 'translateX(24px)',
