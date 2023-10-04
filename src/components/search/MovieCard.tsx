@@ -33,22 +33,19 @@ const MovieCard = ({ movie }: Props) => {
             width: '100%',
             aspectRatio: 2 / 3,
             transition: 'all .3s ease-in-out',
-            filter: 'brightness(70%)',
-            '&:hover': {
-              filter: 'brightness(100%)',
-            },
-          }}
-        >
-          <img
-            src={imgSrc}
-            alt="title"
-            style={{
+            '& img': {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
               filter: 'grayscale(100%)',
-            }}
-          />
+              transition: 'all .5s ease-in-out',
+              '&:hover': {
+                filter: 'grayscale(0%)',
+              },
+            },
+          }}
+        >
+          <img src={imgSrc} alt="title" />
         </Box>
       </Link>
       <Box
