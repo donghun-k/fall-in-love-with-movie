@@ -46,9 +46,6 @@ const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'background.nav',
-        boxShadow: (theme) => {
-          return `0 0 10px ${theme.palette.primary.main}`;
-        },
         zIndex: 100,
       }}
     >

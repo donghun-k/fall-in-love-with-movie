@@ -37,7 +37,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
             default: '#000',
             paper: grey[900],
             paperFocus: grey[800],
-            nav: grey[900],
+            nav: '#111',
           },
           text: {
             primary: '#fff',

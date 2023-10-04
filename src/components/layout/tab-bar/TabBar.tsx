@@ -76,9 +76,6 @@ const TabBarView = ({
         flexDirection: 'row',
         height: '80px',
         width: '100vw',
-        boxShadow: (theme) => {
-          return `0 0 10px ${theme.palette.primary.main}`;
-        },
         zIndex: 100,
         overflow: 'hidden',
       }}

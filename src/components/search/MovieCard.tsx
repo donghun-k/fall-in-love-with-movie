@@ -1,6 +1,7 @@
 import { Box, Paper, Tooltip, Typography } from '@mui/material';
 import Movie from '../../types/Movie';
 import { Link } from 'react-router-dom';
+import { generatePosterImgSrc } from '../../utils/movieImgSrc';
 
 interface Props {
   movie: Movie;
@@ -8,7 +9,10 @@ interface Props {
 
 const MovieCard = ({ movie }: Props) => {
   const { title, release_date, poster_path } = movie;
-  const imgSrc = `https://image.tmdb.org/t/p/w300${poster_path}`;
+  const imgSrc = generatePosterImgSrc({
+    path: poster_path || '',
+    size: 'w185',
+  });
   const releaseYear = release_date.split('-')[0];
   return (
     <Paper
@@ -23,28 +27,30 @@ const MovieCard = ({ movie }: Props) => {
         overflow: 'hidden',
       }}
     >
-      <Box
-        sx={{
-          width: '100%',
-          aspectRatio: 2 / 3,
-          transition: 'all .3s ease-in-out',
-          filter: 'brightness(70%)',
-          '&:hover': {
-            filter: 'brightness(100%)',
-          },
-        }}
-      >
-        <img
-          src={imgSrc}
-          alt="title"
-          style={{
+      <Link to={`/movie/${movie.id}`}>
+        <Box
+          sx={{
             width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            filter: 'grayscale(100%)',
+            aspectRatio: 2 / 3,
+            transition: 'all .3s ease-in-out',
+            filter: 'brightness(70%)',
+            '&:hover': {
+              filter: 'brightness(100%)',
+            },
           }}
-        />
-      </Box>
+        >
+          <img
+            src={imgSrc}
+            alt="title"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              filter: 'grayscale(100%)',
+            }}
+          />
+        </Box>
+      </Link>
       <Box
         sx={{
           width: '100%',

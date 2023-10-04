@@ -11,7 +11,7 @@ import useSearchInfiniteQuery from '../../hooks/useSearchInfiniteQuery';
 import Movie from '../../types/Movie';
 import MovieCard from '../../components/search/MovieCard';
 import { useMemo } from 'react';
-import LoadingPage from '../../components/common.tsx/LoadingPage';
+import LoadingPage from '../../components/common/LoadingPage';
 
 const SearchPage = () => {
   const [searchPrams] = useSearchParams();
@@ -54,7 +54,7 @@ const SearchPageView = ({
   fetchNextPage,
 }: ViewProps) => {
   return (
-    <Box>
+    <Box component="main">
       <Box
         position="sticky"
         sx={{
