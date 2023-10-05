@@ -71,6 +71,10 @@ const BackdropSectionView = ({
           height: '100%',
           objectFit: 'cover',
           filter: 'grayscale(100%)',
+          transition: 'filter .5s ease-in-out',
+        },
+        '&:hover img': {
+          filter: 'grayscale(0%)',
         },
       }}
     >

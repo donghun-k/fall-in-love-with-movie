@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import BackdropSection from '../../components/movie/BackdropSection';
 import MovieDetail from '../../types/MovieDetail';
-// import InfoSection from '../../components/movie/InfoSection';
+import InfoSection from '../../components/movie/InfoSection';
 // import { useParams } from 'react-router-dom';
 
 const MovieDetailPage = () => {
@@ -115,10 +115,11 @@ const MovieDetailPageView = ({ movieDetail }: ViewProps) => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        gap: { xs: '10px', sm: '20px' },
       }}
     >
       <BackdropSection movieDetail={movieDetail} />
-      {/* <InfoSection movieDetail={movieDetail} /> */}
+      <InfoSection movieDetail={movieDetail} />
     </Box>
   );
 };
