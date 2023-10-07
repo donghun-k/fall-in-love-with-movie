@@ -24,10 +24,13 @@ const SearchPage = () => {
     [data]
   );
 
+  const { total_results } = data?.pages[0] || { total_results: 0 };
+
   const props = {
     query,
     isFetching,
     hasNextPage: hasNextPage || false,
+    total_results,
     movieList,
     fetchNextPage,
   };
@@ -42,6 +45,7 @@ interface ViewProps {
   query: string;
   isFetching: boolean;
   hasNextPage: boolean;
+  total_results: number;
   movieList: Movie[];
   fetchNextPage: () => void;
 }
@@ -50,6 +54,7 @@ const SearchPageView = ({
   query,
   isFetching,
   hasNextPage,
+  total_results,
   movieList,
   fetchNextPage,
 }: ViewProps) => {
@@ -80,7 +85,7 @@ const SearchPageView = ({
           }}
         >
           <span className="query">"{query}"</span>의 검색 결과{' '}
-          <span className="total">{movieList.length}</span>건
+          <span className="total">{total_results}</span>건
         </Typography>
         <Divider />
       </Box>
