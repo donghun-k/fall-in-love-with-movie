@@ -28,8 +28,13 @@ const chartOptions = {
     title: {
       display: false,
     },
-    scale: {
-      ticks: {
+  },
+  scales: {
+    y: {
+      display: false,
+    },
+    x: {
+      grid: {
         display: false,
       },
     },

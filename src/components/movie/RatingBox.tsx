@@ -40,7 +40,7 @@ const RatingBoxView = ({ rating, handleRatingChange }: ViewProps) => {
       <Box>
         <Rating
           max={10}
-          defaultValue={rating}
+          value={rating}
           onChange={handleRatingChange}
           sx={{
             '&.MuiRating-root': {
@@ -82,7 +82,7 @@ const RatingBoxView = ({ rating, handleRatingChange }: ViewProps) => {
         ) : (
           <Typography
             sx={{
-              fontSize: { sm: '1rem', md: '1.2rem' },
+              fontSize: { xs: '1.2rem', sm: '1rem', md: '1.2rem' },
               color: 'text.secondary',
             }}
           >

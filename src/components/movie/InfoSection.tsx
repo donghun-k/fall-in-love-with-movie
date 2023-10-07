@@ -43,7 +43,7 @@ const InfoSectionView = ({ title, posterSrc, overview }: ViewProps) => {
         height: { xs: 'content-fit', sm: '375px', lg: '450px' },
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: { xs: '0', sm: '0 10px' },
+        padding: { xs: '0 10px', md: '0' },
       }}
     >
       {/* LEFT */}
@@ -98,7 +98,7 @@ const InfoSectionView = ({ title, posterSrc, overview }: ViewProps) => {
           sx={{
             width: '100%',
             height: { xs: '30%', sm: '40%' },
-            fontSize: { xs: '.9rem', sm: '.8rem', md: '1rem' },
+            fontSize: { xs: '0.8rem', sm: '1rem' },
             color: 'text.secondary',
             overflow: 'auto',
             padding: '10px',
