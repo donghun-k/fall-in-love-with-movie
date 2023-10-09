@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { searchMovie } from '../api/searchMovie';
+import searchMovie from '../api/movie/searchMovie';
 
 interface Params {
   query: string;
@@ -21,7 +21,7 @@ const useSearchInfiniteQuery = ({ query }: Params) => {
           : false;
       },
       refetchOnWindowFocus: false,
-      staleTime: 1000 * 60 * 1,
+      staleTime: 1000 * 60 * 60 * 24,
     }
   );
 };

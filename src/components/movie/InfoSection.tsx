@@ -51,6 +51,7 @@ const InfoSectionView = ({ title, posterSrc, overview }: ViewProps) => {
         sx={{
           width: { xs: '250px', sm: '250px', lg: '300px' },
           height: { xs: '375px', sm: '375px', lg: '450px' },
+          margin: { xs: '20px 0', sm: '0' },
           boxShadow: (theme) => `0 0 5px 1px ${theme.palette.text.primary}`,
           '& img': {
             width: '100%',

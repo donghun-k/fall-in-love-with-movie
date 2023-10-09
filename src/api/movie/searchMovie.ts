@@ -1,4 +1,4 @@
-import Movie from '../types/Movie';
+import Movie from '../../types/Movie';
 
 const { VITE_TMDB_ACCESS_TOKEN } = import.meta.env;
 
@@ -14,7 +14,7 @@ export interface SearchMovieResponse {
   total_results: number;
 }
 
-export const searchMovie = async ({ query, page = 1 }: SearchMovieParams) => {
+const searchMovie = async ({ query, page = 1 }: SearchMovieParams) => {
   const options = {
     method: 'GET',
     headers: {
@@ -31,3 +31,5 @@ export const searchMovie = async ({ query, page = 1 }: SearchMovieParams) => {
   // console.log(json);
   return json;
 };
+
+export default searchMovie;
