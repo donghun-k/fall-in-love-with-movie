@@ -3,6 +3,7 @@ import BackdropSection from '../../components/movie/BackdropSection';
 import MovieDetail from '../../types/MovieDetail';
 import InfoSection from '../../components/movie/InfoSection';
 import CommentSection from '../../components/movie/CommentSection';
+import SimilarSection from '../../components/movie/SimilarSection';
 // import { useParams } from 'react-router-dom';
 
 const MOVIE_DETAIL = {
@@ -117,11 +118,13 @@ const MovieDetailPageView = ({ movieDetail }: ViewProps) => {
         alignItems: 'center',
         justifyContent: 'center',
         gap: { xs: '10px', sm: '30px' },
+        marginBottom: '30px',
       }}
     >
       <BackdropSection movieDetail={movieDetail} />
       <InfoSection movieDetail={movieDetail} />
       <CommentSection movieDetail={movieDetail} />
+      <SimilarSection movieId={movieDetail.id} />
     </Box>
   );
 };

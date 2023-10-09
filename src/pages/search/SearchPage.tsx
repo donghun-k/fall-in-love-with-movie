@@ -9,7 +9,7 @@ import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDiss
 import { Navigate, useSearchParams } from 'react-router-dom';
 import useSearchInfiniteQuery from '../../hooks/useSearchInfiniteQuery';
 import Movie from '../../types/Movie';
-import MovieCard from '../../components/search/MovieCard';
+import MovieCard from '../../components/common/MovieCard';
 import { useMemo } from 'react';
 import LoadingPage from '../../components/common/LoadingPage';
 
