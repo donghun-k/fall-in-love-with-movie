@@ -1,0 +1,81 @@
+import app from '../configs/firebase';
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
+
+const db = getFirestore(app);
+
+const ratingRef = collection(db, 'ratings');
+
+interface postRatingParams {
+  userId: string;
+  movieId: string;
+  rating: number;
+}
+
+export const postRating = async ({
+  userId,
+  movieId,
+  rating,
+}: postRatingParams) => {
+  if (!userId || !movieId) {
+    throw new Error('Invalid params');
+  }
+
+  const q = query(
+    ratingRef,
+    where('userId', '==', userId),
+    where('movieId', '==', movieId)
+  );
+  const { docs } = await getDocs(q);
+
+  if (docs.length > 0) {
+    const docId = docs[0].id;
+    const docRef = doc(db, 'ratings', docId);
+
+    if (rating === 0) {
+      await deleteDoc(docRef);
+      console.log(docId + ' deleted');
+      return;
+    }
+    await updateDoc(docRef, {
+      rating,
+    });
+    console.log(docId + ' updated');
+  } else {
+    const docRef = await addDoc(ratingRef, {
+      userId,
+      movieId,
+      rating,
+    });
+    console.log('Document written with ID: ', docRef.id);
+  }
+};
+
+interface getRatingParams {
+  userId: string;
+  movieId: string;
+}
+
+export const getRating = async ({ userId, movieId }: getRatingParams) => {
+  const q = query(
+    ratingRef,
+    where('userId', '==', userId),
+    where('movieId', '==', movieId)
+  );
+  const snapshot = await getDocs(q);
+
+  if (snapshot.empty) {
+    return 0;
+  }
+
+  return snapshot.docs[0]?.data()?.rating as number;
+};

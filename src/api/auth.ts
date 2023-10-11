@@ -1,4 +1,3 @@
-import { initializeApp } from 'firebase/app';
 import {
   AuthProvider,
   GithubAuthProvider,
@@ -9,10 +8,9 @@ import {
   signInWithPopup,
   signOut as signOutFirebase,
 } from 'firebase/auth';
-import firebaseConfig from '../configs/firebase';
+import app from '../configs/firebase';
 
-initializeApp(firebaseConfig);
-const auth = getAuth();
+const auth = getAuth(app);
 
 type AuthType = 'google' | 'github';
 
