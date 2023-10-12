@@ -11,16 +11,16 @@ interface Props {
 
 const CommentItem = ({ comment, isMyComment = false }: Props) => {
   const {
-    user_name,
-    user_profile_image,
+    username,
+    userProfileImage,
     rating,
     content,
     likes,
-    created_at,
+    createdAt,
     isUpdated,
   } = comment;
 
-  const createdAt = new Date(created_at).toLocaleDateString('ko-KR', {
+  const createdAtString = new Date(createdAt).toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
@@ -43,12 +43,12 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
   };
 
   const props = {
-    user_name,
-    user_profile_image,
+    username,
+    userProfileImage,
     rating,
     content,
     likes,
-    createdAt,
+    createdAt: createdAtString,
     isUpdated,
     expand,
     handleExpand,
@@ -60,8 +60,8 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
 };
 
 interface ViewProps {
-  user_name: string;
-  user_profile_image: string;
+  username: string;
+  userProfileImage: string;
   rating: number;
   content: string;
   likes: number;
@@ -75,8 +75,8 @@ interface ViewProps {
 }
 
 const CommentItemView = ({
-  user_name,
-  user_profile_image,
+  username,
+  userProfileImage,
   rating,
   content,
   likes,
@@ -113,10 +113,7 @@ const CommentItemView = ({
           paddingTop: '10px',
         }}
       >
-        <Avatar
-          src={user_profile_image}
-          sx={{ width: '50px', height: '50px' }}
-        />
+        <Avatar src={userProfileImage} sx={{ width: '50px', height: '50px' }} />
       </Box>
       <Box
         sx={{
@@ -150,7 +147,7 @@ const CommentItemView = ({
               },
             }}
           >
-            {isMyComment ? '내 코멘트' : user_name}
+            {isMyComment ? '내 코멘트' : username}
             <span>
               {createdAt}
               {isUpdated && ' (수정됨)'}

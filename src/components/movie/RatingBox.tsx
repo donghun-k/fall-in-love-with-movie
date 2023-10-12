@@ -8,28 +8,29 @@ import { getRating, postRating } from '../../api/rating';
 const RatingBox = () => {
   const [rating, setRating] = useState(0);
   const { movieId = '' } = useParams<{ movieId: string }>();
+  const movieIdNum = Number(movieId);
   const { user } = useAuthContext();
   const userId = user?.uid ?? '';
 
   useEffect(() => {
     const fetchRating = async () => {
       try {
-        const rating = await getRating({ movieId, userId });
+        const rating = await getRating({ movieId: movieIdNum, userId });
         setRating(rating);
       } catch (error) {
         alert(error);
       }
     };
     fetchRating();
-  }, [movieId, userId]);
+  }, [movieIdNum, userId]);
 
   const handleRatingChange = async (
     _: SyntheticEvent,
     value: number | null
   ) => {
     try {
-      await postRating({ movieId, userId, rating: value ?? 0 });
-      const rating = await getRating({ movieId, userId });
+      await postRating({ movieId: movieIdNum, userId, rating: value ?? 0 });
+      const rating = await getRating({ movieId: movieIdNum, userId });
       setRating(rating);
     } catch (error) {
       alert(error);

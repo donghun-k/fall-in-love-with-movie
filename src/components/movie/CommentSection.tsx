@@ -15,79 +15,7 @@ import Comment from '../../types/Comment';
 import CommentItem from './CommentItem';
 import EditCommentScreen from './EditCommentScreen';
 
-const COMMENT_LIST: Comment[] = [
-  {
-    id: 1,
-    movie_id: 123,
-    user_id: 456,
-    user_name: '사용자1',
-    user_profile_image:
-      'https://i.namu.wiki/i/yhh3NbZlYdrGJNc6R64ieh_fInzrtCstirGCZ53LSJYDhONJ_Myclj44BApVhg8NKw3NJf_8e2hePIsL2tGMYQ.webp',
-    rating: 4,
-    content:
-      '이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요! 이 영화 정말 좋아요!',
-    created_at: 1696695656298,
-    updated_at: 1696653055888,
-    isUpdated: true,
-    likes: 10,
-  },
-  {
-    id: 2,
-    movie_id: 123,
-    user_id: 789,
-    user_name: '사용자2',
-    user_profile_image:
-      'https://i.namu.wiki/i/yhh3NbZlYdrGJNc6R64ieh_fInzrtCstirGCZ53LSJYDhONJ_Myclj44BApVhg8NKw3NJf_8e2hePIsL2tGMYQ.webp',
-    rating: 5,
-    content: '매우 감동적인 영화입니다.',
-    created_at: 1696653055888,
-    updated_at: 1696653055888,
-    isUpdated: true,
-    likes: 15,
-  },
-  {
-    id: 3,
-    movie_id: 456,
-    user_id: 101,
-    user_name: '사용자3',
-    user_profile_image:
-      'https://i.namu.wiki/i/yhh3NbZlYdrGJNc6R64ieh_fInzrtCstirGCZ53LSJYDhONJ_Myclj44BApVhg8NKw3NJf_8e2hePIsL2tGMYQ.webp',
-    rating: 3,
-    content: '별로에요.',
-    created_at: 1696653055888,
-    updated_at: 1696653055888,
-    isUpdated: true,
-    likes: 5,
-  },
-  {
-    id: 4,
-    movie_id: 789,
-    user_id: 202,
-    user_name: '사용자4',
-    user_profile_image:
-      'https://i.namu.wiki/i/yhh3NbZlYdrGJNc6R64ieh_fInzrtCstirGCZ53LSJYDhONJ_Myclj44BApVhg8NKw3NJf_8e2hePIsL2tGMYQ.webp',
-    rating: 4,
-    content: '재미있어요!',
-    created_at: 1696653055888,
-    updated_at: 1696653055888,
-    isUpdated: true,
-    likes: 8,
-  },
-  {
-    id: 5,
-    movie_id: 123,
-    user_id: 303,
-    user_name: '사용자5',
-    user_profile_image:
-      'https://i.namu.wiki/i/yhh3NbZlYdrGJNc6R64ieh_fInzrtCstirGCZ53LSJYDhONJ_Myclj44BApVhg8NKw3NJf_8e2hePIsL2tGMYQ.webp',
-    rating: 5,
-    content: '이 영화는 최고에요!',
-    created_at: 1696653055888,
-    updated_at: 1696653055898,
-    isUpdated: true,
-    likes: 12,
-  },
-];
+const COMMENT_LIST: Comment[] = [];
 
 interface Props {
   movieDetail: MovieDetail;
@@ -218,11 +146,7 @@ const CommentSectionView = ({
       >
         {COMMENT_LIST.map((comment, i) => {
           return (
-            <CommentItem
-              key={comment.id}
-              comment={comment}
-              isMyComment={i === 0}
-            />
+            <CommentItem key={i} comment={comment} isMyComment={i === 0} />
           );
         })}
       </Box>

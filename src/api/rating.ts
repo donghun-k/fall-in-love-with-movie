@@ -12,8 +12,7 @@ import {
 } from 'firebase/firestore';
 
 const db = getFirestore(app);
-
-const ratingRef = collection(db, 'ratings');
+const ratingsRef = collection(db, 'ratings');
 
 interface postRatingParams {
   userId: string;
@@ -31,7 +30,7 @@ export const postRating = async ({
   }
 
   const q = query(
-    ratingRef,
+    ratingsRef,
     where('userId', '==', userId),
     where('movieId', '==', movieId)
   );
@@ -51,7 +50,7 @@ export const postRating = async ({
     });
     console.log(docId + ' updated');
   } else {
-    const docRef = await addDoc(ratingRef, {
+    const docRef = await addDoc(ratingsRef, {
       userId,
       movieId,
       rating,
@@ -62,12 +61,12 @@ export const postRating = async ({
 
 interface getRatingParams {
   userId: string;
-  movieId: string;
+  movieId: number;
 }
 
 export const getRating = async ({ userId, movieId }: getRatingParams) => {
   const q = query(
-    ratingRef,
+    ratingsRef,
     where('userId', '==', userId),
     where('movieId', '==', movieId)
   );

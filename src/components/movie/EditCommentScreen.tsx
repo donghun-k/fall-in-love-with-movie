@@ -8,42 +8,82 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import useAuthContext from '../../hooks/useAuthContext';
+import { useParams } from 'react-router-dom';
+import { postComment } from '../../api/comment';
+import { getRating } from '../../api/rating';
 
 interface Props {
   handleEditCommentScreenClose: () => void;
 }
 
 const EditCommentScreen = ({ handleEditCommentScreenClose }: Props) => {
-  const [commentInput, setCommentInput] = useState('');
+  const [commentContent, setCommentContent] = useState('');
   const [commentLength, setCommentLength] = useState(0);
+  const [rating, setRating] = useState(0);
+  const { movieId } = useParams<{ movieId: string }>();
+  const { user } = useAuthContext();
+  const {
+    uid: userId,
+    displayName: username,
+    photoURL: userProfileImage,
+  } = user!;
+  const movieIdNum = Number(movieId);
 
-  const handleCommentInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    (async () => {
+      const rating = await getRating({ movieId: movieIdNum, userId });
+      setRating(rating);
+    })();
+  }, [movieIdNum, userId]);
+
+  const handleCommentContentChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.value.length > 300) return;
-    setCommentInput(e.target.value);
+    setCommentContent(e.target.value);
     setCommentLength(e.target.value.length);
   };
 
+  const handlePostComment = async () => {
+    if (commentContent.length === 0) return;
+    if (userId === null || username === null || userProfileImage === null)
+      return;
+    await postComment({
+      movieId: movieIdNum,
+      userId,
+      username,
+      userProfileImage,
+      content: commentContent,
+      rating: rating,
+    });
+    handleEditCommentScreenClose();
+  };
+
   const props = {
-    commentInput,
+    commentContent,
     commentLength,
-    handleCommentInputChange,
+    handleCommentContentChange,
+    handlePostComment,
     handleEditCommentScreenClose,
   };
   return <EditCommentScreenView {...props} />;
 };
 
 interface ViewProps {
-  commentInput: string;
+  commentContent: string;
   commentLength: number;
-  handleCommentInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCommentContentChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handlePostComment: () => void;
   handleEditCommentScreenClose: () => void;
 }
 
 const EditCommentScreenView = ({
-  commentInput,
+  commentContent,
   commentLength,
-  handleCommentInputChange,
+  handleCommentContentChange,
+  handlePostComment,
   handleEditCommentScreenClose,
 }: ViewProps) => {
   return (
@@ -66,9 +106,9 @@ const EditCommentScreenView = ({
             fullWidth
             multiline
             rows={3}
-            value={commentInput}
+            value={commentContent}
             placeholder="300자 이내로 이 영화에 대한 코멘트를 남겨주세요."
-            onChange={handleCommentInputChange}
+            onChange={handleCommentContentChange}
             sx={{
               textarea: {
                 fontSize: { xs: '0.8rem', sm: '1rem' },
@@ -86,7 +126,7 @@ const EditCommentScreenView = ({
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" onClick={handleEditCommentScreenClose}>
+          <Button variant="contained" onClick={handlePostComment}>
             작성
           </Button>
           <Button variant="contained" onClick={handleEditCommentScreenClose}>
