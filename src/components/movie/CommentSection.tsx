@@ -13,6 +13,7 @@ import MovieDetail from '../../types/MovieDetail';
 import { useState, MouseEvent } from 'react';
 import Comment from '../../types/Comment';
 import CommentItem from './CommentItem';
+import EditCommentScreen from './EditCommentScreen';
 
 const COMMENT_LIST: Comment[] = [
   {
@@ -93,39 +94,57 @@ interface Props {
 }
 
 const CommentSection = ({ movieDetail }: Props) => {
+  const { id: movieId } = movieDetail;
+  const [isEditCommentScreenOpened, setIsEditCommentScreenOpened] =
+    useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+
+  const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleSortMenuClose = () => {
     setAnchorEl(null);
   };
-  const { id } = movieDetail;
+  const handleEditCommentScreenOpen = () => {
+    setIsEditCommentScreenOpened(true);
+  };
+  const handleEditCommentScreenClose = () => {
+    setIsEditCommentScreenOpened(false);
+  };
 
   const props = {
+    isEditCommentScreenOpened,
     anchorEl,
     open,
-    handleClick,
-    handleClose,
-    id,
+    handleSortMenuBtnClick,
+    handleSortMenuClose,
+    handleEditCommentScreenOpen,
+    handleEditCommentScreenClose,
+    movieId,
   };
   return <CommentSectionView {...props} />;
 };
 
 interface ViewProps {
+  isEditCommentScreenOpened: boolean;
   anchorEl: null | HTMLElement;
   open: boolean;
-  handleClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  handleClose: () => void;
-  id: number;
+  handleSortMenuBtnClick: (event: MouseEvent<HTMLButtonElement>) => void;
+  handleSortMenuClose: () => void;
+  handleEditCommentScreenOpen: () => void;
+  handleEditCommentScreenClose: () => void;
+  movieId: number;
 }
 
 const CommentSectionView = ({
+  isEditCommentScreenOpened,
   anchorEl,
   open,
-  handleClick,
-  handleClose,
+  handleSortMenuBtnClick,
+  handleSortMenuClose,
+  handleEditCommentScreenOpen,
+  handleEditCommentScreenClose,
 }: ViewProps) => {
   return (
     <Box
@@ -166,15 +185,24 @@ const CommentSectionView = ({
             <ChatBubbleIcon />
             코멘트
           </Typography>
-          <Button startIcon={<SortIcon />} size="large" onClick={handleClick}>
+          <Button
+            startIcon={<SortIcon />}
+            size="large"
+            onClick={handleSortMenuBtnClick}
+          >
             정렬 기준
           </Button>
-          <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-            <MenuItem onClick={handleClose}>최신순</MenuItem>
-            <MenuItem onClick={handleClose}>공감순</MenuItem>
+          <Menu anchorEl={anchorEl} open={open} onClose={handleSortMenuClose}>
+            <MenuItem onClick={handleSortMenuClose}>최신순</MenuItem>
+            <MenuItem onClick={handleSortMenuClose}>공감순</MenuItem>
           </Menu>
         </Box>
-        <Button startIcon={<CreateIcon />} variant="contained" size="small">
+        <Button
+          onClick={handleEditCommentScreenOpen}
+          startIcon={<CreateIcon />}
+          variant="contained"
+          size="small"
+        >
           코멘트 작성
         </Button>
       </Box>
@@ -198,6 +226,11 @@ const CommentSectionView = ({
           );
         })}
       </Box>
+      {isEditCommentScreenOpened && (
+        <EditCommentScreen
+          handleEditCommentScreenClose={handleEditCommentScreenClose}
+        />
+      )}
     </Box>
   );
 };
