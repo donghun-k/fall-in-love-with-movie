@@ -13,6 +13,7 @@ import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './configs/theme';
 import TabBar from './components/layout/tab-bar/TabBar';
 import { AuthContextProvider } from './contexts/AuthContext';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>('dark');
@@ -46,6 +47,7 @@ function App() {
           </Grid>
           <TabBar />
         </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </AuthContextProvider>
   );
