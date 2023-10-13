@@ -14,6 +14,7 @@ import {
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
 
+// POST MY RATING
 interface postMyRatingParams {
   userId: string;
   movieId: number;
@@ -59,6 +60,7 @@ export const postMyRating = async ({
   }
 };
 
+// GET MY RATING
 interface getMyRatingParams {
   userId: string;
   movieId: number;

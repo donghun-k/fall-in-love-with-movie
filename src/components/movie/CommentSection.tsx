@@ -14,6 +14,9 @@ import { useState, MouseEvent } from 'react';
 import Comment from '../../types/Comment';
 import CommentItem from './CommentItem';
 import EditCommentScreen from './EditCommentScreen';
+import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
+import useAuthContext from '../../hooks/useAuthContext';
+import { User } from 'firebase/auth';
 
 const COMMENT_LIST: Comment[] = [];
 
@@ -27,6 +30,9 @@ const CommentSection = ({ movieDetail }: Props) => {
     useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const { user } = useAuthContext();
+  const userId = user?.uid ?? '';
+  const { data: myComment } = useMyCommentQuery({ movieId, userId });
 
   const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -50,6 +56,8 @@ const CommentSection = ({ movieDetail }: Props) => {
     handleEditCommentScreenOpen,
     handleEditCommentScreenClose,
     movieId,
+    user,
+    myComment,
   };
   return <CommentSectionView {...props} />;
 };
@@ -63,6 +71,8 @@ interface ViewProps {
   handleEditCommentScreenOpen: () => void;
   handleEditCommentScreenClose: () => void;
   movieId: number;
+  user: User | null;
+  myComment: Comment | null;
 }
 
 const CommentSectionView = ({
@@ -73,6 +83,9 @@ const CommentSectionView = ({
   handleSortMenuClose,
   handleEditCommentScreenOpen,
   handleEditCommentScreenClose,
+  // movieId,
+  user,
+  myComment,
 }: ViewProps) => {
   return (
     <Box
@@ -144,10 +157,11 @@ const CommentSectionView = ({
           padding: '10px 0',
         }}
       >
+        {user && myComment && (
+          <CommentItem comment={myComment} isMyComment={true} />
+        )}
         {COMMENT_LIST.map((comment, i) => {
-          return (
-            <CommentItem key={i} comment={comment} isMyComment={i === 0} />
-          );
+          return <CommentItem key={i} comment={comment} />;
         })}
       </Box>
       {isEditCommentScreenOpened && (

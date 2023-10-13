@@ -1,4 +1,11 @@
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from 'firebase/firestore';
 import Comment from '../types/Comment';
 import app from '../configs/firebase';
 
@@ -36,4 +43,23 @@ export const postComment = async ({
   };
   const docRef = await addDoc(commentsRef, comment);
   console.log('Document written with ID: ', docRef.id);
+};
+
+// GET MY COMMENT
+interface getMyCommentParams {
+  movieId: number;
+  userId: string;
+}
+
+export const getMyComment = async ({ movieId, userId }: getMyCommentParams) => {
+  const q = query(
+    commentsRef,
+    where('movieId', '==', movieId),
+    where('userId', '==', userId)
+  );
+  const { docs } = await getDocs(q);
+  if (docs.length > 0) {
+    return docs[0].data();
+  }
+  return null;
 };
