@@ -8,11 +8,11 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useAuthContext from '../../hooks/useAuthContext';
 import { useParams } from 'react-router-dom';
 import { postComment } from '../../api/comment';
-import { getRating } from '../../api/rating';
+import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 
 interface Props {
   handleEditCommentScreenClose: () => void;
@@ -21,7 +21,6 @@ interface Props {
 const EditCommentScreen = ({ handleEditCommentScreenClose }: Props) => {
   const [commentContent, setCommentContent] = useState('');
   const [commentLength, setCommentLength] = useState(0);
-  const [rating, setRating] = useState(0);
   const { movieId } = useParams<{ movieId: string }>();
   const { user } = useAuthContext();
   const {
@@ -30,13 +29,10 @@ const EditCommentScreen = ({ handleEditCommentScreenClose }: Props) => {
     photoURL: userProfileImage,
   } = user!;
   const movieIdNum = Number(movieId);
-
-  useEffect(() => {
-    (async () => {
-      const rating = await getRating({ movieId: movieIdNum, userId });
-      setRating(rating);
-    })();
-  }, [movieIdNum, userId]);
+  const { data: rating = 0 } = useMyRatingQuery({
+    movieId: movieIdNum,
+    userId,
+  });
 
   const handleCommentContentChange = (
     e: React.ChangeEvent<HTMLInputElement>

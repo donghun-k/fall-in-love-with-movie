@@ -1,37 +1,46 @@
-import { Box, Button, Rating, Typography } from '@mui/material';
-import { SyntheticEvent, useEffect, useState } from 'react';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Rating,
+  Typography,
+} from '@mui/material';
+import { SyntheticEvent } from 'react';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { Link, useParams } from 'react-router-dom';
-import { getRating, postRating } from '../../api/rating';
+import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import usePostMyRatingMutation from '../../hooks/rating/usePostMyRatingMutation';
 
 const RatingBox = () => {
-  const [rating, setRating] = useState(0);
   const { movieId = '' } = useParams<{ movieId: string }>();
   const movieIdNum = Number(movieId);
   const { user } = useAuthContext();
   const userId = user?.uid ?? '';
+  const {
+    data: rating = 0,
+    isLoading: isMyRatingLoading,
+    isFetching: isMyRatingFetching,
+  } = useMyRatingQuery({
+    movieId: movieIdNum,
+    userId,
+  });
+  const { mutateAsync: postMyRating, isLoading: isPostingMyRating } =
+    usePostMyRatingMutation({
+      movieId: movieIdNum,
+      userId,
+    });
 
-  useEffect(() => {
-    const fetchRating = async () => {
-      try {
-        const rating = await getRating({ movieId: movieIdNum, userId });
-        setRating(rating);
-      } catch (error) {
-        alert(error);
-      }
-    };
-    fetchRating();
-  }, [movieIdNum, userId]);
+  const queryClient = useQueryClient();
 
   const handleRatingChange = async (
     _: SyntheticEvent,
     value: number | null
   ) => {
     try {
-      await postRating({ movieId: movieIdNum, userId, rating: value ?? 0 });
-      const rating = await getRating({ movieId: movieIdNum, userId });
-      setRating(rating);
+      await postMyRating(value ?? 0);
+      queryClient.invalidateQueries(['myRating', movieIdNum, userId]);
     } catch (error) {
       alert(error);
     }
@@ -40,6 +49,9 @@ const RatingBox = () => {
   const props = {
     handleRatingChange,
     rating,
+    isMyRatingLoading,
+    isMyRatingFetching,
+    isPostingMyRating,
     user,
   };
   return <RatingBoxView {...props} />;
@@ -48,10 +60,36 @@ const RatingBox = () => {
 interface ViewProps {
   handleRatingChange: (event: SyntheticEvent, value: number | null) => void;
   rating: number;
+  isMyRatingLoading: boolean;
+  isMyRatingFetching: boolean;
+  isPostingMyRating: boolean;
   user: User | null;
 }
 
-const RatingBoxView = ({ user, rating, handleRatingChange }: ViewProps) => {
+const RatingBoxView = ({
+  user,
+  rating,
+  isMyRatingLoading,
+  isMyRatingFetching,
+  isPostingMyRating,
+  handleRatingChange,
+}: ViewProps) => {
+  if (isMyRatingLoading || isMyRatingFetching || isPostingMyRating) {
+    return (
+      <Box
+        sx={{
+          width: '100%',
+          height: { xs: '20%', sm: '15%' },
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
     <Box
       sx={{

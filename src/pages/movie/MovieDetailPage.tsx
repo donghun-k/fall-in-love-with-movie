@@ -5,7 +5,7 @@ import InfoSection from '../../components/movie/InfoSection';
 import CommentSection from '../../components/movie/CommentSection';
 import SimilarSection from '../../components/movie/SimilarSection';
 import { useParams } from 'react-router-dom';
-import useMovieDetailQuery from '../../hooks/useMovieDetailQuery';
+import useMovieDetailQuery from '../../hooks/movie/useMovieDetailQuery';
 import LoadingPage from '../../components/common/LoadingPage';
 
 const MovieDetailPage = () => {

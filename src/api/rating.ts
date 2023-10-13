@@ -14,17 +14,17 @@ import {
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
 
-interface postRatingParams {
+interface postMyRatingParams {
   userId: string;
-  movieId: string;
+  movieId: number;
   rating: number;
 }
 
-export const postRating = async ({
+export const postMyRating = async ({
   userId,
   movieId,
   rating,
-}: postRatingParams) => {
+}: postMyRatingParams) => {
   if (!userId || !movieId) {
     throw new Error('Invalid params');
   }
@@ -59,12 +59,12 @@ export const postRating = async ({
   }
 };
 
-interface getRatingParams {
+interface getMyRatingParams {
   userId: string;
   movieId: number;
 }
 
-export const getRating = async ({ userId, movieId }: getRatingParams) => {
+export const getMyRating = async ({ userId, movieId }: getMyRatingParams) => {
   const q = query(
     ratingsRef,
     where('userId', '==', userId),
