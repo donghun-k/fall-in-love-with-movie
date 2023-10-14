@@ -20,6 +20,7 @@ interface postCommentParams {
   username: string;
   userProfileImage: string;
   content: string;
+  rating: number;
 }
 
 export const postComment = async ({
@@ -28,6 +29,7 @@ export const postComment = async ({
   username,
   userProfileImage,
   content,
+  rating,
 }: postCommentParams) => {
   const comment: Comment = {
     movieId,
@@ -39,9 +41,19 @@ export const postComment = async ({
     updatedAt: Date.now(),
     isUpdated: false,
     likes: 0,
+    rating,
   };
+  const commentQuery = query(
+    commentsRef,
+    where('movieId', '==', movieId),
+    where('userId', '==', userId)
+  );
+  const commentSnapshot = await getDocs(commentQuery);
+  if (!commentSnapshot.empty) {
+    throw new Error('Comment already exists.');
+  }
   const docRef = await addDoc(commentsRef, comment);
-  console.log('Document written with ID: ', docRef.id);
+  console.log('Comment written with ID: ', docRef.id);
 };
 
 // GET COMMENT
@@ -51,16 +63,17 @@ interface getMyCommentParams {
 }
 
 export const getComment = async ({ movieId, userId }: getMyCommentParams) => {
-  const q = query(
+  const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
     where('userId', '==', userId)
   );
-  const { docs } = await getDocs(q);
-  if (docs.length > 0) {
-    return docs[0].data() as Comment;
+  const commentSnapshot = await getDocs(commentQuery);
+  if (commentSnapshot.empty) {
+    throw new Error('Comment Not Found.');
   }
-  return null;
+  const commentDoc = commentSnapshot.docs[0];
+  return commentDoc.data() as Comment;
 };
 
 // DELETE COMMENT
@@ -73,18 +86,18 @@ export const deleteComment = async ({
   movieId,
   userId,
 }: deleteCommentParams) => {
-  const q = query(
+  const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
     where('userId', '==', userId)
   );
-  const { docs } = await getDocs(q);
-  if (docs.length > 0) {
-    docs.forEach((doc) => {
-      deleteDoc(doc.ref);
-    });
-    console.log('Document successfully deleted!');
+  const commentSnapshot = await getDocs(commentQuery);
+  if (commentSnapshot.empty) {
+    throw new Error('Comment Not Found.');
   }
+  const commentDoc = commentSnapshot.docs[0];
+  await deleteDoc(commentDoc.ref);
+  console.log('Comment successfully deleted!');
 };
 
 // UPDATE COMMENT
@@ -103,20 +116,22 @@ export const updateComment = async ({
   userProfileImage,
   content,
 }: updateCommentParams) => {
-  const q = query(
+  const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
     where('userId', '==', userId)
   );
-  const { docs } = await getDocs(q);
-  if (docs.length > 0) {
-    updateDoc(docs[0].ref, {
-      username,
-      userProfileImage,
-      content,
-      updatedAt: Date.now(),
-      isUpdated: true,
-    });
-    console.log('Document successfully updated!');
+  const commentSnapshot = await getDocs(commentQuery);
+  if (commentSnapshot.empty) {
+    throw new Error('Comment Not Found.');
   }
+  const commentDoc = commentSnapshot.docs[0];
+  await updateDoc(commentDoc.ref, {
+    username,
+    userProfileImage,
+    content,
+    updatedAt: Date.now(),
+    isUpdated: true,
+  });
+  console.log('Comment successfully updated!');
 };

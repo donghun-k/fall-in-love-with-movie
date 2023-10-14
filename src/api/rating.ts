@@ -2,17 +2,16 @@ import app from '../configs/firebase';
 import {
   addDoc,
   collection,
-  deleteDoc,
-  doc,
   getDocs,
   getFirestore,
   query,
-  updateDoc,
+  runTransaction,
   where,
 } from 'firebase/firestore';
 
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
+const commentsRef = collection(db, 'comments');
 
 // POST MY RATING
 interface postRatingParams {
@@ -30,53 +29,74 @@ export const postRating = async ({
     throw new Error('Invalid params');
   }
 
-  const q = query(
+  const ratingQuery = query(
     ratingsRef,
     where('userId', '==', userId),
     where('movieId', '==', movieId)
   );
-  const { docs } = await getDocs(q);
 
-  if (docs.length > 0) {
-    const docId = docs[0].id;
-    const docRef = doc(db, 'ratings', docId);
+  const commetQuery = query(
+    commentsRef,
+    where('userId', '==', userId),
+    where('movieId', '==', movieId)
+  );
 
-    if (rating === 0) {
-      await deleteDoc(docRef);
-      console.log(docId + ' deleted');
-      return;
+  const [ratingSnapshot, commentSnapshot] = await Promise.all([
+    getDocs(ratingQuery),
+    getDocs(commetQuery),
+  ]);
+
+  const ratingDocs = ratingSnapshot.docs;
+  const commentDocs = commentSnapshot.docs;
+
+  await runTransaction(db, async (transaction) => {
+    if (ratingSnapshot.empty) {
+      const docRef = await addDoc(ratingsRef, {
+        userId,
+        movieId,
+        rating,
+      });
+      console.log('Rating written with ID: ', docRef.id);
+    } else {
+      const ratingDocRef = ratingDocs[0].ref;
+      if (rating === 0) {
+        transaction.delete(ratingDocRef);
+        console.log('Rating deleted');
+      } else {
+        transaction.update(ratingDocRef, {
+          rating,
+        });
+        console.log('Rating updated');
+      }
     }
-    await updateDoc(docRef, {
-      rating,
-    });
-    console.log(docId + ' updated');
-  } else {
-    const docRef = await addDoc(ratingsRef, {
-      userId,
-      movieId,
-      rating,
-    });
-    console.log('Document written with ID: ', docRef.id);
-  }
+    if (!commentSnapshot.empty) {
+      const commentDocRef = commentDocs[0].ref;
+      transaction.update(commentDocRef, {
+        rating,
+      });
+      console.log('Comment updated');
+    }
+  });
+  console.log('Rating Update Transaction successfully committed!');
 };
 
-// GET MY RATING
+// GET RATING
 interface getRatingParams {
   userId: string;
   movieId: number;
 }
 
 export const getRating = async ({ userId, movieId }: getRatingParams) => {
-  const q = query(
+  const ratingQuery = query(
     ratingsRef,
     where('userId', '==', userId),
     where('movieId', '==', movieId)
   );
-  const snapshot = await getDocs(q);
+  const ratingSnapshot = await getDocs(ratingQuery);
 
-  if (snapshot.empty) {
+  if (ratingSnapshot.empty) {
     return 0;
   }
 
-  return snapshot.docs[0]?.data()?.rating as number;
+  return ratingSnapshot.docs[0]?.data()?.rating as number;
 };

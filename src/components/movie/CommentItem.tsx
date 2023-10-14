@@ -4,7 +4,6 @@ import StarIcon from '@mui/icons-material/Star';
 import Comment from '../../types/Comment';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import useRatingQuery from '../../hooks/rating/useRatingQuery';
 import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -27,6 +26,7 @@ const CommentItem = ({
     createdAt,
     isUpdated,
     likes,
+    rating,
   } = comment;
   const createdAtString = new Date(createdAt).toLocaleDateString('ko-KR', {
     year: 'numeric',
@@ -38,7 +38,6 @@ const CommentItem = ({
   const queryClient = useQueryClient();
   const { movieId } = useParams<{ movieId: string }>();
   const movieIdNum = Number(movieId);
-  const { data: rating = 0 } = useRatingQuery({ movieId: movieIdNum, userId });
   const { mutateAsync: deleteCommentMutate } = useDeleteCommentMutation({
     movieId: movieIdNum,
     userId,

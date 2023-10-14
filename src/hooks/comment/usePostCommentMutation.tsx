@@ -14,15 +14,18 @@ const usePostCommentMutation = ({
   username,
   userProfileImage,
 }: Params) => {
-  return useMutation((content: string) => {
-    return postComment({
-      movieId,
-      userId,
-      username,
-      userProfileImage,
-      content,
-    });
-  });
+  return useMutation(
+    ({ content, rating }: { content: string; rating: number }) => {
+      return postComment({
+        movieId,
+        userId,
+        username,
+        userProfileImage,
+        content,
+        rating,
+      });
+    }
+  );
 };
 
 export default usePostCommentMutation;

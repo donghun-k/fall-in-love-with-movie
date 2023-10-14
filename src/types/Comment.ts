@@ -8,4 +8,5 @@ export default interface Comment {
   updatedAt: number;
   isUpdated: boolean;
   likes: number;
+  rating: number;
 }

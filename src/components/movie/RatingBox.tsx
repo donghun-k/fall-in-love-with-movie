@@ -41,6 +41,7 @@ const RatingBox = () => {
     try {
       await postRating(value ?? 0);
       queryClient.invalidateQueries(['rating', movieIdNum, userId]);
+      queryClient.invalidateQueries(['comment', movieIdNum, userId]);
     } catch (error) {
       alert(error);
     }

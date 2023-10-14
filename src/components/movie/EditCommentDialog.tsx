@@ -14,6 +14,7 @@ import usePostCommentMutation from '../../hooks/comment/usePostCommentMutation';
 import LoadingBackdrop from '../common/LoadingBackdrop';
 import { useQueryClient } from '@tanstack/react-query';
 import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
+import useRatingQuery from '../../hooks/rating/useRatingQuery';
 
 interface Props {
   isUpdateMode?: boolean;
@@ -31,6 +32,10 @@ const EditCommentDialog = ({
   const { movieId } = useParams<{ movieId: string }>();
   const { user } = useAuthContext();
   const movieIdNum = Number(movieId);
+  const { data: rating } = useRatingQuery({
+    movieId: movieIdNum,
+    userId: user?.uid ?? '',
+  });
   const { mutateAsync: postCommentMutate, isLoading: isPostingComment } =
     usePostCommentMutation({
       movieId: movieIdNum,
@@ -59,7 +64,10 @@ const EditCommentDialog = ({
   const handlePostComment = async () => {
     if (commentContent.length === 0) return;
     try {
-      await postCommentMutate(commentContent);
+      await postCommentMutate({
+        content: commentContent,
+        rating: rating ?? 0,
+      });
       handleEditCommentDialogClose();
       queryClient.invalidateQueries(['comment', movieIdNum, user?.uid]);
     } catch (error) {
