@@ -47,7 +47,7 @@ const EditCommentDialog = ({ handleEditCommentDialogClose }: Props) => {
     try {
       await postCommentMutate(commentContent);
       handleEditCommentDialogClose();
-      queryClient.invalidateQueries(['myComment', movieIdNum, user?.uid]);
+      queryClient.invalidateQueries(['comment', movieIdNum, user?.uid]);
     } catch (error) {
       alert(error);
     }

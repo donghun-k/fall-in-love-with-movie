@@ -5,6 +5,8 @@ import Comment from '../../types/Comment';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useRatingQuery from '../../hooks/rating/useRatingQuery';
+import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   comment: Comment;
@@ -28,9 +30,14 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     hour: 'numeric',
     minute: 'numeric',
   });
+  const queryClient = useQueryClient();
   const { movieId } = useParams<{ movieId: string }>();
   const movieIdNum = Number(movieId);
   const { data: rating = 0 } = useRatingQuery({ movieId: movieIdNum, userId });
+  const { mutateAsync: deleteCommentMutate } = useDeleteCommentMutation({
+    movieId: movieIdNum,
+    userId,
+  });
   const [expand, setExpand] = useState(false);
   const [isOverflow, setIsOverflow] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -45,6 +52,15 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     setExpand((prev) => !prev);
   };
 
+  const handleDeleteComment = async () => {
+    try {
+      await deleteCommentMutate();
+      queryClient.invalidateQueries(['comment', movieIdNum, userId]);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const props = {
     username,
     userProfileImage,
@@ -55,6 +71,7 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     isUpdated,
     expand,
     handleExpand,
+    handleDeleteComment,
     isOverflow,
     contentRef,
     isMyComment,
@@ -72,6 +89,7 @@ interface ViewProps {
   isUpdated: boolean;
   expand: boolean;
   handleExpand: () => void;
+  handleDeleteComment: () => void;
   isOverflow: boolean;
   contentRef: React.RefObject<HTMLDivElement>;
   isMyComment: boolean;
@@ -87,6 +105,7 @@ const CommentItemView = ({
   isUpdated,
   expand,
   handleExpand,
+  handleDeleteComment,
   isOverflow,
   contentRef,
   isMyComment,
@@ -236,6 +255,7 @@ const CommentItemView = ({
                 수정
               </Button>
               <Button
+                onClick={handleDeleteComment}
                 sx={{
                   minWidth: 'fit-content',
                   padding: '0 5px',

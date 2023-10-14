@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   getDocs,
   getFirestore,
   query,
@@ -59,4 +60,27 @@ export const getComment = async ({ movieId, userId }: getMyCommentParams) => {
     return docs[0].data() as Comment;
   }
   return null;
+};
+
+// DELETE COMMENT
+interface deleteCommentParams {
+  movieId: number;
+  userId: string;
+}
+
+export const deleteComment = async ({
+  movieId,
+  userId,
+}: deleteCommentParams) => {
+  const q = query(
+    commentsRef,
+    where('movieId', '==', movieId),
+    where('userId', '==', userId)
+  );
+  const { docs } = await getDocs(q);
+  if (docs.length > 0) {
+    docs.forEach((doc) => {
+      deleteDoc(doc.ref);
+    });
+  }
 };
