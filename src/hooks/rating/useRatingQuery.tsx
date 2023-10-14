@@ -8,7 +8,7 @@ interface Params {
 
 const useRatingQuery = ({ movieId, userId }: Params) => {
   return useQuery(
-    ['myRating', movieId, userId],
+    ['rating', movieId, userId],
     () => {
       return getRating({ movieId, userId });
     },

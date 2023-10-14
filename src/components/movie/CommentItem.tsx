@@ -12,8 +12,15 @@ interface Props {
 }
 
 const CommentItem = ({ comment, isMyComment = false }: Props) => {
-  const { userId, username, userProfileImage, content, createdAt, isUpdated } =
-    comment;
+  const {
+    userId,
+    username,
+    userProfileImage,
+    content,
+    createdAt,
+    isUpdated,
+    likes,
+  } = comment;
   const createdAtString = new Date(createdAt).toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'numeric',
@@ -43,7 +50,7 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     userProfileImage,
     rating,
     content,
-    likes: 0,
+    likes,
     createdAt: createdAtString,
     isUpdated,
     expand,
@@ -201,8 +208,8 @@ const CommentItemView = ({
           <Button
             startIcon={<ThumbUpIcon />}
             sx={{
-              padding: '0',
-              minWidth: '40px',
+              padding: '0 5px',
+              minWidth: '50px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',

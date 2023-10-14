@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyComment } from '../../api/comment';
+import { getComment } from '../../api/comment';
 
 interface Params {
   movieId: number;
   userId: string;
 }
 
-const useMyCommentQuery = ({ movieId, userId }: Params) => {
+const useCommentQuery = ({ movieId, userId }: Params) => {
   return useQuery(
-    ['myComment', movieId, userId],
+    ['comment', movieId, userId],
     () => {
-      return getMyComment({ movieId, userId });
+      return getComment({ movieId, userId });
     },
     {
       enabled: !!movieId && !!userId,
@@ -20,4 +20,4 @@ const useMyCommentQuery = ({ movieId, userId }: Params) => {
   );
 };
 
-export default useMyCommentQuery;
+export default useCommentQuery;

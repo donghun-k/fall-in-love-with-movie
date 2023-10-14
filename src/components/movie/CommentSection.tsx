@@ -13,8 +13,8 @@ import MovieDetail from '../../types/MovieDetail';
 import { useState, MouseEvent } from 'react';
 import Comment from '../../types/Comment';
 import CommentItem from './CommentItem';
-import EditCommentScreen from './EditCommentScreen';
-import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
+import EditCommentDialog from './EditCommentDialog';
+import useCommentQuery from '../../hooks/comment/useCommentQuery';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 
@@ -26,13 +26,13 @@ interface Props {
 
 const CommentSection = ({ movieDetail }: Props) => {
   const { id: movieId } = movieDetail;
-  const [isEditCommentScreenOpened, setIsEditCommentScreenOpened] =
+  const [isEditCommentDialogOpened, setIsEditCommentDialogOpened] =
     useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const { user } = useAuthContext();
   const userId = user?.uid ?? '';
-  const { data: myComment } = useMyCommentQuery({ movieId, userId });
+  const { data: myComment } = useCommentQuery({ movieId, userId });
 
   const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -40,21 +40,21 @@ const CommentSection = ({ movieDetail }: Props) => {
   const handleSortMenuClose = () => {
     setAnchorEl(null);
   };
-  const handleEditCommentScreenOpen = () => {
-    setIsEditCommentScreenOpened(true);
+  const handleEditCommentDialogOpen = () => {
+    setIsEditCommentDialogOpened(true);
   };
-  const handleEditCommentScreenClose = () => {
-    setIsEditCommentScreenOpened(false);
+  const handleEditCommentDialogClose = () => {
+    setIsEditCommentDialogOpened(false);
   };
 
   const props = {
-    isEditCommentScreenOpened,
+    isEditCommentDialogOpened,
     anchorEl,
     open,
     handleSortMenuBtnClick,
     handleSortMenuClose,
-    handleEditCommentScreenOpen,
-    handleEditCommentScreenClose,
+    handleEditCommentDialogOpen,
+    handleEditCommentDialogClose,
     movieId,
     user,
     myComment,
@@ -63,26 +63,26 @@ const CommentSection = ({ movieDetail }: Props) => {
 };
 
 interface ViewProps {
-  isEditCommentScreenOpened: boolean;
+  isEditCommentDialogOpened: boolean;
   anchorEl: null | HTMLElement;
   open: boolean;
   handleSortMenuBtnClick: (event: MouseEvent<HTMLButtonElement>) => void;
   handleSortMenuClose: () => void;
-  handleEditCommentScreenOpen: () => void;
-  handleEditCommentScreenClose: () => void;
+  handleEditCommentDialogOpen: () => void;
+  handleEditCommentDialogClose: () => void;
   movieId: number;
   user: User | null;
   myComment: Comment | null | undefined;
 }
 
 const CommentSectionView = ({
-  isEditCommentScreenOpened,
+  isEditCommentDialogOpened,
   anchorEl,
   open,
   handleSortMenuBtnClick,
   handleSortMenuClose,
-  handleEditCommentScreenOpen,
-  handleEditCommentScreenClose,
+  handleEditCommentDialogOpen,
+  handleEditCommentDialogClose,
   // movieId,
   user,
   myComment,
@@ -138,14 +138,16 @@ const CommentSectionView = ({
             <MenuItem onClick={handleSortMenuClose}>공감순</MenuItem>
           </Menu>
         </Box>
-        <Button
-          onClick={handleEditCommentScreenOpen}
-          startIcon={<CreateIcon />}
-          variant="contained"
-          size="small"
-        >
-          코멘트 작성
-        </Button>
+        {!myComment && (
+          <Button
+            onClick={handleEditCommentDialogOpen}
+            startIcon={<CreateIcon />}
+            variant="contained"
+            size="small"
+          >
+            코멘트 작성
+          </Button>
+        )}
       </Box>
       <Divider sx={{ width: '100%' }} />
       <Box
@@ -164,9 +166,9 @@ const CommentSectionView = ({
           return <CommentItem key={i} comment={comment} />;
         })}
       </Box>
-      {isEditCommentScreenOpened && (
-        <EditCommentScreen
-          handleEditCommentScreenClose={handleEditCommentScreenClose}
+      {isEditCommentDialogOpened && (
+        <EditCommentDialog
+          handleEditCommentDialogClose={handleEditCommentDialogClose}
         />
       )}
     </Box>

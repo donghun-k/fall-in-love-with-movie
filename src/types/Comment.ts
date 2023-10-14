@@ -7,4 +7,5 @@ export default interface Comment {
   createdAt: number;
   updatedAt: number;
   isUpdated: boolean;
+  likes: number;
 }

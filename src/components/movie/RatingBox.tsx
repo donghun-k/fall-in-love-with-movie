@@ -11,7 +11,7 @@ import { User } from 'firebase/auth';
 import { Link, useParams } from 'react-router-dom';
 import useRatingQuery from '../../hooks/rating/useRatingQuery';
 import { useQueryClient } from '@tanstack/react-query';
-import usePostMyRatingMutation from '../../hooks/rating/usePostMyRatingMutation';
+import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
 
 const RatingBox = () => {
   const { movieId = '' } = useParams<{ movieId: string }>();
@@ -20,14 +20,14 @@ const RatingBox = () => {
   const userId = user?.uid ?? '';
   const {
     data: rating = 0,
-    isLoading: isMyRatingLoading,
-    isFetching: isMyRatingFetching,
+    isLoading: isRatingLoading,
+    isFetching: isRatingFetching,
   } = useRatingQuery({
     movieId: movieIdNum,
     userId,
   });
-  const { mutateAsync: postMyRating, isLoading: isPostingMyRating } =
-    usePostMyRatingMutation({
+  const { mutateAsync: postRating, isLoading: isPostingRating } =
+    usePostRatingMutation({
       movieId: movieIdNum,
       userId,
     });
@@ -39,8 +39,8 @@ const RatingBox = () => {
     value: number | null
   ) => {
     try {
-      await postMyRating(value ?? 0);
-      queryClient.invalidateQueries(['myRating', movieIdNum, userId]);
+      await postRating(value ?? 0);
+      queryClient.invalidateQueries(['rating', movieIdNum, userId]);
     } catch (error) {
       alert(error);
     }
@@ -49,9 +49,9 @@ const RatingBox = () => {
   const props = {
     handleRatingChange,
     rating,
-    isMyRatingLoading,
-    isMyRatingFetching,
-    isPostingMyRating,
+    isRatingLoading,
+    isRatingFetching,
+    isPostingRating,
     user,
   };
   return <RatingBoxView {...props} />;
@@ -60,21 +60,21 @@ const RatingBox = () => {
 interface ViewProps {
   handleRatingChange: (event: SyntheticEvent, value: number | null) => void;
   rating: number;
-  isMyRatingLoading: boolean;
-  isMyRatingFetching: boolean;
-  isPostingMyRating: boolean;
+  isRatingLoading: boolean;
+  isRatingFetching: boolean;
+  isPostingRating: boolean;
   user: User | null;
 }
 
 const RatingBoxView = ({
   user,
   rating,
-  isMyRatingLoading,
-  isMyRatingFetching,
-  isPostingMyRating,
+  isRatingLoading,
+  isRatingFetching,
+  isPostingRating,
   handleRatingChange,
 }: ViewProps) => {
-  if (isMyRatingLoading || isMyRatingFetching || isPostingMyRating) {
+  if (isRatingLoading || isRatingFetching || isPostingRating) {
     return (
       <Box
         sx={{

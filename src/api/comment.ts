@@ -36,18 +36,19 @@ export const postComment = async ({
     createdAt: Date.now(),
     updatedAt: Date.now(),
     isUpdated: false,
+    likes: 0,
   };
   const docRef = await addDoc(commentsRef, comment);
   console.log('Document written with ID: ', docRef.id);
 };
 
-// GET MY COMMENT
+// GET COMMENT
 interface getMyCommentParams {
   movieId: number;
   userId: string;
 }
 
-export const getMyComment = async ({ movieId, userId }: getMyCommentParams) => {
+export const getComment = async ({ movieId, userId }: getMyCommentParams) => {
   const q = query(
     commentsRef,
     where('movieId', '==', movieId),
