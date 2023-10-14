@@ -11,9 +11,14 @@ import { useQueryClient } from '@tanstack/react-query';
 interface Props {
   comment: Comment;
   isMyComment?: boolean;
+  handleEditCommentDialogOpen?: () => void;
 }
 
-const CommentItem = ({ comment, isMyComment = false }: Props) => {
+const CommentItem = ({
+  comment,
+  isMyComment = false,
+  handleEditCommentDialogOpen,
+}: Props) => {
   const {
     userId,
     username,
@@ -71,6 +76,7 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     isUpdated,
     expand,
     handleExpand,
+    handleEditCommentDialogOpen,
     handleDeleteComment,
     isOverflow,
     contentRef,
@@ -89,6 +95,7 @@ interface ViewProps {
   isUpdated: boolean;
   expand: boolean;
   handleExpand: () => void;
+  handleEditCommentDialogOpen?: () => void;
   handleDeleteComment: () => void;
   isOverflow: boolean;
   contentRef: React.RefObject<HTMLDivElement>;
@@ -105,6 +112,7 @@ const CommentItemView = ({
   isUpdated,
   expand,
   handleExpand,
+  handleEditCommentDialogOpen,
   handleDeleteComment,
   isOverflow,
   contentRef,
@@ -247,6 +255,7 @@ const CommentItemView = ({
               }}
             >
               <Button
+                onClick={handleEditCommentDialogOpen}
                 sx={{
                   minWidth: 'fit-content',
                   padding: '0 5px',

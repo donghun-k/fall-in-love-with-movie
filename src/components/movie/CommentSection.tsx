@@ -160,7 +160,11 @@ const CommentSectionView = ({
         }}
       >
         {user && myComment && (
-          <CommentItem comment={myComment} isMyComment={true} />
+          <CommentItem
+            comment={myComment}
+            isMyComment={true}
+            handleEditCommentDialogOpen={handleEditCommentDialogOpen}
+          />
         )}
         {COMMENT_LIST.map((comment, i) => {
           return <CommentItem key={i} comment={comment} />;
@@ -168,6 +172,8 @@ const CommentSectionView = ({
       </Box>
       {isEditCommentDialogOpened && (
         <EditCommentDialog
+          isUpdateMode={!!myComment}
+          prevContent={myComment?.content}
           handleEditCommentDialogClose={handleEditCommentDialogClose}
         />
       )}

@@ -5,6 +5,7 @@ import {
   getDocs,
   getFirestore,
   query,
+  updateDoc,
   where,
 } from 'firebase/firestore';
 import Comment from '../types/Comment';
@@ -82,5 +83,40 @@ export const deleteComment = async ({
     docs.forEach((doc) => {
       deleteDoc(doc.ref);
     });
+    console.log('Document successfully deleted!');
+  }
+};
+
+// UPDATE COMMENT
+interface updateCommentParams {
+  movieId: number;
+  userId: string;
+  username: string;
+  userProfileImage: string;
+  content: string;
+}
+
+export const updateComment = async ({
+  movieId,
+  userId,
+  username,
+  userProfileImage,
+  content,
+}: updateCommentParams) => {
+  const q = query(
+    commentsRef,
+    where('movieId', '==', movieId),
+    where('userId', '==', userId)
+  );
+  const { docs } = await getDocs(q);
+  if (docs.length > 0) {
+    updateDoc(docs[0].ref, {
+      username,
+      userProfileImage,
+      content,
+      updatedAt: Date.now(),
+      isUpdated: true,
+    });
+    console.log('Document successfully updated!');
   }
 };

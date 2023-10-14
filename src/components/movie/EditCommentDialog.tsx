@@ -13,19 +13,33 @@ import { useParams } from 'react-router-dom';
 import usePostCommentMutation from '../../hooks/comment/usePostCommentMutation';
 import LoadingBackdrop from '../common/LoadingBackdrop';
 import { useQueryClient } from '@tanstack/react-query';
+import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
 
 interface Props {
+  isUpdateMode?: boolean;
+  prevContent?: string;
   handleEditCommentDialogClose: () => void;
 }
 
-const EditCommentDialog = ({ handleEditCommentDialogClose }: Props) => {
-  const [commentContent, setCommentContent] = useState('');
-  const [commentLength, setCommentLength] = useState(0);
+const EditCommentDialog = ({
+  isUpdateMode = false,
+  prevContent = '',
+  handleEditCommentDialogClose,
+}: Props) => {
+  const [commentContent, setCommentContent] = useState(prevContent);
+  const [commentLength, setCommentLength] = useState(prevContent.length);
   const { movieId } = useParams<{ movieId: string }>();
   const { user } = useAuthContext();
   const movieIdNum = Number(movieId);
   const { mutateAsync: postCommentMutate, isLoading: isPostingComment } =
     usePostCommentMutation({
+      movieId: movieIdNum,
+      userId: user?.uid ?? '',
+      username: user?.displayName ?? '',
+      userProfileImage: user?.photoURL ?? '',
+    });
+  const { mutateAsync: updateCommentMutate, isLoading: isUpdatingComment } =
+    useUpdateCommentMutation({
       movieId: movieIdNum,
       userId: user?.uid ?? '',
       username: user?.displayName ?? '',
@@ -53,38 +67,58 @@ const EditCommentDialog = ({ handleEditCommentDialogClose }: Props) => {
     }
   };
 
+  const handleUpdateComment = async () => {
+    if (commentContent.length === 0) return;
+    try {
+      await updateCommentMutate(commentContent);
+      handleEditCommentDialogClose();
+      queryClient.invalidateQueries(['comment', movieIdNum, user?.uid]);
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   const props = {
+    isUpdateMode,
     commentContent,
     commentLength,
     isPostingComment,
+    isUpdatingComment,
     handleCommentContentChange,
     handlePostComment,
+    handleUpdateComment,
     handleEditCommentDialogClose,
   };
   return <EditCommentDialogView {...props} />;
 };
 
 interface ViewProps {
+  isUpdateMode: boolean;
   commentContent: string;
   commentLength: number;
   isPostingComment: boolean;
+  isUpdatingComment: boolean;
   handleCommentContentChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handlePostComment: () => void;
+  handleUpdateComment: () => void;
   handleEditCommentDialogClose: () => void;
 }
 
 const EditCommentDialogView = ({
+  isUpdateMode,
   commentContent,
   commentLength,
   isPostingComment,
+  isUpdatingComment,
   handleCommentContentChange,
   handlePostComment,
+  handleUpdateComment,
   handleEditCommentDialogClose,
 }: ViewProps) => {
-  if (isPostingComment) return <LoadingBackdrop />;
+  if (isPostingComment || isUpdatingComment) return <LoadingBackdrop />;
   return (
     <Dialog open={true} fullWidth={true}>
-      <DialogTitle>코멘트 작성</DialogTitle>
+      <DialogTitle>{isUpdateMode ? '코멘트 수정' : '코멘트 작성'}</DialogTitle>
       <DialogContent>
         <TextField
           variant="outlined"
@@ -111,9 +145,16 @@ const EditCommentDialogView = ({
         </Typography>
       </DialogContent>
       <DialogActions>
-        <Button variant="contained" onClick={handlePostComment}>
-          작성
-        </Button>
+        {isUpdateMode ? (
+          <Button variant="contained" onClick={handleUpdateComment}>
+            수정
+          </Button>
+        ) : (
+          <Button variant="contained" onClick={handlePostComment}>
+            작성
+          </Button>
+        )}
+
         <Button variant="contained" onClick={handleEditCommentDialogClose}>
           취소
         </Button>
