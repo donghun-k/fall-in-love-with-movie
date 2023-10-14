@@ -169,6 +169,16 @@ const CommentSectionView = ({
         {COMMENT_LIST.map((comment, i) => {
           return <CommentItem key={i} comment={comment} />;
         })}
+        {COMMENT_LIST.length === 0 && !myComment && (
+          <Typography
+            sx={{
+              padding: '10px 0',
+              fontSize: { xs: '1rem', sm: '1.2rem' },
+            }}
+          >
+            아직 이 영화에 대한 코멘트가 없습니다.
+          </Typography>
+        )}
       </Box>
       {isEditCommentDialogOpened && (
         <EditCommentDialog
