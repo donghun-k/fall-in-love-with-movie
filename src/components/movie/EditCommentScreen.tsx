@@ -12,7 +12,6 @@ import { useState } from 'react';
 import useAuthContext from '../../hooks/useAuthContext';
 import { useParams } from 'react-router-dom';
 import { postComment } from '../../api/comment';
-import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 
 interface Props {
   handleEditCommentScreenClose: () => void;
@@ -29,10 +28,6 @@ const EditCommentScreen = ({ handleEditCommentScreenClose }: Props) => {
     photoURL: userProfileImage,
   } = user!;
   const movieIdNum = Number(movieId);
-  const { data: rating = 0 } = useMyRatingQuery({
-    movieId: movieIdNum,
-    userId,
-  });
 
   const handleCommentContentChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -52,7 +47,6 @@ const EditCommentScreen = ({ handleEditCommentScreenClose }: Props) => {
       username,
       userProfileImage,
       content: commentContent,
-      rating: rating,
     });
     handleEditCommentScreenClose();
   };

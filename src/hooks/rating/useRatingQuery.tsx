@@ -1,16 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyRating } from '../../api/rating';
+import { getRating } from '../../api/rating';
 
 interface Params {
   movieId: number;
   userId: string;
 }
 
-const useMyRatingQuery = ({ movieId, userId }: Params) => {
+const useRatingQuery = ({ movieId, userId }: Params) => {
   return useQuery(
     ['myRating', movieId, userId],
     () => {
-      return getMyRating({ movieId, userId });
+      return getRating({ movieId, userId });
     },
     {
       enabled: !!movieId && !!userId,
@@ -20,4 +20,4 @@ const useMyRatingQuery = ({ movieId, userId }: Params) => {
   );
 };
 
-export default useMyRatingQuery;
+export default useRatingQuery;

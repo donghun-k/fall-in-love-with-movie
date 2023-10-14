@@ -61,12 +61,12 @@ export const postMyRating = async ({
 };
 
 // GET MY RATING
-interface getMyRatingParams {
+interface getRatingParams {
   userId: string;
   movieId: number;
 }
 
-export const getMyRating = async ({ userId, movieId }: getMyRatingParams) => {
+export const getRating = async ({ userId, movieId }: getRatingParams) => {
   const q = query(
     ratingsRef,
     where('userId', '==', userId),

@@ -17,7 +17,6 @@ interface postCommentParams {
   userId: string;
   username: string;
   userProfileImage: string;
-  rating: number;
   content: string;
 }
 
@@ -26,7 +25,6 @@ export const postComment = async ({
   userId,
   username,
   userProfileImage,
-  rating,
   content,
 }: postCommentParams) => {
   const comment: Comment = {
@@ -34,12 +32,10 @@ export const postComment = async ({
     userId,
     username,
     userProfileImage,
-    rating,
     content,
     createdAt: Date.now(),
     updatedAt: Date.now(),
     isUpdated: false,
-    likes: 0,
   };
   const docRef = await addDoc(commentsRef, comment);
   console.log('Document written with ID: ', docRef.id);
@@ -59,7 +55,7 @@ export const getMyComment = async ({ movieId, userId }: getMyCommentParams) => {
   );
   const { docs } = await getDocs(q);
   if (docs.length > 0) {
-    return docs[0].data();
+    return docs[0].data() as Comment;
   }
   return null;
 };

@@ -72,7 +72,7 @@ interface ViewProps {
   handleEditCommentScreenClose: () => void;
   movieId: number;
   user: User | null;
-  myComment: Comment | null;
+  myComment: Comment | null | undefined;
 }
 
 const CommentSectionView = ({

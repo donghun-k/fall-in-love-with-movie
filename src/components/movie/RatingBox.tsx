@@ -9,7 +9,7 @@ import { SyntheticEvent } from 'react';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { Link, useParams } from 'react-router-dom';
-import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
+import useRatingQuery from '../../hooks/rating/useRatingQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import usePostMyRatingMutation from '../../hooks/rating/usePostMyRatingMutation';
 
@@ -22,7 +22,7 @@ const RatingBox = () => {
     data: rating = 0,
     isLoading: isMyRatingLoading,
     isFetching: isMyRatingFetching,
-  } = useMyRatingQuery({
+  } = useRatingQuery({
     movieId: movieIdNum,
     userId,
   });

@@ -3,6 +3,8 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import StarIcon from '@mui/icons-material/Star';
 import Comment from '../../types/Comment';
 import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import useRatingQuery from '../../hooks/rating/useRatingQuery';
 
 interface Props {
   comment: Comment;
@@ -10,16 +12,8 @@ interface Props {
 }
 
 const CommentItem = ({ comment, isMyComment = false }: Props) => {
-  const {
-    username,
-    userProfileImage,
-    rating,
-    content,
-    likes,
-    createdAt,
-    isUpdated,
-  } = comment;
-
+  const { userId, username, userProfileImage, content, createdAt, isUpdated } =
+    comment;
   const createdAtString = new Date(createdAt).toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'numeric',
@@ -27,9 +21,11 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     hour: 'numeric',
     minute: 'numeric',
   });
+  const { movieId } = useParams<{ movieId: string }>();
+  const movieIdNum = Number(movieId);
+  const { data: rating = 0 } = useRatingQuery({ movieId: movieIdNum, userId });
   const [expand, setExpand] = useState(false);
   const [isOverflow, setIsOverflow] = useState(false);
-
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -47,7 +43,7 @@ const CommentItem = ({ comment, isMyComment = false }: Props) => {
     userProfileImage,
     rating,
     content,
-    likes,
+    likes: 0,
     createdAt: createdAtString,
     isUpdated,
     expand,
@@ -153,7 +149,9 @@ const CommentItemView = ({
               {isUpdated && ' (수정됨)'}
             </span>
           </Typography>
-          <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
+          {rating !== 0 && (
+            <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
+          )}
         </Box>
         <Typography
           ref={contentRef}
@@ -203,7 +201,8 @@ const CommentItemView = ({
           <Button
             startIcon={<ThumbUpIcon />}
             sx={{
-              width: '40px',
+              padding: '0',
+              minWidth: '40px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
