@@ -25,13 +25,16 @@ export const addLike = async ({
   movieId,
   userId,
 }: addLikeParams) => {
+  if (!commentAuthorId || !movieId || !userId) {
+    throw new Error('Missing required parameters.');
+  }
   if (commentAuthorId === userId) {
     throw new Error('You cannot like your own comment.');
   }
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('userId', '==', commentAuthorId)
+    where('authorId', '==', commentAuthorId)
   );
   const commentSnapshot = await getDocs(commentQuery);
 
@@ -59,10 +62,13 @@ export const deleteLike = async ({
   movieId,
   userId,
 }: deleteLikeParams) => {
+  if (!commentAuthorId || !movieId || !userId) {
+    throw new Error('Missing required parameters.');
+  }
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('userId', '==', commentAuthorId)
+    where('authorId', '==', commentAuthorId)
   );
   const commentSnapshot = await getDocs(commentQuery);
 

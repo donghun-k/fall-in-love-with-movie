@@ -75,7 +75,7 @@ const RatingBoxView = ({
   isPostingRating,
   handleRatingChange,
 }: ViewProps) => {
-  if (isRatingLoading || isRatingFetching || isPostingRating) {
+  if (user && (isRatingLoading || isRatingFetching || isPostingRating)) {
     return (
       <Box
         sx={{

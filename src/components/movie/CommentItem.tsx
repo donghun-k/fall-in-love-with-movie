@@ -67,11 +67,16 @@ const CommentItem = ({
     try {
       await deleteCommentMutate();
       queryClient.invalidateQueries(['comment', movieIdNum, authorId]);
+      queryClient.invalidateQueries(['comments', movieIdNum]);
     } catch (error) {
       alert(error);
     }
   };
   const handleAddLike = async () => {
+    if (!user) {
+      alert('You must log in to like a comment.');
+      return;
+    }
     if (userId === authorId) {
       alert('You cannot like your own comment.');
       return;
@@ -79,14 +84,20 @@ const CommentItem = ({
     try {
       await addLikeMutate();
       queryClient.invalidateQueries(['comment', movieIdNum, authorId]);
+      queryClient.invalidateQueries(['comments', movieIdNum]);
     } catch (error) {
       alert(error);
     }
   };
   const handleDeleteLike = async () => {
+    if (!user) {
+      alert('You must log in to like a comment.');
+      return;
+    }
     try {
       await deleteLikeMutate();
       queryClient.invalidateQueries(['comment', movieIdNum, authorId]);
+      queryClient.invalidateQueries(['comments', movieIdNum]);
     } catch (error) {
       alert(error);
     }

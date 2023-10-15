@@ -17,8 +17,7 @@ import EditCommentDialog from './EditCommentDialog';
 import useCommentQuery from '../../hooks/comment/useCommentQuery';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
-
-const COMMENT_LIST: Comment[] = [];
+import useCommentsQuery from '../../hooks/comment/useCommentsQuery';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -33,6 +32,9 @@ const CommentSection = ({ movieDetail }: Props) => {
   const { user } = useAuthContext();
   const userId = user?.uid ?? '';
   const { data: myComment } = useCommentQuery({ movieId, authorId: userId });
+  const { data: comments = [] } = useCommentsQuery(
+    user ? { movieId, userId } : { movieId }
+  );
 
   const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -58,6 +60,7 @@ const CommentSection = ({ movieDetail }: Props) => {
     movieId,
     user,
     myComment,
+    comments,
   };
   return <CommentSectionView {...props} />;
 };
@@ -73,6 +76,7 @@ interface ViewProps {
   movieId: number;
   user: User | null;
   myComment: Comment | null | undefined;
+  comments: Comment[];
 }
 
 const CommentSectionView = ({
@@ -86,6 +90,7 @@ const CommentSectionView = ({
   // movieId,
   user,
   myComment,
+  comments,
 }: ViewProps) => {
   return (
     <Box
@@ -167,10 +172,10 @@ const CommentSectionView = ({
             handleEditCommentDialogOpen={handleEditCommentDialogOpen}
           />
         )}
-        {COMMENT_LIST.map((comment, i) => {
+        {comments.map((comment, i) => {
           return <CommentItem key={i} user={user} comment={comment} />;
         })}
-        {COMMENT_LIST.length === 0 && !myComment && (
+        {comments.length === 0 && !myComment && (
           <Typography
             sx={{
               padding: '10px 0',

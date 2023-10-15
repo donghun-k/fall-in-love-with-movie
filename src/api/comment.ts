@@ -136,3 +136,22 @@ export const updateComment = async ({
   });
   console.log('Comment successfully updated!');
 };
+
+// GET COMMENTS
+interface getCommentsParams {
+  userId?: string;
+  movieId: number;
+}
+
+export const getComments = async ({
+  userId = '',
+  movieId,
+}: getCommentsParams) => {
+  const commentsQuery = query(
+    commentsRef,
+    where('movieId', '==', movieId),
+    where('authorId', '!=', userId)
+  );
+  const commentsSnapshot = await getDocs(commentsQuery);
+  return commentsSnapshot.docs.map((doc) => doc.data() as Comment);
+};
