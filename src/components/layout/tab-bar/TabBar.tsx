@@ -25,9 +25,13 @@ const TabBar = () => {
   const handleSignInBtnClick = () => {
     navigate('/signin');
   };
-  const handleSignOutBtnClick = () => {
-    signOut();
-    navigate('/', { replace: true });
+  const handleSignOutBtnClick = async () => {
+    try {
+      await signOut();
+      alert('Sign out successfully!');
+    } catch (error) {
+      console.error(error);
+    }
   };
   const closeSearchBox = () => {
     setIsSearchBoxOpened(false);

@@ -16,7 +16,7 @@ const commentsRef = collection(db, 'comments');
 
 interface postCommentParams {
   movieId: number;
-  userId: string;
+  authorId: string;
   username: string;
   userProfileImage: string;
   content: string;
@@ -25,7 +25,7 @@ interface postCommentParams {
 
 export const postComment = async ({
   movieId,
-  userId,
+  authorId,
   username,
   userProfileImage,
   content,
@@ -33,20 +33,21 @@ export const postComment = async ({
 }: postCommentParams) => {
   const comment: Comment = {
     movieId,
-    userId,
+    authorId,
     username,
     userProfileImage,
     content,
     createdAt: Date.now(),
     updatedAt: Date.now(),
     isUpdated: false,
-    likes: 0,
     rating,
+    likes: [],
+    likeCount: 0,
   };
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('userId', '==', userId)
+    where('authorId', '==', authorId)
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (!commentSnapshot.empty) {
@@ -59,14 +60,14 @@ export const postComment = async ({
 // GET COMMENT
 interface getMyCommentParams {
   movieId: number;
-  userId: string;
+  authorId: string;
 }
 
-export const getComment = async ({ movieId, userId }: getMyCommentParams) => {
+export const getComment = async ({ movieId, authorId }: getMyCommentParams) => {
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('userId', '==', userId)
+    where('authorId', '==', authorId)
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
@@ -79,17 +80,17 @@ export const getComment = async ({ movieId, userId }: getMyCommentParams) => {
 // DELETE COMMENT
 interface deleteCommentParams {
   movieId: number;
-  userId: string;
+  authorId: string;
 }
 
 export const deleteComment = async ({
   movieId,
-  userId,
+  authorId,
 }: deleteCommentParams) => {
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('userId', '==', userId)
+    where('authorId', '==', authorId)
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
@@ -103,7 +104,7 @@ export const deleteComment = async ({
 // UPDATE COMMENT
 interface updateCommentParams {
   movieId: number;
-  userId: string;
+  authorId: string;
   username: string;
   userProfileImage: string;
   content: string;
@@ -111,7 +112,7 @@ interface updateCommentParams {
 
 export const updateComment = async ({
   movieId,
-  userId,
+  authorId,
   username,
   userProfileImage,
   content,
@@ -119,7 +120,7 @@ export const updateComment = async ({
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('userId', '==', userId)
+    where('authorId', '==', authorId)
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {

@@ -39,14 +39,14 @@ const EditCommentDialog = ({
   const { mutateAsync: postCommentMutate, isLoading: isPostingComment } =
     usePostCommentMutation({
       movieId: movieIdNum,
-      userId: user?.uid ?? '',
+      authorId: user?.uid ?? '',
       username: user?.displayName ?? '',
       userProfileImage: user?.photoURL ?? '',
     });
   const { mutateAsync: updateCommentMutate, isLoading: isUpdatingComment } =
     useUpdateCommentMutation({
       movieId: movieIdNum,
-      userId: user?.uid ?? '',
+      authorId: user?.uid ?? '',
       username: user?.displayName ?? '',
       userProfileImage: user?.photoURL ?? '',
     });

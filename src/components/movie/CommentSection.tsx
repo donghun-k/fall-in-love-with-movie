@@ -32,7 +32,7 @@ const CommentSection = ({ movieDetail }: Props) => {
   const open = Boolean(anchorEl);
   const { user } = useAuthContext();
   const userId = user?.uid ?? '';
-  const { data: myComment } = useCommentQuery({ movieId, userId });
+  const { data: myComment } = useCommentQuery({ movieId, authorId: userId });
 
   const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -161,13 +161,14 @@ const CommentSectionView = ({
       >
         {user && myComment && (
           <CommentItem
+            user={user}
             comment={myComment}
             isMyComment={true}
             handleEditCommentDialogOpen={handleEditCommentDialogOpen}
           />
         )}
         {COMMENT_LIST.map((comment, i) => {
-          return <CommentItem key={i} comment={comment} />;
+          return <CommentItem key={i} user={user} comment={comment} />;
         })}
         {COMMENT_LIST.length === 0 && !myComment && (
           <Typography

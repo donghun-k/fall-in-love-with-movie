@@ -1,15 +1,12 @@
 import { Button, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from '../../../api/auth';
-import { useNavigate } from 'react-router-dom';
 
 const SignOutButton = () => {
-  const navigate = useNavigate();
-
   const handleSignOut = async () => {
     try {
       await signOut();
-      navigate('/', { replace: true });
+      alert('Sign out successfully!');
     } catch (error) {
       console.error(error);
     }

@@ -3,21 +3,21 @@ import { updateComment } from '../../api/comment';
 
 interface Params {
   movieId: number;
-  userId: string;
+  authorId: string;
   username: string;
   userProfileImage: string;
 }
 
 const useUpdateCommentMutation = ({
   movieId,
-  userId,
+  authorId,
   username,
   userProfileImage,
 }: Params) => {
   return useMutation((content: string) => {
     return updateComment({
       movieId,
-      userId,
+      authorId,
       username,
       userProfileImage,
       content,

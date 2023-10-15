@@ -1,45 +1,48 @@
 import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import StarIcon from '@mui/icons-material/Star';
 import Comment from '../../types/Comment';
 import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
 import { useQueryClient } from '@tanstack/react-query';
+import { User } from 'firebase/auth';
+import { convertTimestampToDateString } from '../../utils/date';
+import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';
+import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
 
 interface Props {
+  user: User | null;
   comment: Comment;
   isMyComment?: boolean;
   handleEditCommentDialogOpen?: () => void;
 }
 
 const CommentItem = ({
+  user,
   comment,
   isMyComment = false,
   handleEditCommentDialogOpen,
 }: Props) => {
-  const {
-    userId,
-    username,
-    userProfileImage,
-    content,
-    createdAt,
-    isUpdated,
-    likes,
-    rating,
-  } = comment;
-  const createdAtString = new Date(createdAt).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'numeric',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  });
   const queryClient = useQueryClient();
+  const userId = user?.uid ?? '';
+  const { authorId } = comment;
+  const alreadyLiked = comment.likes.includes(userId);
   const { movieId } = useParams<{ movieId: string }>();
   const movieIdNum = Number(movieId);
   const { mutateAsync: deleteCommentMutate } = useDeleteCommentMutation({
     movieId: movieIdNum,
+    authorId,
+  });
+  const { mutateAsync: addLikeMutate } = useAddLikeMutation({
+    movieId: movieIdNum,
+    commentAuthorId: authorId,
+    userId,
+  });
+  const { mutateAsync: deleteLikeMutate } = useDeleteLikeMutation({
+    movieId: movieIdNum,
+    commentAuthorId: authorId,
     userId,
   });
   const [expand, setExpand] = useState(false);
@@ -57,66 +60,92 @@ const CommentItem = ({
   };
 
   const handleDeleteComment = async () => {
+    if (userId !== authorId) {
+      alert('You are not the author of this comment.');
+      return;
+    }
     try {
       await deleteCommentMutate();
-      queryClient.invalidateQueries(['comment', movieIdNum, userId]);
+      queryClient.invalidateQueries(['comment', movieIdNum, authorId]);
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const handleAddLike = async () => {
+    if (userId === authorId) {
+      alert('You cannot like your own comment.');
+      return;
+    }
+    try {
+      await addLikeMutate();
+      queryClient.invalidateQueries(['comment', movieIdNum, authorId]);
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const handleDeleteLike = async () => {
+    try {
+      await deleteLikeMutate();
+      queryClient.invalidateQueries(['comment', movieIdNum, authorId]);
     } catch (error) {
       alert(error);
     }
   };
 
   const props = {
-    username,
-    userProfileImage,
-    rating,
-    content,
-    likes,
-    createdAt: createdAtString,
-    isUpdated,
+    user,
+    comment,
     expand,
     handleExpand,
     handleEditCommentDialogOpen,
     handleDeleteComment,
+    handleAddLike,
+    handleDeleteLike,
     isOverflow,
     contentRef,
     isMyComment,
+    alreadyLiked,
   };
   return <CommentItemView {...props} />;
 };
 
 interface ViewProps {
-  username: string;
-  userProfileImage: string;
-  rating: number;
-  content: string;
-  likes: number;
-  createdAt: string;
-  isUpdated: boolean;
+  user: User | null;
+  comment: Comment;
   expand: boolean;
   handleExpand: () => void;
   handleEditCommentDialogOpen?: () => void;
   handleDeleteComment: () => void;
+  handleAddLike: () => void;
+  handleDeleteLike: () => void;
   isOverflow: boolean;
   contentRef: React.RefObject<HTMLDivElement>;
   isMyComment: boolean;
+  alreadyLiked: boolean;
 }
 
 const CommentItemView = ({
-  username,
-  userProfileImage,
-  rating,
-  content,
-  likes,
-  createdAt,
-  isUpdated,
+  comment,
   expand,
   handleExpand,
   handleEditCommentDialogOpen,
   handleDeleteComment,
+  handleAddLike,
+  handleDeleteLike,
   isOverflow,
   contentRef,
   isMyComment,
+  alreadyLiked,
 }: ViewProps) => {
+  const {
+    username,
+    userProfileImage,
+    content,
+    createdAt,
+    isUpdated,
+    rating,
+    likeCount,
+  } = comment;
   return (
     <Box
       sx={{
@@ -178,7 +207,7 @@ const CommentItemView = ({
           >
             {isMyComment ? '내 코멘트' : username}
             <span>
-              {createdAt}
+              {convertTimestampToDateString(createdAt)}
               {isUpdated && ' (수정됨)'}
             </span>
           </Typography>
@@ -232,7 +261,8 @@ const CommentItemView = ({
           }}
         >
           <Button
-            startIcon={<ThumbUpIcon />}
+            startIcon={alreadyLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+            onClick={alreadyLiked ? handleDeleteLike : handleAddLike}
             sx={{
               padding: '0 5px',
               minWidth: '50px',
@@ -241,7 +271,7 @@ const CommentItemView = ({
               justifyContent: 'space-between',
             }}
           >
-            {likes}
+            {likeCount}
           </Button>
           {isMyComment && (
             <Box

@@ -3,12 +3,12 @@ import { deleteComment } from '../../api/comment';
 
 interface Params {
   movieId: number;
-  userId: string;
+  authorId: string;
 }
 
-const useDeleteCommentMutation = ({ movieId, userId }: Params) => {
+const useDeleteCommentMutation = ({ movieId, authorId }: Params) => {
   return useMutation(() => {
-    return deleteComment({ movieId, userId });
+    return deleteComment({ movieId, authorId });
   });
 };
 

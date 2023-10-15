@@ -3,17 +3,17 @@ import { getComment } from '../../api/comment';
 
 interface Params {
   movieId: number;
-  userId: string;
+  authorId: string;
 }
 
-const useCommentQuery = ({ movieId, userId }: Params) => {
+const useCommentQuery = ({ movieId, authorId }: Params) => {
   return useQuery(
-    ['comment', movieId, userId],
+    ['comment', movieId, authorId],
     () => {
-      return getComment({ movieId, userId });
+      return getComment({ movieId, authorId });
     },
     {
-      enabled: !!movieId && !!userId,
+      enabled: !!movieId && !!authorId,
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 60 * 24,
     }
