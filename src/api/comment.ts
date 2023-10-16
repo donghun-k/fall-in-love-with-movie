@@ -10,6 +10,7 @@ import {
   limit,
   orderBy,
   query,
+  startAfter,
   updateDoc,
   where,
 } from 'firebase/firestore';
@@ -147,11 +148,13 @@ export type SortOptionType =
 interface getCommentRefsParams {
   movieId: number;
   sortOption?: SortOptionType;
+  lastDocRef?: DocumentReference;
 }
 
 export const getCommentRefs = async ({
   movieId,
-  sortOption = 'likeCount',
+  sortOption = 'latest',
+  lastDocRef,
 }: getCommentRefsParams) => {
   let sortBy: QueryOrderByConstraint;
   if (sortOption === 'latest') {
@@ -168,12 +171,25 @@ export const getCommentRefs = async ({
     throw new Error('Invalid sort option');
   }
 
-  const commentsQuery = query(
-    commentsRef,
-    where('movieId', '==', movieId),
-    sortBy,
-    limit(3)
-  );
+  let commentsQuery;
+
+  if (!lastDocRef) {
+    commentsQuery = query(
+      commentsRef,
+      where('movieId', '==', movieId),
+      sortBy,
+      limit(5)
+    );
+  } else {
+    const lastDoc = await getDoc(lastDocRef);
+    commentsQuery = query(
+      commentsRef,
+      where('movieId', '==', movieId),
+      sortBy,
+      startAfter(lastDoc),
+      limit(5)
+    );
+  }
 
   const commentsSnapshot = await getDocs(commentsQuery);
   const result = commentsSnapshot.docs.map((doc) => doc.ref);

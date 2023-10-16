@@ -14,7 +14,7 @@ const useMyCommentQuery = ({ movieId, authorId }: Params) => {
     },
     {
       enabled: !!movieId && !!authorId,
-      refetchOnWindowFocus: false,
+      refetchOnMount: 'always',
       staleTime: 1000 * 60 * 60 * 24,
     }
   );

@@ -72,9 +72,7 @@ const MyCommentItemView = ({
   handleExpand,
   handleEditCommentDialogOpen,
   handleDeleteComment,
-  isDeletingComment,
 }: ViewProps) => {
-  if (isDeletingComment) return <Typography>삭제 중...</Typography>;
   const {
     username,
     userProfileImage,

@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Divider,
   Menu,
   MenuItem,
@@ -37,10 +38,17 @@ const CommentSection = ({ movieDetail }: Props) => {
     movieId,
     authorId: user?.uid ?? '',
   });
-  const { data: commentRefs } = useCommentRefsInfiniteQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isLoading: isCommentRefsLoading,
+    isFetching: isCommentRefsFetching,
+  } = useCommentRefsInfiniteQuery({
     movieId,
     sortOption,
   });
+  const commentRefs = data?.pages.flatMap((ref) => ref);
   const openSortMenu = Boolean(anchorEl);
 
   const handleSetSortOption = (event: MouseEvent<HTMLLIElement>) => {
@@ -75,6 +83,10 @@ const CommentSection = ({ movieDetail }: Props) => {
     user,
     myComment,
     commentRefs,
+    hasNextPage,
+    fetchNextPage,
+    isCommentRefsLoading,
+    isCommentRefsFetching,
   };
   return <CommentSectionView {...props} />;
 };
@@ -92,6 +104,10 @@ interface ViewProps {
   user: User | null;
   myComment: MyComment | undefined | null;
   commentRefs: DocumentReference[] | undefined;
+  hasNextPage: boolean | undefined;
+  fetchNextPage: () => void;
+  isCommentRefsLoading: boolean;
+  isCommentRefsFetching: boolean;
 }
 
 const CommentSectionView = ({
@@ -107,6 +123,10 @@ const CommentSectionView = ({
   user,
   myComment,
   commentRefs,
+  hasNextPage,
+  fetchNextPage,
+  isCommentRefsLoading,
+  isCommentRefsFetching,
 }: ViewProps) => {
   return (
     <Box
@@ -209,14 +229,39 @@ const CommentSectionView = ({
           commentRefs.map((commentRef, i) => {
             return <CommentItem key={i} user={user} commentRef={commentRef} />;
           })}
-        {/* <Typography
+        {(isCommentRefsLoading || isCommentRefsFetching) && (
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <CircularProgress />
+          </Box>
+        )}
+        {!isCommentRefsLoading && !isCommentRefsFetching && hasNextPage && (
+          <Button
+            onClick={fetchNextPage}
+            sx={{
+              width: '100%',
+              padding: '10px 0',
+            }}
+          >
+            더보기
+          </Button>
+        )}
+        {commentRefs && commentRefs?.length === 0 && (
+          <Typography
             sx={{
               padding: '10px 0',
               fontSize: { xs: '1rem', sm: '1.2rem' },
             }}
           >
             아직 이 영화에 대한 코멘트가 없습니다.
-          </Typography> */}
+          </Typography>
+        )}
       </Box>
       {isEditCommentDialogOpened && (
         <EditCommentDialog

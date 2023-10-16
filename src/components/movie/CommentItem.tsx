@@ -84,6 +84,7 @@ interface ViewProps {
 }
 
 const CommentItemView = ({
+  user,
   comment,
   expand,
   handleExpand,
@@ -95,6 +96,7 @@ const CommentItemView = ({
 }: ViewProps) => {
   if (!comment) return null;
   const {
+    authorId,
     username,
     userProfileImage,
     content,
@@ -103,6 +105,7 @@ const CommentItemView = ({
     rating,
     likeCount,
   } = comment;
+  if (user && authorId === user.uid) return null;
   return (
     <Box
       sx={{
