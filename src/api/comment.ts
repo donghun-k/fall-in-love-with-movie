@@ -1,9 +1,11 @@
 import {
+  QueryOrderByConstraint,
   addDoc,
   collection,
   deleteDoc,
   getDocs,
   getFirestore,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -138,20 +140,43 @@ export const updateComment = async ({
 };
 
 // GET COMMENTS
+export type SortOptionType =
+  | 'latest'
+  | 'registered'
+  | 'likeCount'
+  | 'highRated'
+  | 'lowRated';
 interface getCommentsParams {
-  userId?: string;
   movieId: number;
+  sortOption?: SortOptionType;
 }
 
 export const getComments = async ({
-  userId = '',
   movieId,
+  sortOption = 'likeCount',
 }: getCommentsParams) => {
+  let sortBy: QueryOrderByConstraint;
+  if (sortOption === 'latest') {
+    sortBy = orderBy('createdAt', 'desc');
+  } else if (sortOption === 'registered') {
+    sortBy = orderBy('createdAt', 'asc');
+  } else if (sortOption === 'likeCount') {
+    sortBy = orderBy('likeCount', 'desc');
+  } else if (sortOption === 'highRated') {
+    sortBy = orderBy('rating', 'desc');
+  } else if (sortOption === 'lowRated') {
+    sortBy = orderBy('rating', 'asc');
+  } else {
+    throw new Error('Invalid sort option');
+  }
+
   const commentsQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('authorId', '!=', userId)
+    sortBy
   );
+
   const commentsSnapshot = await getDocs(commentsQuery);
-  return commentsSnapshot.docs.map((doc) => doc.data() as Comment);
+  const result = commentsSnapshot.docs.map((doc) => doc.data() as Comment);
+  return result;
 };

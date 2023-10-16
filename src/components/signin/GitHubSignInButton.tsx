@@ -11,7 +11,7 @@ const GitHubSignInButton = () => {
     try {
       const user = await signIn('github');
       setUser(user);
-      navigate('/', { replace: true });
+      navigate(-1);
     } catch (error) {
       console.error(error);
     }

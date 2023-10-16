@@ -11,7 +11,7 @@ const GoogleSignInButton = () => {
     try {
       const user = await signIn('google');
       setUser(user);
-      navigate('/', { replace: true });
+      navigate(-1);
     } catch (error) {
       console.error(error);
     }

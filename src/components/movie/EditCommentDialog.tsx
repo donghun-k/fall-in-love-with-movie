@@ -76,6 +76,10 @@ const EditCommentDialog = ({
   };
 
   const handleUpdateComment = async () => {
+    if (prevContent === commentContent) {
+      alert('변경된 내용이 없습니다.');
+      return;
+    }
     if (commentContent.length === 0) return;
     try {
       await updateCommentMutate(commentContent);

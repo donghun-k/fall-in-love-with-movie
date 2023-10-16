@@ -17,7 +17,8 @@ import EditCommentDialog from './EditCommentDialog';
 import useCommentQuery from '../../hooks/comment/useCommentQuery';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
-import useCommentsQuery from '../../hooks/comment/useCommentsQuery';
+import useInfiniteCommentsQuery from '../../hooks/comment/useCommentsInfiniteQuery';
+import { SortOptionType } from '../../api/comment';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -28,14 +29,22 @@ const CommentSection = ({ movieDetail }: Props) => {
   const [isEditCommentDialogOpened, setIsEditCommentDialogOpened] =
     useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [sortOption, setSortOption] = useState<SortOptionType>('latest');
   const open = Boolean(anchorEl);
   const { user } = useAuthContext();
   const userId = user?.uid ?? '';
   const { data: myComment } = useCommentQuery({ movieId, authorId: userId });
-  const { data: comments = [] } = useCommentsQuery(
-    user ? { movieId, userId } : { movieId }
-  );
+  const { data: comments = [] } = useInfiniteCommentsQuery({
+    movieId,
+    sortOption,
+  });
 
+  const handleSetSortOption = (event: MouseEvent<HTMLLIElement>) => {
+    const value = event.currentTarget.dataset.value as SortOptionType;
+    console.log(value);
+    setSortOption(value);
+    setAnchorEl(null);
+  };
   const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -53,6 +62,7 @@ const CommentSection = ({ movieDetail }: Props) => {
     isEditCommentDialogOpened,
     anchorEl,
     open,
+    handleSetSortOption,
     handleSortMenuBtnClick,
     handleSortMenuClose,
     handleEditCommentDialogOpen,
@@ -69,6 +79,7 @@ interface ViewProps {
   isEditCommentDialogOpened: boolean;
   anchorEl: null | HTMLElement;
   open: boolean;
+  handleSetSortOption: (event: MouseEvent<HTMLLIElement>) => void;
   handleSortMenuBtnClick: (event: MouseEvent<HTMLButtonElement>) => void;
   handleSortMenuClose: () => void;
   handleEditCommentDialogOpen: () => void;
@@ -83,6 +94,7 @@ const CommentSectionView = ({
   isEditCommentDialogOpened,
   anchorEl,
   open,
+  handleSetSortOption,
   handleSortMenuBtnClick,
   handleSortMenuClose,
   handleEditCommentDialogOpen,
@@ -139,8 +151,21 @@ const CommentSectionView = ({
             정렬 기준
           </Button>
           <Menu anchorEl={anchorEl} open={open} onClose={handleSortMenuClose}>
-            <MenuItem onClick={handleSortMenuClose}>최신순</MenuItem>
-            <MenuItem onClick={handleSortMenuClose}>공감순</MenuItem>
+            <MenuItem data-value="latest" onClick={handleSetSortOption}>
+              최신순
+            </MenuItem>
+            <MenuItem data-value="registered" onClick={handleSetSortOption}>
+              등록순
+            </MenuItem>
+            <MenuItem data-value="likeCount" onClick={handleSetSortOption}>
+              공감순
+            </MenuItem>
+            <MenuItem data-value="highRated" onClick={handleSetSortOption}>
+              높은 별점순
+            </MenuItem>
+            <MenuItem data-value="lowRated" onClick={handleSetSortOption}>
+              낮은 별점순
+            </MenuItem>
           </Menu>
         </Box>
         {!myComment && (

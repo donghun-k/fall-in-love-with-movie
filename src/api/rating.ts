@@ -37,7 +37,7 @@ export const postRating = async ({
 
   const commetQuery = query(
     commentsRef,
-    where('userId', '==', userId),
+    where('authorId', '==', userId),
     where('movieId', '==', movieId)
   );
 

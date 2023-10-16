@@ -20,7 +20,6 @@ const useSearchInfiniteQuery = ({ query }: Params) => {
           ? lastPage.page + 1
           : false;
       },
-      refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 60 * 24,
     }
   );
