@@ -1,10 +1,13 @@
 import {
+  DocumentReference,
   QueryOrderByConstraint,
   addDoc,
   collection,
   deleteDoc,
+  getDoc,
   getDocs,
   getFirestore,
+  limit,
   orderBy,
   query,
   updateDoc,
@@ -12,6 +15,7 @@ import {
 } from 'firebase/firestore';
 import Comment from '../types/Comment';
 import app from '../configs/firebase';
+import MyComment from '../types/MyComment';
 
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');
@@ -59,13 +63,16 @@ export const postComment = async ({
   console.log('Comment written with ID: ', docRef.id);
 };
 
-// GET COMMENT
+// GET MY COMMENT
 interface getMyCommentParams {
   movieId: number;
   authorId: string;
 }
 
-export const getComment = async ({ movieId, authorId }: getMyCommentParams) => {
+export const getMyComment = async ({
+  movieId,
+  authorId,
+}: getMyCommentParams) => {
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
@@ -73,63 +80,54 @@ export const getComment = async ({ movieId, authorId }: getMyCommentParams) => {
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
-    throw new Error('Comment Not Found.');
+    console.log('My Comment Not Found.');
+    return null;
   }
   const commentDoc = commentSnapshot.docs[0];
-  return commentDoc.data() as Comment;
+  return {
+    ...(commentDoc.data() as Comment),
+    commentRef: commentDoc.ref,
+  } as MyComment;
+};
+
+// GET COMMENT BY REF
+interface getCommentParams {
+  commentRef: DocumentReference;
+}
+
+export const getComment = async ({ commentRef }: getCommentParams) => {
+  const commentSnapshot = await getDoc(commentRef);
+  if (!commentSnapshot.exists()) {
+    throw new Error('Comment Not Found.');
+  }
+  return commentSnapshot.data() as Comment;
 };
 
 // DELETE COMMENT
 interface deleteCommentParams {
-  movieId: number;
-  authorId: string;
+  commentRef: DocumentReference;
 }
 
-export const deleteComment = async ({
-  movieId,
-  authorId,
-}: deleteCommentParams) => {
-  const commentQuery = query(
-    commentsRef,
-    where('movieId', '==', movieId),
-    where('authorId', '==', authorId)
-  );
-  const commentSnapshot = await getDocs(commentQuery);
-  if (commentSnapshot.empty) {
-    throw new Error('Comment Not Found.');
-  }
-  const commentDoc = commentSnapshot.docs[0];
-  await deleteDoc(commentDoc.ref);
+export const deleteComment = async ({ commentRef }: deleteCommentParams) => {
+  await deleteDoc(commentRef);
   console.log('Comment successfully deleted!');
 };
 
 // UPDATE COMMENT
 interface updateCommentParams {
-  movieId: number;
-  authorId: string;
+  commentRef: DocumentReference;
   username: string;
   userProfileImage: string;
   content: string;
 }
 
 export const updateComment = async ({
-  movieId,
-  authorId,
+  commentRef,
   username,
   userProfileImage,
   content,
 }: updateCommentParams) => {
-  const commentQuery = query(
-    commentsRef,
-    where('movieId', '==', movieId),
-    where('authorId', '==', authorId)
-  );
-  const commentSnapshot = await getDocs(commentQuery);
-  if (commentSnapshot.empty) {
-    throw new Error('Comment Not Found.');
-  }
-  const commentDoc = commentSnapshot.docs[0];
-  await updateDoc(commentDoc.ref, {
+  await updateDoc(commentRef, {
     username,
     userProfileImage,
     content,
@@ -139,22 +137,22 @@ export const updateComment = async ({
   console.log('Comment successfully updated!');
 };
 
-// GET COMMENTS
+// GET COMMENT REFS
 export type SortOptionType =
   | 'latest'
   | 'registered'
   | 'likeCount'
   | 'highRated'
   | 'lowRated';
-interface getCommentsParams {
+interface getCommentRefsParams {
   movieId: number;
   sortOption?: SortOptionType;
 }
 
-export const getComments = async ({
+export const getCommentRefs = async ({
   movieId,
   sortOption = 'likeCount',
-}: getCommentsParams) => {
+}: getCommentRefsParams) => {
   let sortBy: QueryOrderByConstraint;
   if (sortOption === 'latest') {
     sortBy = orderBy('createdAt', 'desc');
@@ -173,10 +171,11 @@ export const getComments = async ({
   const commentsQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    sortBy
+    sortBy,
+    limit(3)
   );
 
   const commentsSnapshot = await getDocs(commentsQuery);
-  const result = commentsSnapshot.docs.map((doc) => doc.data() as Comment);
+  const result = commentsSnapshot.docs.map((doc) => doc.ref);
   return result;
 };

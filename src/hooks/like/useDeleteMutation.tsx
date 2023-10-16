@@ -1,19 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { deleteLike } from '../../api/like';
+import { DocumentReference } from 'firebase/firestore';
 
 interface Params {
-  commentAuthorId: string;
-  movieId: number;
+  commentRef: DocumentReference;
   userId: string;
 }
 
-const useDeleteLikeMutation = ({
-  commentAuthorId,
-  movieId,
-  userId,
-}: Params) => {
+const useDeleteLikeMutation = ({ commentRef, userId }: Params) => {
   return useMutation(() => {
-    return deleteLike({ commentAuthorId, movieId, userId });
+    return deleteLike({ commentRef, userId });
   });
 };
 

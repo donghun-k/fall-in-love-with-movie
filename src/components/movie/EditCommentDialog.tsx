@@ -15,18 +15,20 @@ import LoadingBackdrop from '../common/LoadingBackdrop';
 import { useQueryClient } from '@tanstack/react-query';
 import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
 import useRatingQuery from '../../hooks/rating/useRatingQuery';
+import MyComment from '../../types/MyComment';
 
 interface Props {
-  isUpdateMode?: boolean;
-  prevContent?: string;
+  myComment?: MyComment;
   handleEditCommentDialogClose: () => void;
 }
 
 const EditCommentDialog = ({
-  isUpdateMode = false,
-  prevContent = '',
+  myComment,
   handleEditCommentDialogClose,
 }: Props) => {
+  const isUpdateMode = !!myComment;
+  const prevContent = myComment?.content ?? '';
+  const commentRef = myComment?.commentRef;
   const [commentContent, setCommentContent] = useState(prevContent);
   const [commentLength, setCommentLength] = useState(prevContent.length);
   const { movieId } = useParams<{ movieId: string }>();
@@ -45,10 +47,9 @@ const EditCommentDialog = ({
     });
   const { mutateAsync: updateCommentMutate, isLoading: isUpdatingComment } =
     useUpdateCommentMutation({
-      movieId: movieIdNum,
-      authorId: user?.uid ?? '',
       username: user?.displayName ?? '',
       userProfileImage: user?.photoURL ?? '',
+      commentRef: commentRef!,
     });
 
   const queryClient = useQueryClient();
@@ -69,7 +70,7 @@ const EditCommentDialog = ({
         rating: rating ?? 0,
       });
       handleEditCommentDialogClose();
-      queryClient.invalidateQueries(['comment', movieIdNum, user?.uid]);
+      queryClient.invalidateQueries(['myComment', movieIdNum, user?.uid]);
     } catch (error) {
       alert(error);
     }
@@ -82,9 +83,9 @@ const EditCommentDialog = ({
     }
     if (commentContent.length === 0) return;
     try {
-      await updateCommentMutate(commentContent);
+      await updateCommentMutate({ content: commentContent });
       handleEditCommentDialogClose();
-      queryClient.invalidateQueries(['comment', movieIdNum, user?.uid]);
+      queryClient.invalidateQueries(['myComment', movieIdNum, user?.uid]);
     } catch (error) {
       alert(error);
     }

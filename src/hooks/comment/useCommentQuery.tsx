@@ -1,19 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import { getComment } from '../../api/comment';
+import { DocumentReference } from 'firebase/firestore';
 
 interface Params {
-  movieId: number;
-  authorId: string;
+  commentRef: DocumentReference;
 }
 
-const useCommentQuery = ({ movieId, authorId }: Params) => {
+const useCommentQuery = ({ commentRef }: Params) => {
   return useQuery(
-    ['comment', movieId, authorId],
+    ['comment', commentRef],
     () => {
-      return getComment({ movieId, authorId });
+      return getComment({ commentRef });
     },
     {
-      enabled: !!movieId && !!authorId,
+      enabled: !!commentRef,
       refetchOnWindowFocus: false,
       staleTime: 1000 * 60 * 60 * 24,
     }

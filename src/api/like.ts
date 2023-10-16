@@ -1,48 +1,24 @@
-import app from '../configs/firebase';
 import {
+  DocumentReference,
   arrayRemove,
   arrayUnion,
-  collection,
-  getDocs,
-  getFirestore,
-  query,
+  getDoc,
   updateDoc,
-  where,
 } from 'firebase/firestore';
-
-const db = getFirestore(app);
-const commentsRef = collection(db, 'comments');
 
 // POST LIKE
 interface addLikeParams {
-  commentAuthorId: string;
-  movieId: number;
+  commentRef: DocumentReference;
   userId: string;
 }
 
-export const addLike = async ({
-  commentAuthorId,
-  movieId,
-  userId,
-}: addLikeParams) => {
-  if (!commentAuthorId || !movieId || !userId) {
-    throw new Error('Missing required parameters.');
-  }
-  if (commentAuthorId === userId) {
-    throw new Error('You cannot like your own comment.');
-  }
-  const commentQuery = query(
-    commentsRef,
-    where('movieId', '==', movieId),
-    where('authorId', '==', commentAuthorId)
-  );
-  const commentSnapshot = await getDocs(commentQuery);
+export const addLike = async ({ commentRef, userId }: addLikeParams) => {
+  const commentDoc = await getDoc(commentRef);
 
-  if (commentSnapshot.empty) {
+  if (!commentDoc.exists()) {
     throw new Error('Comment does not exist.');
   }
 
-  const commentDoc = commentSnapshot.docs[0];
   await updateDoc(commentDoc.ref, {
     likes: arrayUnion(userId),
     likeCount: commentDoc.data().likes.length + 1,
@@ -52,31 +28,17 @@ export const addLike = async ({
 
 // DELETE LIKE
 interface deleteLikeParams {
-  commentAuthorId: string;
-  movieId: number;
+  commentRef: DocumentReference;
   userId: string;
 }
 
-export const deleteLike = async ({
-  commentAuthorId,
-  movieId,
-  userId,
-}: deleteLikeParams) => {
-  if (!commentAuthorId || !movieId || !userId) {
-    throw new Error('Missing required parameters.');
-  }
-  const commentQuery = query(
-    commentsRef,
-    where('movieId', '==', movieId),
-    where('authorId', '==', commentAuthorId)
-  );
-  const commentSnapshot = await getDocs(commentQuery);
+export const deleteLike = async ({ commentRef, userId }: deleteLikeParams) => {
+  const commentDoc = await getDoc(commentRef);
 
-  if (commentSnapshot.empty) {
+  if (!commentDoc.exists()) {
     throw new Error('Comment does not exist.');
   }
 
-  const commentDoc = commentSnapshot.docs[0];
   await updateDoc(commentDoc.ref, {
     likes: arrayRemove(userId),
     likeCount: commentDoc.data().likes.length - 1,

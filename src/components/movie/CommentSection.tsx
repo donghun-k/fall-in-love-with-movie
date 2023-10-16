@@ -11,14 +11,16 @@ import SortIcon from '@mui/icons-material/Sort';
 import CreateIcon from '@mui/icons-material/Create';
 import MovieDetail from '../../types/MovieDetail';
 import { useState, MouseEvent } from 'react';
-import Comment from '../../types/Comment';
 import CommentItem from './CommentItem';
 import EditCommentDialog from './EditCommentDialog';
-import useCommentQuery from '../../hooks/comment/useCommentQuery';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
-import useInfiniteCommentsQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import { SortOptionType } from '../../api/comment';
+import MyCommentItem from './MyCommentItem';
+import useCommentRefsInfiniteQuery from '../../hooks/comment/useCommentRefsInfiniteQuery';
+import { DocumentReference } from 'firebase/firestore';
+import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
+import MyComment from '../../types/MyComment';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -26,18 +28,20 @@ interface Props {
 
 const CommentSection = ({ movieDetail }: Props) => {
   const { id: movieId } = movieDetail;
+  const { user } = useAuthContext();
   const [isEditCommentDialogOpened, setIsEditCommentDialogOpened] =
     useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState<SortOptionType>('latest');
-  const open = Boolean(anchorEl);
-  const { user } = useAuthContext();
-  const userId = user?.uid ?? '';
-  const { data: myComment } = useCommentQuery({ movieId, authorId: userId });
-  const { data: comments = [] } = useInfiniteCommentsQuery({
+  const { data: myComment } = useMyCommentQuery({
+    movieId,
+    authorId: user?.uid ?? '',
+  });
+  const { data: commentRefs } = useCommentRefsInfiniteQuery({
     movieId,
     sortOption,
   });
+  const openSortMenu = Boolean(anchorEl);
 
   const handleSetSortOption = (event: MouseEvent<HTMLLIElement>) => {
     const value = event.currentTarget.dataset.value as SortOptionType;
@@ -61,7 +65,7 @@ const CommentSection = ({ movieDetail }: Props) => {
   const props = {
     isEditCommentDialogOpened,
     anchorEl,
-    open,
+    openSortMenu,
     handleSetSortOption,
     handleSortMenuBtnClick,
     handleSortMenuClose,
@@ -70,7 +74,7 @@ const CommentSection = ({ movieDetail }: Props) => {
     movieId,
     user,
     myComment,
-    comments,
+    commentRefs,
   };
   return <CommentSectionView {...props} />;
 };
@@ -78,7 +82,7 @@ const CommentSection = ({ movieDetail }: Props) => {
 interface ViewProps {
   isEditCommentDialogOpened: boolean;
   anchorEl: null | HTMLElement;
-  open: boolean;
+  openSortMenu: boolean;
   handleSetSortOption: (event: MouseEvent<HTMLLIElement>) => void;
   handleSortMenuBtnClick: (event: MouseEvent<HTMLButtonElement>) => void;
   handleSortMenuClose: () => void;
@@ -86,23 +90,23 @@ interface ViewProps {
   handleEditCommentDialogClose: () => void;
   movieId: number;
   user: User | null;
-  myComment: Comment | null | undefined;
-  comments: Comment[];
+  myComment: MyComment | undefined | null;
+  commentRefs: DocumentReference[] | undefined;
 }
 
 const CommentSectionView = ({
   isEditCommentDialogOpened,
   anchorEl,
-  open,
+  openSortMenu,
   handleSetSortOption,
   handleSortMenuBtnClick,
   handleSortMenuClose,
   handleEditCommentDialogOpen,
   handleEditCommentDialogClose,
-  // movieId,
+  movieId,
   user,
   myComment,
-  comments,
+  commentRefs,
 }: ViewProps) => {
   return (
     <Box
@@ -150,7 +154,11 @@ const CommentSectionView = ({
           >
             정렬 기준
           </Button>
-          <Menu anchorEl={anchorEl} open={open} onClose={handleSortMenuClose}>
+          <Menu
+            anchorEl={anchorEl}
+            open={openSortMenu}
+            onClose={handleSortMenuClose}
+          >
             <MenuItem data-value="latest" onClick={handleSetSortOption}>
               최신순
             </MenuItem>
@@ -190,31 +198,29 @@ const CommentSectionView = ({
         }}
       >
         {user && myComment && (
-          <CommentItem
+          <MyCommentItem
+            myComment={myComment}
+            movieId={movieId}
             user={user}
-            comment={myComment}
-            isMyComment={true}
             handleEditCommentDialogOpen={handleEditCommentDialogOpen}
           />
         )}
-        {comments.map((comment, i) => {
-          return <CommentItem key={i} user={user} comment={comment} />;
-        })}
-        {comments.length === 0 && !myComment && (
-          <Typography
+        {commentRefs &&
+          commentRefs.map((commentRef, i) => {
+            return <CommentItem key={i} user={user} commentRef={commentRef} />;
+          })}
+        {/* <Typography
             sx={{
               padding: '10px 0',
               fontSize: { xs: '1rem', sm: '1.2rem' },
             }}
           >
             아직 이 영화에 대한 코멘트가 없습니다.
-          </Typography>
-        )}
+          </Typography> */}
       </Box>
       {isEditCommentDialogOpened && (
         <EditCommentDialog
-          isUpdateMode={!!myComment}
-          prevContent={myComment?.content}
+          myComment={myComment ?? undefined}
           handleEditCommentDialogClose={handleEditCommentDialogClose}
         />
       )}

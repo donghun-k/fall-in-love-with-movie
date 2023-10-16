@@ -1,108 +1,89 @@
-import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import StarIcon from '@mui/icons-material/Star';
-import Comment from '../../types/Comment';
-import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'firebase/auth';
-import { convertTimestampToDateString } from '../../utils/date';
-import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';
-import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
-import { DocumentReference } from 'firebase/firestore';
-import useCommentQuery from '../../hooks/comment/useCommentQuery';
+import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
+import { useQueryClient } from '@tanstack/react-query';
+import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import { convertTimestampToDateString } from '../../utils/date';
+import MyComment from '../../types/MyComment';
 
 interface Props {
-  user: User | null;
-  commentRef: DocumentReference;
+  user: User;
+  movieId: number;
+  myComment: MyComment;
+  handleEditCommentDialogOpen: () => void;
 }
 
-const CommentItem = ({ user, commentRef }: Props) => {
+const MyCommentItem = ({
+  user,
+  movieId,
+  myComment,
+  handleEditCommentDialogOpen,
+}: Props) => {
+  const userId = user.uid;
+  const commentRef = myComment.commentRef;
   const queryClient = useQueryClient();
-  const userId = user?.uid ?? '';
-  const { data: comment } = useCommentQuery({ commentRef });
-  const alreadyLiked = comment?.likes.includes(userId) ?? false;
-  const { mutateAsync: addLikeMutate } = useAddLikeMutation({
-    commentRef,
-    userId,
-  });
-  const { mutateAsync: deleteLikeMutate } = useDeleteLikeMutation({
-    commentRef,
-    userId,
-  });
+  const { mutateAsync: deleteCommentMutate, isLoading: isDeletingComment } =
+    useDeleteCommentMutation({
+      commentRef,
+    });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
-  const handleAddLike = async () => {
-    if (!user) {
-      alert('You must log in to like a comment.');
-      return;
-    }
+  const handleDeleteComment = async () => {
     try {
-      await addLikeMutate();
-      queryClient.invalidateQueries(['comment', commentRef]);
-    } catch (error) {
-      alert(error);
-    }
-  };
-  const handleDeleteLike = async () => {
-    if (!user) {
-      alert('You must log in to like a comment.');
-      return;
-    }
-    try {
-      await deleteLikeMutate();
-      queryClient.invalidateQueries(['comment', commentRef]);
+      await deleteCommentMutate();
+      queryClient.invalidateQueries(['myComment', movieId, userId]);
     } catch (error) {
       alert(error);
     }
   };
 
   const props = {
-    user,
-    comment,
+    myComment,
     expand,
-    handleExpand,
-    handleAddLike,
-    handleDeleteLike,
     isOverflow,
     contentRef,
-    alreadyLiked,
+    handleExpand,
+    handleEditCommentDialogOpen,
+    handleDeleteComment,
+    isDeletingComment,
   };
-  return <CommentItemView {...props} />;
+
+  return <MyCommentItemView {...props} />;
 };
 
 interface ViewProps {
-  user: User | null;
-  comment: Comment | undefined;
+  myComment: MyComment;
   expand: boolean;
-  handleExpand: () => void;
-  handleAddLike: () => void;
-  handleDeleteLike: () => void;
   isOverflow: boolean;
   contentRef: React.RefObject<HTMLDivElement>;
-  alreadyLiked: boolean;
+  handleExpand: () => void;
+  handleEditCommentDialogOpen: () => void;
+  handleDeleteComment: () => void;
+  isDeletingComment: boolean;
 }
 
-const CommentItemView = ({
-  comment,
+const MyCommentItemView = ({
+  myComment,
   expand,
-  handleExpand,
-  handleAddLike,
-  handleDeleteLike,
   isOverflow,
   contentRef,
-  alreadyLiked,
+  handleExpand,
+  handleEditCommentDialogOpen,
+  handleDeleteComment,
+  isDeletingComment,
 }: ViewProps) => {
-  if (!comment) return null;
+  if (isDeletingComment) return <Typography>삭제 중...</Typography>;
   const {
     username,
     userProfileImage,
-    content,
     createdAt,
     isUpdated,
     rating,
+    content,
     likeCount,
-  } = comment;
+  } = myComment;
   return (
     <Box
       sx={{
@@ -113,7 +94,7 @@ const CommentItemView = ({
         flexDirection: 'row',
         alignItems: 'flex-start',
         gap: { xs: '10px', sm: '20px' },
-        backgroundColor: 'transparent',
+        backgroundColor: 'background.paper',
         borderRadius: '10px',
       }}
     >
@@ -218,8 +199,7 @@ const CommentItemView = ({
           }}
         >
           <Button
-            startIcon={alreadyLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            onClick={alreadyLiked ? handleDeleteLike : handleAddLike}
+            startIcon={<ThumbUpOffAltIcon />}
             sx={{
               padding: '0 5px',
               minWidth: '50px',
@@ -230,10 +210,38 @@ const CommentItemView = ({
           >
             {likeCount}
           </Button>
+          <Box
+            sx={{
+              width: 'fit-content',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '10px',
+            }}
+          >
+            <Button
+              onClick={handleEditCommentDialogOpen}
+              sx={{
+                minWidth: 'fit-content',
+                padding: '0 5px',
+              }}
+            >
+              수정
+            </Button>
+            <Button
+              onClick={handleDeleteComment}
+              sx={{
+                minWidth: 'fit-content',
+                padding: '0 5px',
+              }}
+            >
+              삭제
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default CommentItem;
+export default MyCommentItem;

@@ -1,15 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
 import { addLike } from '../../api/like';
+import { DocumentReference } from 'firebase/firestore';
 
 interface Params {
-  commentAuthorId: string;
-  movieId: number;
+  commentRef: DocumentReference;
   userId: string;
 }
 
-const useAddLikeMutation = ({ commentAuthorId, movieId, userId }: Params) => {
+const useAddLikeMutation = ({ commentRef, userId }: Params) => {
   return useMutation(() => {
-    return addLike({ commentAuthorId, movieId, userId });
+    return addLike({ commentRef, userId });
   });
 };
 

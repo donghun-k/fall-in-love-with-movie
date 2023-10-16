@@ -1,14 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { deleteComment } from '../../api/comment';
+import { DocumentReference } from 'firebase/firestore';
 
 interface Params {
-  movieId: number;
-  authorId: string;
+  commentRef: DocumentReference;
 }
 
-const useDeleteCommentMutation = ({ movieId, authorId }: Params) => {
+const useDeleteCommentMutation = ({ commentRef }: Params) => {
   return useMutation(() => {
-    return deleteComment({ movieId, authorId });
+    return deleteComment({ commentRef });
   });
 };
 

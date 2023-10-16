@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { SortOptionType, getComments } from '../../api/comment';
+import { SortOptionType, getCommentRefs } from '../../api/comment';
 
 interface Params {
   movieId: number;
@@ -8,7 +8,7 @@ interface Params {
 
 const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
   return useQuery(['comments', movieId, sortOption], () => {
-    return getComments({ movieId, sortOption });
+    return getCommentRefs({ movieId, sortOption });
   });
 };
 
