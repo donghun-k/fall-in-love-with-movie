@@ -11,7 +11,7 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import SortIcon from '@mui/icons-material/Sort';
 import CreateIcon from '@mui/icons-material/Create';
 import MovieDetail from '../../types/MovieDetail';
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 import CommentItem from './CommentItem';
 import EditCommentDialog from './EditCommentDialog';
 import useAuthContext from '../../hooks/useAuthContext';
@@ -22,6 +22,7 @@ import useCommentRefsInfiniteQuery from '../../hooks/comment/useCommentRefsInfin
 import { DocumentReference } from 'firebase/firestore';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
 import MyComment from '../../types/MyComment';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -29,6 +30,7 @@ interface Props {
 
 const CommentSection = ({ movieDetail }: Props) => {
   const { id: movieId } = movieDetail;
+  const queryClient = useQueryClient();
   const { user } = useAuthContext();
   const [isEditCommentDialogOpened, setIsEditCommentDialogOpened] =
     useState(false);
@@ -50,6 +52,10 @@ const CommentSection = ({ movieDetail }: Props) => {
   });
   const commentRefs = data?.pages.flatMap((ref) => ref);
   const openSortMenu = Boolean(anchorEl);
+
+  useEffect(() => {
+    queryClient.resetQueries(['comments', movieId]);
+  }, [queryClient, movieId]);
 
   const handleSetSortOption = (event: MouseEvent<HTMLLIElement>) => {
     const value = event.currentTarget.dataset.value as SortOptionType;

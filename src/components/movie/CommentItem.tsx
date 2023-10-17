@@ -11,6 +11,7 @@ import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
 import { DocumentReference } from 'firebase/firestore';
 import useCommentQuery from '../../hooks/comment/useCommentQuery';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
+import CommentItemSkeleton from './CommentItemSkeleton';
 
 interface Props {
   user: User | null;
@@ -20,7 +21,9 @@ interface Props {
 const CommentItem = ({ user, commentRef }: Props) => {
   const queryClient = useQueryClient();
   const userId = user?.uid ?? '';
-  const { data: comment } = useCommentQuery({ commentRef });
+  const { data: comment, isLoading: isCommentLoading } = useCommentQuery({
+    commentRef,
+  });
   const alreadyLiked = comment?.likes.includes(userId) ?? false;
   const { mutateAsync: addLikeMutate } = useAddLikeMutation({
     commentRef,
@@ -60,6 +63,7 @@ const CommentItem = ({ user, commentRef }: Props) => {
   const props = {
     user,
     comment,
+    isCommentLoading,
     expand,
     handleExpand,
     handleAddLike,
@@ -74,6 +78,7 @@ const CommentItem = ({ user, commentRef }: Props) => {
 interface ViewProps {
   user: User | null;
   comment: Comment | undefined;
+  isCommentLoading: boolean;
   expand: boolean;
   handleExpand: () => void;
   handleAddLike: () => void;
@@ -86,6 +91,7 @@ interface ViewProps {
 const CommentItemView = ({
   user,
   comment,
+  isCommentLoading,
   expand,
   handleExpand,
   handleAddLike,
@@ -94,7 +100,7 @@ const CommentItemView = ({
   contentRef,
   alreadyLiked,
 }: ViewProps) => {
-  if (!comment) return null;
+  if (!comment || isCommentLoading) return <CommentItemSkeleton />;
   const {
     authorId,
     username,
@@ -171,7 +177,7 @@ const CommentItemView = ({
               {isUpdated && ' (수정됨)'}
             </span>
           </Typography>
-          {rating !== 0 && (
+          {!isCommentLoading && rating !== 0 && (
             <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
           )}
         </Box>
