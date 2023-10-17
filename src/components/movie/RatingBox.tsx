@@ -99,7 +99,7 @@ const RatingBoxView = ({
         display: 'flex',
         padding: '10px',
         flexDirection: { xs: 'column-reverse', sm: 'row' },
-        justifyContent: 'space-between',
+        justifyContent: user ? 'space-between' : 'center',
         alignItems: 'center',
       }}
     >

@@ -95,7 +95,9 @@ const RatingInfoBoxView = ({
         height: { xs: '50%', sm: '40%' },
         display: 'flex',
         flexDirection: { xs: 'column-reverse', sm: 'row' },
-        justifyContent: { xs: 'space-evenly', sm: 'space-between' },
+        justifyContent: isLoading
+          ? 'center'
+          : { xs: 'space-evenly', sm: 'space-between' },
         alignItems: 'center',
         padding: '10px',
       }}

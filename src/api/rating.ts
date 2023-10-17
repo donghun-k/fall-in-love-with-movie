@@ -2,7 +2,6 @@ import app from '../configs/firebase';
 import {
   addDoc,
   collection,
-  getCountFromServer,
   getDocs,
   getFirestore,
   query,
@@ -116,26 +115,28 @@ export interface RatingsStatisticsResponse {
 export const getRatingsStatistics = async ({
   movieId,
 }: getRatingsStatisticsParams): Promise<RatingsStatisticsResponse> => {
-  const arr = Array(10).fill(0);
+  const ratingData = Array(10).fill(0);
   let totalRatingCount = 0;
   let sumRating = 0;
-  const ratingData: number[] = await Promise.all(
-    arr.map(async (_, index) => {
-      const ratingQuery = query(
-        ratingsRef,
-        where('movieId', '==', movieId),
-        where('rating', '==', index + 1)
-      );
-      const count = (await getCountFromServer(ratingQuery)).data().count;
-      totalRatingCount += count;
-      sumRating += (index + 1) * count;
-      return count;
-    })
-  );
+
+  const ratingQuery = query(ratingsRef, where('movieId', '==', movieId));
+  const { docs: ratingDocs } = await getDocs(ratingQuery);
+  ratingDocs.forEach((doc) => {
+    const rating = doc.data().rating;
+    if (rating < 1 || rating > 10) return;
+    ratingData[rating - 1] += 1;
+    totalRatingCount += 1;
+    sumRating += rating;
+  });
+
+  const averageRating =
+    totalRatingCount > 0
+      ? Math.round((sumRating / totalRatingCount) * 10) / 10
+      : 0;
 
   return {
     ratingData,
     totalRatingCount,
-    averageRating: Math.round((sumRating / totalRatingCount) * 10) / 10,
+    averageRating,
   };
 };

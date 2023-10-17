@@ -202,7 +202,7 @@ const CommentSectionView = ({
             </MenuItem>
           </Menu>
         </Box>
-        {!myComment && (
+        {user && !myComment && (
           <Button
             onClick={handleEditCommentDialogOpen}
             startIcon={<CreateIcon />}
