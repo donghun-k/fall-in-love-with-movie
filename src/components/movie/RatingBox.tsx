@@ -14,6 +14,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
 
 const RatingBox = () => {
+  const queryClient = useQueryClient();
   const { movieId = '' } = useParams<{ movieId: string }>();
   const movieIdNum = Number(movieId);
   const { user } = useAuthContext();
@@ -32,8 +33,6 @@ const RatingBox = () => {
       userId,
     });
 
-  const queryClient = useQueryClient();
-
   const handleRatingChange = async (
     _: SyntheticEvent,
     value: number | null
@@ -41,7 +40,8 @@ const RatingBox = () => {
     try {
       await postRating(value ?? 0);
       queryClient.invalidateQueries(['rating', movieIdNum, userId]);
-      queryClient.invalidateQueries(['comment', movieIdNum, userId]);
+      queryClient.invalidateQueries(['myComment', movieIdNum, userId]);
+      queryClient.invalidateQueries(['ratingStatistics', movieIdNum]);
     } catch (error) {
       alert(error);
     }

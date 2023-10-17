@@ -1,11 +1,15 @@
 import { Button, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { signOut } from '../../../api/auth';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SignOutButton = () => {
+  const queryClient = useQueryClient();
   const handleSignOut = async () => {
     try {
       await signOut();
+      queryClient.invalidateQueries(['myComment']);
+      queryClient.invalidateQueries(['comments']);
       alert('Sign out successfully!');
     } catch (error) {
       console.error(error);

@@ -91,7 +91,7 @@ export const getMyComment = async ({
   } as MyComment;
 };
 
-// GET COMMENT BY REF
+// GET COMMENT
 interface getCommentParams {
   commentRef: DocumentReference;
 }

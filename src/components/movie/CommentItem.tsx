@@ -137,7 +137,20 @@ const CommentItemView = ({
           paddingTop: '10px',
         }}
       >
-        <Avatar src={userProfileImage} sx={{ width: '50px', height: '50px' }} />
+        <Avatar
+          src={userProfileImage}
+          sx={{
+            width: '50px',
+            height: '50px',
+            '& img': {
+              filter: 'grayscale(100%)',
+              transition: 'filter 0.5s ease',
+              '&:hover': {
+                filter: 'grayscale(0%)',
+              },
+            },
+          }}
+        />
       </Box>
       <Box
         sx={{
