@@ -45,7 +45,7 @@ const GitHubSignInButtonView = ({ onSignInBtnClick }: ViewProps) => {
         },
       }}
     >
-      Sign In with GITHUB
+      GITHUB 로그인
     </Button>
   );
 };

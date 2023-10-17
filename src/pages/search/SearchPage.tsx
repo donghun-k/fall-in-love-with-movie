@@ -130,8 +130,8 @@ const SearchPageView = ({
         {isFetching && <CircularProgress />}
         {!isFetching && hasNextPage && (
           <>
-            <Button size="large" onClick={fetchNextPage}>
-              View More
+            <Button fullWidth size="large" onClick={fetchNextPage}>
+              더 보기
             </Button>
           </>
         )}

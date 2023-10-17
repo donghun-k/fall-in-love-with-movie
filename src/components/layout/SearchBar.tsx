@@ -62,7 +62,7 @@ const SearchBarView = ({
         }}
         value={searchInput}
         onChange={handleInputChange}
-        placeholder="Search"
+        placeholder="검색"
       />
       <IconButton
         type="submit"

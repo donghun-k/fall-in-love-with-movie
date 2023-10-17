@@ -46,7 +46,7 @@ const SignOutButtonView = ({ onSignOutBtnClick }: ViewProps) => {
           display: { xs: 'none', md: 'block' },
         }}
       >
-        Sign Out
+        로그아웃
       </Typography>
     </Button>
   );

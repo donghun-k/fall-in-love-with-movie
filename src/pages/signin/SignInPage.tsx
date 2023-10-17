@@ -33,7 +33,7 @@ const SignInPageView = () => {
         }}
       >
         <Typography color="primary.main" fontSize={40} fontWeight={800}>
-          SIGN IN
+          로그인
         </Typography>
         <Divider
           sx={{

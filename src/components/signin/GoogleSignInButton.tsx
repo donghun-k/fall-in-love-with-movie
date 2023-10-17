@@ -45,7 +45,7 @@ const GoogleSignInButtonView = ({ onSignInBtnClick }: ViewProps) => {
         },
       }}
     >
-      Sign In with Google
+      Google 로그인
     </Button>
   );
 };

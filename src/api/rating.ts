@@ -51,22 +51,22 @@ export const postRating = async ({
 
   await runTransaction(db, async (transaction) => {
     if (ratingSnapshot.empty) {
-      const docRef = await addDoc(ratingsRef, {
+      await addDoc(ratingsRef, {
         userId,
         movieId,
         rating,
       });
-      console.log('Rating written with ID: ', docRef.id);
+      console.log('별점이 정상적으로 등록되었습니다.');
     } else {
       const ratingDocRef = ratingDocs[0].ref;
       if (rating === 0) {
         transaction.delete(ratingDocRef);
-        console.log('Rating deleted');
+        console.log('별점이 정상적으로 삭제되었습니다.');
       } else {
         transaction.update(ratingDocRef, {
           rating,
         });
-        console.log('Rating updated');
+        console.log('별점이 정상적으로 수정되었습니다.');
       }
     }
     if (!commentSnapshot.empty) {
@@ -74,10 +74,10 @@ export const postRating = async ({
       transaction.update(commentDocRef, {
         rating,
       });
-      console.log('Comment updated');
+      console.log('코멘트의 별점이 정상적으로 수정되었습니다.');
     }
   });
-  console.log('Rating Update Transaction successfully committed!');
+  console.log('별점 등록 과정이 정상적으로 완료되었습니다.');
 };
 
 // GET RATING

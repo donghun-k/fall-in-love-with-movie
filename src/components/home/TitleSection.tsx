@@ -66,7 +66,7 @@ const TitleSectionView = ({ mode }: ViewProps) => {
             color: '#fff',
           }}
         >
-          Get Started
+          시작하기
         </Button>
       </Link>
     </Box>

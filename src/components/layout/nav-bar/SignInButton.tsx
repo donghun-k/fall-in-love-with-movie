@@ -24,7 +24,7 @@ const SignInButtonView = () => {
             display: { xs: 'none', md: 'block' },
           }}
         >
-          Sign In
+          로그인
         </Typography>
         <LoginIcon fontSize="large" />
       </Button>

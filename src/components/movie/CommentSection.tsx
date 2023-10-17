@@ -255,7 +255,7 @@ const CommentSectionView = ({
               padding: '10px 0',
             }}
           >
-            더보기
+            더 보기
           </Button>
         )}
         {commentRefs && commentRefs?.length === 0 && (

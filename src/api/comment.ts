@@ -58,7 +58,7 @@ export const postComment = async ({
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (!commentSnapshot.empty) {
-    throw new Error('Comment already exists.');
+    throw new Error('코멘트가 이미 존재합니다.');
   }
   const docRef = await addDoc(commentsRef, comment);
   console.log('Comment written with ID: ', docRef.id);
@@ -81,7 +81,7 @@ export const getMyComment = async ({
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
-    console.log('My Comment Not Found.');
+    console.log('내가 작성한 코멘트가 없습니다.');
     return null;
   }
   const commentDoc = commentSnapshot.docs[0];
@@ -99,7 +99,7 @@ interface getCommentParams {
 export const getComment = async ({ commentRef }: getCommentParams) => {
   const commentSnapshot = await getDoc(commentRef);
   if (!commentSnapshot.exists()) {
-    throw new Error('Comment Not Found.');
+    throw new Error('코멘트를 찾지 못했습니다.');
   }
   return commentSnapshot.data() as Comment;
 };
@@ -111,7 +111,7 @@ interface deleteCommentParams {
 
 export const deleteComment = async ({ commentRef }: deleteCommentParams) => {
   await deleteDoc(commentRef);
-  console.log('Comment successfully deleted!');
+  console.log('코멘트가 정상적으로 삭제되었습니다.');
 };
 
 // UPDATE COMMENT
@@ -135,7 +135,7 @@ export const updateComment = async ({
     updatedAt: Date.now(),
     isUpdated: true,
   });
-  console.log('Comment successfully updated!');
+  console.log('코멘트가 ㅈ정상적으로 수정되었습니다.');
 };
 
 // GET COMMENT REFS
@@ -168,7 +168,7 @@ export const getCommentRefs = async ({
   } else if (sortOption === 'lowRated') {
     sortBy = orderBy('rating', 'asc');
   } else {
-    throw new Error('Invalid sort option');
+    throw new Error('올바르지 않은 정렬 기준입니다.');
   }
 
   let commentsQuery;

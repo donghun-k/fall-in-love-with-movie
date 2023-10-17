@@ -90,7 +90,7 @@ const TabBarView = ({
           flexGrow: 1,
         }}
         icon={<HomeIcon />}
-        label="HOME"
+        label="홈"
       />
       <Tab
         onClick={handleSearchBtnClick}
@@ -98,7 +98,7 @@ const TabBarView = ({
           flexGrow: 1,
         }}
         icon={<SearchIcon />}
-        label="SEARCH"
+        label="검색"
       />
       {user ? (
         <>
@@ -107,7 +107,7 @@ const TabBarView = ({
               flexGrow: 1,
             }}
             icon={<AccountCircleIcon />}
-            label="MY PAGE"
+            label="마이 페이지"
           />
           <Tab
             onClick={handleSignOutBtnClick}
@@ -115,7 +115,7 @@ const TabBarView = ({
               flexGrow: 1,
             }}
             icon={<LogoutIcon />}
-            label="SIGN OUT"
+            label="로그아웃"
           />
         </>
       ) : (
@@ -125,7 +125,7 @@ const TabBarView = ({
             flexGrow: 1,
           }}
           icon={<LoginIcon />}
-          label="SIGNIN"
+          label="로그인"
         />
       )}
       <SearchBox

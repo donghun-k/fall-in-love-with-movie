@@ -16,14 +16,14 @@ export const addLike = async ({ commentRef, userId }: addLikeParams) => {
   const commentDoc = await getDoc(commentRef);
 
   if (!commentDoc.exists()) {
-    throw new Error('Comment does not exist.');
+    throw new Error('코멘트가 존재하지 않습니다.');
   }
 
   await updateDoc(commentDoc.ref, {
     likes: arrayUnion(userId),
     likeCount: commentDoc.data().likes.length + 1,
   });
-  console.log('Like added successfully.');
+  console.log('정상적으로 공감이 등록되었습니다.');
 };
 
 // DELETE LIKE
@@ -36,12 +36,12 @@ export const deleteLike = async ({ commentRef, userId }: deleteLikeParams) => {
   const commentDoc = await getDoc(commentRef);
 
   if (!commentDoc.exists()) {
-    throw new Error('Comment does not exist.');
+    throw new Error('코멘트가 존재하지 않습니다.');
   }
 
   await updateDoc(commentDoc.ref, {
     likes: arrayRemove(userId),
     likeCount: commentDoc.data().likes.length - 1,
   });
-  console.log('Like deleted successfully.');
+  console.log('정상적으로 공감이 삭제되었습니다.');
 };
