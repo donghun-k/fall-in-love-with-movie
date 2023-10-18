@@ -1,3 +1,5 @@
+import { DocumentReference } from 'firebase/firestore';
+
 export default interface Comment {
   movieId: number;
   authorId: string;
@@ -10,4 +12,5 @@ export default interface Comment {
   rating: number;
   likes: string[];
   likeCount: number;
+  commentRef: DocumentReference;
 }

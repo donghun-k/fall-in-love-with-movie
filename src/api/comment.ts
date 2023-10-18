@@ -16,7 +16,6 @@ import {
 } from 'firebase/firestore';
 import Comment from '../types/Comment';
 import app from '../configs/firebase';
-import MyComment from '../types/MyComment';
 
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');
@@ -38,7 +37,7 @@ export const postComment = async ({
   content,
   rating,
 }: postCommentParams) => {
-  const comment: Comment = {
+  const comment = {
     movieId,
     authorId,
     username,
@@ -86,9 +85,9 @@ export const getMyComment = async ({
   }
   const commentDoc = commentSnapshot.docs[0];
   return {
-    ...(commentDoc.data() as Comment),
+    ...commentDoc.data(),
     commentRef: commentDoc.ref,
-  } as MyComment;
+  } as Comment;
 };
 
 // GET COMMENT
@@ -145,17 +144,17 @@ export type SortOptionType =
   | 'likeCount'
   | 'highRated'
   | 'lowRated';
-interface getCommentRefsParams {
+interface getCommentsParams {
   movieId: number;
   sortOption?: SortOptionType;
   lastDocRef?: DocumentReference;
 }
 
-export const getCommentRefs = async ({
+export const getComments = async ({
   movieId,
   sortOption = 'latest',
   lastDocRef,
-}: getCommentRefsParams) => {
+}: getCommentsParams) => {
   let sortBy: QueryOrderByConstraint;
   if (sortOption === 'latest') {
     sortBy = orderBy('createdAt', 'desc');
@@ -192,6 +191,11 @@ export const getCommentRefs = async ({
   }
 
   const commentsSnapshot = await getDocs(commentsQuery);
-  const result = commentsSnapshot.docs.map((doc) => doc.ref);
+  const result = commentsSnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      commentRef: doc.ref,
+    } as Comment;
+  });
   return result;
 };

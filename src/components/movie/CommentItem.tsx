@@ -3,28 +3,23 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import StarIcon from '@mui/icons-material/Star';
 import Comment from '../../types/Comment';
-import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'firebase/auth';
 import { convertTimestampToDateString } from '../../utils/date';
 import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';
 import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
-import { DocumentReference } from 'firebase/firestore';
-import useCommentQuery from '../../hooks/comment/useCommentQuery';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
-import CommentItemSkeleton from './CommentItemSkeleton';
+import { useEffect, useState } from 'react';
 
 interface Props {
   user: User | null;
-  commentRef: DocumentReference;
+  comment: Comment;
 }
 
-const CommentItem = ({ user, commentRef }: Props) => {
-  const queryClient = useQueryClient();
+const CommentItem = ({ user, comment }: Props) => {
   const userId = user?.uid ?? '';
-  const { data: comment, isLoading: isCommentLoading } = useCommentQuery({
-    commentRef,
-  });
-  const alreadyLiked = comment?.likes.includes(userId) ?? false;
+  const { commentRef, likeCount: likeCnt } = comment;
+  const [alreadyLiked, setAlreadyLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
   const { mutateAsync: addLikeMutate } = useAddLikeMutation({
     commentRef,
     userId,
@@ -35,26 +30,35 @@ const CommentItem = ({ user, commentRef }: Props) => {
   });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
+  useEffect(() => {
+    setAlreadyLiked(comment.likes.includes(userId));
+  }, [comment.likes, userId]);
+  useEffect(() => {
+    setLikeCount(likeCnt);
+  }, [likeCnt]);
+
   const handleAddLike = async () => {
     if (!user) {
-      alert('You must log in to like a comment.');
+      alert('공감 하려면 로그인이 필요합니다.');
       return;
     }
     try {
       await addLikeMutate();
-      queryClient.invalidateQueries(['comment', commentRef]);
+      setAlreadyLiked(true);
+      setLikeCount((prev) => prev + 1);
     } catch (error) {
       alert(error);
     }
   };
   const handleDeleteLike = async () => {
     if (!user) {
-      alert('You must log in to like a comment.');
+      alert('공감 하려면 로그인이 필요합니다.');
       return;
     }
     try {
       await deleteLikeMutate();
-      queryClient.invalidateQueries(['comment', commentRef]);
+      setAlreadyLiked(false);
+      setLikeCount((prev) => prev - 1);
     } catch (error) {
       alert(error);
     }
@@ -63,7 +67,6 @@ const CommentItem = ({ user, commentRef }: Props) => {
   const props = {
     user,
     comment,
-    isCommentLoading,
     expand,
     handleExpand,
     handleAddLike,
@@ -71,6 +74,7 @@ const CommentItem = ({ user, commentRef }: Props) => {
     isOverflow,
     contentRef,
     alreadyLiked,
+    likeCount,
   };
   return <CommentItemView {...props} />;
 };
@@ -78,7 +82,6 @@ const CommentItem = ({ user, commentRef }: Props) => {
 interface ViewProps {
   user: User | null;
   comment: Comment | undefined;
-  isCommentLoading: boolean;
   expand: boolean;
   handleExpand: () => void;
   handleAddLike: () => void;
@@ -86,12 +89,12 @@ interface ViewProps {
   isOverflow: boolean;
   contentRef: React.RefObject<HTMLDivElement>;
   alreadyLiked: boolean;
+  likeCount: number;
 }
 
 const CommentItemView = ({
   user,
   comment,
-  isCommentLoading,
   expand,
   handleExpand,
   handleAddLike,
@@ -99,8 +102,9 @@ const CommentItemView = ({
   isOverflow,
   contentRef,
   alreadyLiked,
+  likeCount,
 }: ViewProps) => {
-  if (!comment || isCommentLoading) return <CommentItemSkeleton />;
+  if (!comment) return null;
   const {
     authorId,
     username,
@@ -109,7 +113,6 @@ const CommentItemView = ({
     createdAt,
     isUpdated,
     rating,
-    likeCount,
   } = comment;
   if (user && authorId === user.uid) return null;
   return (
@@ -190,7 +193,7 @@ const CommentItemView = ({
               {isUpdated && ' (수정됨)'}
             </span>
           </Typography>
-          {!isCommentLoading && rating !== 0 && (
+          {rating !== 0 && (
             <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
           )}
         </Box>

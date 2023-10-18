@@ -18,11 +18,10 @@ import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { SortOptionType } from '../../api/comment';
 import MyCommentItem from './MyCommentItem';
-import useCommentRefsInfiniteQuery from '../../hooks/comment/useCommentRefsInfiniteQuery';
-import { DocumentReference } from 'firebase/firestore';
+import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
-import MyComment from '../../types/MyComment';
 import { useQueryClient } from '@tanstack/react-query';
+import Comment from '../../types/Comment';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -44,13 +43,13 @@ const CommentSection = ({ movieDetail }: Props) => {
     data,
     fetchNextPage,
     hasNextPage,
-    isLoading: isCommentRefsLoading,
-    isFetching: isCommentRefsFetching,
-  } = useCommentRefsInfiniteQuery({
+    isLoading: isCommentsLoading,
+    isFetching: isCommentsFetching,
+  } = useCommentsInfiniteQuery({
     movieId,
     sortOption,
   });
-  const commentRefs = data?.pages.flatMap((ref) => ref);
+  const comments = data?.pages.flatMap((comment) => comment);
   const openSortMenu = Boolean(anchorEl);
 
   useEffect(() => {
@@ -88,11 +87,11 @@ const CommentSection = ({ movieDetail }: Props) => {
     movieId,
     user,
     myComment,
-    commentRefs,
+    comments,
     hasNextPage,
     fetchNextPage,
-    isCommentRefsLoading,
-    isCommentRefsFetching,
+    isCommentsLoading,
+    isCommentsFetching,
   };
   return <CommentSectionView {...props} />;
 };
@@ -108,12 +107,12 @@ interface ViewProps {
   handleEditCommentDialogClose: () => void;
   movieId: number;
   user: User | null;
-  myComment: MyComment | undefined | null;
-  commentRefs: DocumentReference[] | undefined;
+  myComment: Comment | undefined | null;
+  comments: Comment[] | undefined;
   hasNextPage: boolean | undefined;
   fetchNextPage: () => void;
-  isCommentRefsLoading: boolean;
-  isCommentRefsFetching: boolean;
+  isCommentsLoading: boolean;
+  isCommentsFetching: boolean;
 }
 
 const CommentSectionView = ({
@@ -128,11 +127,11 @@ const CommentSectionView = ({
   movieId,
   user,
   myComment,
-  commentRefs,
+  comments,
   hasNextPage,
   fetchNextPage,
-  isCommentRefsLoading,
-  isCommentRefsFetching,
+  isCommentsLoading,
+  isCommentsFetching,
 }: ViewProps) => {
   return (
     <Box
@@ -231,11 +230,11 @@ const CommentSectionView = ({
             handleEditCommentDialogOpen={handleEditCommentDialogOpen}
           />
         )}
-        {commentRefs &&
-          commentRefs.map((commentRef, i) => {
-            return <CommentItem key={i} user={user} commentRef={commentRef} />;
+        {comments &&
+          comments.map((comment, i) => {
+            return <CommentItem key={i} user={user} comment={comment} />;
           })}
-        {(isCommentRefsLoading || isCommentRefsFetching) && (
+        {(isCommentsLoading || isCommentsFetching) && (
           <Box
             sx={{
               width: '100%',
@@ -247,7 +246,7 @@ const CommentSectionView = ({
             <CircularProgress />
           </Box>
         )}
-        {!isCommentRefsLoading && !isCommentRefsFetching && hasNextPage && (
+        {!isCommentsLoading && !isCommentsFetching && hasNextPage && (
           <Button
             onClick={fetchNextPage}
             sx={{
@@ -258,7 +257,7 @@ const CommentSectionView = ({
             더 보기
           </Button>
         )}
-        {commentRefs && commentRefs?.length === 0 && (
+        {comments && comments?.length === 0 && (
           <Typography
             sx={{
               padding: '10px 0',
