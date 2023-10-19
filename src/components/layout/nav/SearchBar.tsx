@@ -35,7 +35,7 @@ const SearchBarView = ({
         display: 'flex',
         alignItems: 'center',
         height: '50px',
-        width: '200px',
+        width: '220px',
         transition: '0.3s',
         '&:hover, &:focus-within': {
           backgroundColor: 'background.paperFocus',
@@ -52,7 +52,7 @@ const SearchBarView = ({
         }}
         value={searchInput}
         onChange={handleInputChange}
-        placeholder="영화 제목을 입력하세요."
+        placeholder="영화 제목을 검색하세요."
       />
       <IconButton
         type="submit"

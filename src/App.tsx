@@ -8,10 +8,10 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import NavBar from './components/layout/nav-bar/NavBar';
+import NavBar from './components/layout/nav/NavBar';
+import BottomNavBar from './components/layout/bottom-nav/BottomNavBar';
 import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './configs/theme';
-import TabBar from './components/layout/tab-bar/TabBar';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -45,7 +45,7 @@ function App() {
             </Grid>
             <Grid item xs={0} md={1} lg={2} />
           </Grid>
-          <TabBar />
+          <BottomNavBar />
         </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

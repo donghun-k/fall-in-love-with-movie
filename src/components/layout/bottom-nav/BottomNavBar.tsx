@@ -1,4 +1,4 @@
-import { Box, Tab } from '@mui/material';
+import { BottomNavigation, BottomNavigationAction } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
@@ -11,7 +11,7 @@ import { User } from 'firebase/auth';
 import { signOut } from '../../../api/auth';
 import SearchDialog from './SearchDialog';
 
-const TabBar = () => {
+const BottomNavBar = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const [openSearchBox, setOpenSearchBox] = useState(false);
@@ -47,7 +47,7 @@ const TabBar = () => {
     handleSignOutBtnClick,
   };
 
-  return <TabBarView {...props} />;
+  return <BottomNavBarView {...props} />;
 };
 
 interface ViewProps {
@@ -60,7 +60,7 @@ interface ViewProps {
   handleSignOutBtnClick: () => void;
 }
 
-const TabBarView = ({
+const BottomNavBarView = ({
   user,
   openSearchBox,
   handleHomeBtnClick,
@@ -70,10 +70,10 @@ const TabBarView = ({
   handleSignOutBtnClick,
 }: ViewProps) => {
   return (
-    <Box
-      component="nav"
-      position="sticky"
+    <BottomNavigation
+      showLabels
       sx={{
+        position: 'sticky',
         backgroundColor: 'background.nav',
         display: { xs: 'flex', sm: 'none' },
         bottom: 0,
@@ -84,46 +84,29 @@ const TabBarView = ({
         overflow: 'hidden',
       }}
     >
-      <Tab
+      <BottomNavigationAction
         onClick={handleHomeBtnClick}
-        sx={{
-          flexGrow: 1,
-        }}
         icon={<HomeIcon />}
         label="홈"
       />
-      <Tab
+      <BottomNavigationAction
         onClick={handleSearchBtnClick}
-        sx={{
-          flexGrow: 1,
-        }}
         icon={<SearchIcon />}
         label="검색"
       />
-      {user ? (
-        <>
-          <Tab
-            sx={{
-              flexGrow: 1,
-            }}
-            icon={<AccountCircleIcon />}
-            label="내 정보"
-          />
-          <Tab
-            onClick={handleSignOutBtnClick}
-            sx={{
-              flexGrow: 1,
-            }}
-            icon={<LogoutIcon />}
-            label="로그아웃"
-          />
-        </>
-      ) : (
-        <Tab
+      {user && (
+        <BottomNavigationAction icon={<AccountCircleIcon />} label="내 정보" />
+      )}
+      {user && (
+        <BottomNavigationAction
+          onClick={handleSignOutBtnClick}
+          icon={<LogoutIcon />}
+          label="로그아웃"
+        />
+      )}
+      {!user && (
+        <BottomNavigationAction
           onClick={handleSignInBtnClick}
-          sx={{
-            flexGrow: 1,
-          }}
           icon={<LoginIcon />}
           label="로그인"
         />
@@ -132,8 +115,8 @@ const TabBarView = ({
         open={openSearchBox}
         handleSearchDialogClose={handleSearchDialogClose}
       />
-    </Box>
+    </BottomNavigation>
   );
 };
 
-export default TabBar;
+export default BottomNavBar;
