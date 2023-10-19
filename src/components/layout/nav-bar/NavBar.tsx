@@ -1,6 +1,6 @@
 import { Box, Grid, Toolbar } from '@mui/material';
 import useMediaQueries from '../../../hooks/useMediaQueries';
-import SearchBar from '../SearchBar';
+import SearchBar from './SearchBar';
 import SignInButton from './SignInButton';
 import LogoButton from './LogoButton';
 import PaletteModeSwitch from './PaletteModeSwitch';

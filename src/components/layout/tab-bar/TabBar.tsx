@@ -4,23 +4,23 @@ import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import SearchBox from './SearchBox';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { signOut } from '../../../api/auth';
+import SearchDialog from './SearchDialog';
 
 const TabBar = () => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const [isSearchBoxOpened, setIsSearchBoxOpened] = useState(false);
+  const [openSearchBox, setOpenSearchBox] = useState(false);
 
   const handleHomeBtnClick = () => {
     navigate('/');
   };
   const handleSearchBtnClick = () => {
-    setIsSearchBoxOpened(true);
+    setOpenSearchBox(true);
   };
   const handleSignInBtnClick = () => {
     navigate('/signin');
@@ -33,18 +33,18 @@ const TabBar = () => {
       console.error(error);
     }
   };
-  const closeSearchBox = () => {
-    setIsSearchBoxOpened(false);
+  const handleSearchDialogClose = () => {
+    setOpenSearchBox(false);
   };
 
   const props = {
     user,
-    isSearchBoxOpened,
+    openSearchBox,
     handleHomeBtnClick,
     handleSearchBtnClick,
+    handleSearchDialogClose,
     handleSignInBtnClick,
     handleSignOutBtnClick,
-    closeSearchBox,
   };
 
   return <TabBarView {...props} />;
@@ -52,22 +52,22 @@ const TabBar = () => {
 
 interface ViewProps {
   user: User | null;
-  isSearchBoxOpened: boolean;
+  openSearchBox: boolean;
   handleHomeBtnClick: () => void;
   handleSearchBtnClick: () => void;
+  handleSearchDialogClose: () => void;
   handleSignInBtnClick: () => void;
   handleSignOutBtnClick: () => void;
-  closeSearchBox: () => void;
 }
 
 const TabBarView = ({
   user,
-  isSearchBoxOpened,
+  openSearchBox,
   handleHomeBtnClick,
   handleSearchBtnClick,
+  handleSearchDialogClose,
   handleSignInBtnClick,
   handleSignOutBtnClick,
-  closeSearchBox,
 }: ViewProps) => {
   return (
     <Box
@@ -107,7 +107,7 @@ const TabBarView = ({
               flexGrow: 1,
             }}
             icon={<AccountCircleIcon />}
-            label="마이 페이지"
+            label="내 정보"
           />
           <Tab
             onClick={handleSignOutBtnClick}
@@ -128,9 +128,9 @@ const TabBarView = ({
           label="로그인"
         />
       )}
-      <SearchBox
-        isSearchBoxOpened={isSearchBoxOpened}
-        closeSearchBox={closeSearchBox}
+      <SearchDialog
+        open={openSearchBox}
+        handleSearchDialogClose={handleSearchDialogClose}
       />
     </Box>
   );

@@ -63,7 +63,10 @@ const EditCommentDialog = ({
   };
 
   const handlePostComment = async () => {
-    if (commentContent.length === 0) return;
+    if (commentContent.trim().length === 0) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     try {
       await postCommentMutate({
         content: commentContent,
@@ -81,7 +84,10 @@ const EditCommentDialog = ({
       alert('변경된 내용이 없습니다.');
       return;
     }
-    if (commentContent.length === 0) return;
+    if (commentContent.trim().length === 0) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
     try {
       await updateCommentMutate({ content: commentContent });
       handleEditCommentDialogClose();

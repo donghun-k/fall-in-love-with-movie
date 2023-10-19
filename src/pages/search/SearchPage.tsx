@@ -7,7 +7,7 @@ import {
 } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import useSearchInfiniteQuery from '../../hooks/movie/useSearchInfiniteQuery';
+import useSearchInfiniteQuery from '../../hooks/search/useSearchInfiniteQuery';
 import Movie from '../../types/Movie';
 import MovieCard from '../../components/common/MovieCard';
 import { useMemo } from 'react';

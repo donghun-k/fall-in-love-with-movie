@@ -1,24 +1,14 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import useSearch from '../../../hooks/search/useSearch';
+import { ChangeEventHandler, FormEventHandler } from 'react';
 
 const SearchBar = () => {
-  const [searchInput, setSearchInput] = useState('');
-
-  const navigate = useNavigate();
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    if (searchInput.trim() === '') return;
-    navigate(`/search?query=${searchInput.trim()}`);
-  };
-  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setSearchInput(e.target.value);
-  };
+  const { searchInput, handleInputChange, handleSearch } = useSearch();
 
   const props = {
     searchInput,
-    handleSubmit,
+    handleSearch,
     handleInputChange,
   };
   return <SearchBarView {...props} />;
@@ -26,19 +16,19 @@ const SearchBar = () => {
 
 interface ViewProps {
   searchInput: string;
-  handleSubmit: React.FormEventHandler<HTMLFormElement>;
-  handleInputChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleSearch: FormEventHandler<HTMLFormElement>;
+  handleInputChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 const SearchBarView = ({
   searchInput,
-  handleSubmit,
+  handleSearch,
   handleInputChange,
 }: ViewProps) => {
   return (
     <Paper
       component="form"
-      onSubmit={handleSubmit}
+      onSubmit={handleSearch}
       sx={{
         backgroundColor: 'background.paper',
         p: '2px 4px',
@@ -62,7 +52,7 @@ const SearchBarView = ({
         }}
         value={searchInput}
         onChange={handleInputChange}
-        placeholder="검색"
+        placeholder="영화 제목을 입력하세요."
       />
       <IconButton
         type="submit"
