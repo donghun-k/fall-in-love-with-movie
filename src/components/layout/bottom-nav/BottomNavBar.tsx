@@ -4,23 +4,24 @@ import SearchIcon from '@mui/icons-material/Search';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { signOut } from '../../../api/auth';
-import SearchDialog from './SearchDialog';
 
-const BottomNavBar = () => {
+interface Props {
+  handleSearchDialogOpen: () => void;
+}
+
+const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const navigate = useNavigate();
   const { user } = useAuthContext();
-  const [openSearchBox, setOpenSearchBox] = useState(false);
 
   const handleHomeBtnClick = () => {
     navigate('/');
   };
   const handleSearchBtnClick = () => {
-    setOpenSearchBox(true);
+    handleSearchDialogOpen();
   };
   const handleSignInBtnClick = () => {
     navigate('/signin');
@@ -33,16 +34,11 @@ const BottomNavBar = () => {
       console.error(error);
     }
   };
-  const handleSearchDialogClose = () => {
-    setOpenSearchBox(false);
-  };
 
   const props = {
     user,
-    openSearchBox,
     handleHomeBtnClick,
     handleSearchBtnClick,
-    handleSearchDialogClose,
     handleSignInBtnClick,
     handleSignOutBtnClick,
   };
@@ -52,20 +48,16 @@ const BottomNavBar = () => {
 
 interface ViewProps {
   user: User | null;
-  openSearchBox: boolean;
   handleHomeBtnClick: () => void;
   handleSearchBtnClick: () => void;
-  handleSearchDialogClose: () => void;
   handleSignInBtnClick: () => void;
   handleSignOutBtnClick: () => void;
 }
 
 const BottomNavBarView = ({
   user,
-  openSearchBox,
   handleHomeBtnClick,
   handleSearchBtnClick,
-  handleSearchDialogClose,
   handleSignInBtnClick,
   handleSignOutBtnClick,
 }: ViewProps) => {
@@ -111,10 +103,6 @@ const BottomNavBarView = ({
           label="로그인"
         />
       )}
-      <SearchDialog
-        open={openSearchBox}
-        handleSearchDialogClose={handleSearchDialogClose}
-      />
     </BottomNavigation>
   );
 };

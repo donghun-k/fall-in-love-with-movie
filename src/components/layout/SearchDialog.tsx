@@ -6,8 +6,9 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import useSearch from '../../../hooks/search/useSearch';
-import { ChangeEventHandler, FormEventHandler } from 'react';
+import useSearch from '../../hooks/search/useSearch';
+import { ChangeEventHandler, FormEventHandler, useEffect } from 'react';
+import useMediaQueries from '../../hooks/useMediaQueries';
 
 interface Props {
   open: boolean;
@@ -16,6 +17,11 @@ interface Props {
 
 const SearchDialog = ({ open, handleSearchDialogClose }: Props) => {
   const { searchInput, handleInputChange, handleSearch } = useSearch();
+  const { isMdUp } = useMediaQueries();
+
+  useEffect(() => {
+    if (isMdUp) handleSearchDialogClose();
+  }, [isMdUp, handleSearchDialogClose]);
 
   const handleSearchBtnClick: FormEventHandler<HTMLElement> = (e) => {
     e.preventDefault();

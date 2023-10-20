@@ -6,9 +6,13 @@ import { ChangeEventHandler, FormEventHandler } from 'react';
 const SearchBar = () => {
   const { searchInput, handleInputChange, handleSearch } = useSearch();
 
+  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    handleSearch();
+  };
   const props = {
     searchInput,
-    handleSearch,
+    handleSubmit,
     handleInputChange,
   };
   return <SearchBarView {...props} />;
@@ -16,19 +20,19 @@ const SearchBar = () => {
 
 interface ViewProps {
   searchInput: string;
-  handleSearch: FormEventHandler<HTMLFormElement>;
+  handleSubmit: FormEventHandler<HTMLFormElement>;
   handleInputChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 const SearchBarView = ({
   searchInput,
-  handleSearch,
+  handleSubmit,
   handleInputChange,
 }: ViewProps) => {
   return (
     <Paper
       component="form"
-      onSubmit={handleSearch}
+      onSubmit={handleSubmit}
       sx={{
         backgroundColor: 'background.paper',
         p: '2px 4px',
@@ -52,7 +56,7 @@ const SearchBarView = ({
         }}
         value={searchInput}
         onChange={handleInputChange}
-        placeholder="영화 제목을 검색하세요."
+        placeholder="영화 제목을 입력하세요."
       />
       <IconButton
         type="submit"

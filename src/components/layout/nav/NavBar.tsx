@@ -7,20 +7,25 @@ import PaletteModeSwitch from './PaletteModeSwitch';
 import useAuthContext from '../../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import SignOutButton from './SignOutButton';
+import MyPageButton from './MyPageButton';
+import SearchButton from './SearchButton';
 
 interface Props {
   togglePaletteMode: () => void;
+  handleSearchDialogOpen: () => void;
 }
 
-const NavBar = ({ togglePaletteMode }: Props) => {
-  const { isMobile, isTablet } = useMediaQueries();
+const NavBar = ({ togglePaletteMode, handleSearchDialogOpen }: Props) => {
+  const { isSmDown, isSmUp, isMdDown } = useMediaQueries();
   const { user } = useAuthContext();
 
   const props = {
     user,
-    isMobile,
-    isTablet,
+    isSmDown,
+    isSmUp,
+    isMdDown,
     togglePaletteMode,
+    handleSearchDialogOpen,
   };
 
   return <NavBarView {...props} />;
@@ -28,12 +33,21 @@ const NavBar = ({ togglePaletteMode }: Props) => {
 
 interface ViewProps {
   user: User | null;
-  isMobile: boolean;
-  isTablet: boolean;
+  isSmDown: boolean;
+  isSmUp: boolean;
+  isMdDown: boolean;
   togglePaletteMode: () => void;
+  handleSearchDialogOpen: () => void;
 }
 
-const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
+const NavBarView = ({
+  user,
+  isSmDown,
+  isSmUp,
+  isMdDown,
+  togglePaletteMode,
+  handleSearchDialogOpen,
+}: ViewProps) => {
   return (
     <Box
       component="nav"
@@ -69,9 +83,17 @@ const NavBarView = ({ user, isMobile, togglePaletteMode }: ViewProps) => {
                 gap: '10px',
               }}
             >
-              {!isMobile && (
-                <>
+              {isSmUp &&
+                (isMdDown ? (
+                  <SearchButton
+                    handleSearchDialogOpen={handleSearchDialogOpen}
+                  />
+                ) : (
                   <SearchBar />
+                ))}
+              {!isSmDown && (
+                <>
+                  {user && <MyPageButton />}
                   {user === null ? <SignInButton /> : <SignOutButton />}
                 </>
               )}

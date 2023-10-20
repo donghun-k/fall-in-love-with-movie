@@ -14,6 +14,7 @@ import { useCallback, useMemo, useState } from 'react';
 import getDesignTokens from './configs/theme';
 import { AuthContextProvider } from './contexts/AuthContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import SearchDialog from './components/layout/SearchDialog';
 
 function App() {
   const [mode, setMode] = useState<PaletteMode>('dark');
@@ -21,13 +22,22 @@ function App() {
   const togglePaletteMode = useCallback(() => {
     setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   }, []);
-
+  const [openSearchBox, setOpenSearchBox] = useState(false);
+  const handleSearchDialogOpen = () => {
+    setOpenSearchBox(true);
+  };
+  const handleSearchDialogClose = () => {
+    setOpenSearchBox(false);
+  };
   return (
     <AuthContextProvider>
       <QueryClientProvider client={queryClient}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <NavBar togglePaletteMode={togglePaletteMode} />
+          <NavBar
+            togglePaletteMode={togglePaletteMode}
+            handleSearchDialogOpen={handleSearchDialogOpen}
+          />
           <Grid
             container
             sx={{
@@ -45,7 +55,11 @@ function App() {
             </Grid>
             <Grid item xs={0} md={1} lg={2} />
           </Grid>
-          <BottomNavBar />
+          <BottomNavBar handleSearchDialogOpen={handleSearchDialogOpen} />
+          <SearchDialog
+            open={openSearchBox}
+            handleSearchDialogClose={handleSearchDialogClose}
+          />
         </ThemeProvider>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

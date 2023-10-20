@@ -22,8 +22,8 @@ const LogoButtonView = ({ mode }: ViewProps) => {
     <Link to="/">
       <Button
         sx={{
-          width: { xs: '146px', sm: '160px' },
-          height: { xs: '54px', sm: '60px' },
+          width: { xs: '128px', sm: '144px' },
+          height: { xs: '48px', sm: '54px' },
           padding: '0',
         }}
       >
