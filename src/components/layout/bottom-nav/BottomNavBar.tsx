@@ -20,6 +20,9 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const handleHomeBtnClick = () => {
     navigate('/');
   };
+  const handleMyPageBtnClick = () => {
+    navigate('/mypage');
+  };
   const handleSearchBtnClick = () => {
     handleSearchDialogOpen();
   };
@@ -38,6 +41,7 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const props = {
     user,
     handleHomeBtnClick,
+    handleMyPageBtnClick,
     handleSearchBtnClick,
     handleSignInBtnClick,
     handleSignOutBtnClick,
@@ -49,6 +53,7 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
 interface ViewProps {
   user: User | null;
   handleHomeBtnClick: () => void;
+  handleMyPageBtnClick: () => void;
   handleSearchBtnClick: () => void;
   handleSignInBtnClick: () => void;
   handleSignOutBtnClick: () => void;
@@ -57,6 +62,7 @@ interface ViewProps {
 const BottomNavBarView = ({
   user,
   handleHomeBtnClick,
+  handleMyPageBtnClick,
   handleSearchBtnClick,
   handleSignInBtnClick,
   handleSignOutBtnClick,
@@ -87,7 +93,11 @@ const BottomNavBarView = ({
         label="검색"
       />
       {user && (
-        <BottomNavigationAction icon={<AccountCircleIcon />} label="내 정보" />
+        <BottomNavigationAction
+          onClick={handleMyPageBtnClick}
+          icon={<AccountCircleIcon />}
+          label="내 정보"
+        />
       )}
       {user && (
         <BottomNavigationAction

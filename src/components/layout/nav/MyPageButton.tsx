@@ -9,7 +9,7 @@ const MyPageButton = () => {
 
 const MyPageButtonView = () => {
   return (
-    <Link to="/signin">
+    <Link to="/mypage">
       <Button
         sx={{
           height: '50px',
