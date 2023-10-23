@@ -8,6 +8,7 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore';
+import Rating from '../types/Types';
 
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
@@ -141,36 +142,13 @@ export const getRatingsStatistics = async ({
   };
 };
 
-// GET MY RATINGS STATISICS
-interface getMyRatingsStatisticsParams {
+// GET MY RATINGS
+interface getMyRatingsParams {
   userId: string;
 }
 
-export const getMyRatingsStatistics = async ({
-  userId,
-}: getMyRatingsStatisticsParams): Promise<RatingsStatisticsResponse> => {
-  const ratingData = Array(10).fill(0);
-  let totalRatingCount = 0;
-  let sumRating = 0;
-
+export const getMyRatings = async ({ userId }: getMyRatingsParams) => {
   const ratingQuery = query(ratingsRef, where('userId', '==', userId));
-  const { docs: ratingDocs } = await getDocs(ratingQuery);
-  ratingDocs.forEach((doc) => {
-    const rating = doc.data().rating;
-    if (rating < 1 || rating > 10) return;
-    ratingData[rating - 1] += 1;
-    totalRatingCount += 1;
-    sumRating += rating;
-  });
-
-  const averageRating =
-    totalRatingCount > 0
-      ? Math.round((sumRating / totalRatingCount) * 10) / 10
-      : 0;
-
-  return {
-    ratingData,
-    totalRatingCount,
-    averageRating,
-  };
+  const { docs: raingDocs } = await getDocs(ratingQuery);
+  return raingDocs.map((doc) => doc.data() as Rating);
 };
