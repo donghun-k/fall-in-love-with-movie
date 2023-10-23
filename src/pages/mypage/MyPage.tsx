@@ -11,17 +11,23 @@ import CommentAccordian from '../../components/mypage/CommentAccordian';
 import PreferredGenreAccordian from '../../components/mypage/PreferredGenreAccordian';
 import DeleteAccountAccordian from '../../components/mypage/DeleteAccountAccordian';
 import ProfileBox from '../../components/mypage/ProfileBox';
+import useAuthContext from '../../hooks/useAuthContext';
+import { User } from 'firebase/auth';
 
 interface Props {}
 
 const MyPage = ({}: Props) => {
-  const props = {};
+  const { user } = useAuthContext();
+  const props = { user };
   return <MyPageView {...props} />;
 };
 
-interface ViewProps {}
+interface ViewProps {
+  user: User | null;
+}
 
-const MyPageView = ({}: ViewProps) => {
+const MyPageView = ({ user }: ViewProps) => {
+  if (!user) return null;
   return (
     <Box
       component="main"
@@ -45,7 +51,7 @@ const MyPageView = ({}: ViewProps) => {
           gap: '10px',
         }}
       >
-        <ProfileBox />
+        <ProfileBox user={user} />
         <RatingChartAccordian />
         <PreferredGenreAccordian />
         <RatedMovieAccordian />

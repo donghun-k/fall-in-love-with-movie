@@ -1,15 +1,21 @@
 import { Avatar, Box, Typography } from '@mui/material';
+import { User } from 'firebase/auth';
 
-interface Props {}
+interface Props {
+  user: User;
+}
 
-const ProfileBox = ({}: Props) => {
-  const props = {};
+const ProfileBox = ({ user }: Props) => {
+  const props = { user };
   return <ProfileBoxView {...props} />;
 };
 
-interface ViewProps {}
+interface ViewProps {
+  user: User;
+}
 
-const ProfileBoxView = ({}: ViewProps) => {
+const ProfileBoxView = ({ user }: ViewProps) => {
+  const { displayName, photoURL } = user;
   return (
     <Box
       sx={{
@@ -22,6 +28,7 @@ const ProfileBoxView = ({}: ViewProps) => {
       }}
     >
       <Avatar
+        src={photoURL ?? ''}
         sx={{
           width: '100px',
           height: '100px',
@@ -33,7 +40,7 @@ const ProfileBoxView = ({}: ViewProps) => {
           fontWeight: 'bold',
         }}
       >
-        유저 이름
+        {displayName}
       </Typography>
     </Box>
   );
