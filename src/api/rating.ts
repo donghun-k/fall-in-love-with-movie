@@ -140,3 +140,37 @@ export const getRatingsStatistics = async ({
     averageRating,
   };
 };
+
+// GET MY RATINGS STATISICS
+interface getMyRatingsStatisticsParams {
+  userId: string;
+}
+
+export const getMyRatingsStatistics = async ({
+  userId,
+}: getMyRatingsStatisticsParams): Promise<RatingsStatisticsResponse> => {
+  const ratingData = Array(10).fill(0);
+  let totalRatingCount = 0;
+  let sumRating = 0;
+
+  const ratingQuery = query(ratingsRef, where('userId', '==', userId));
+  const { docs: ratingDocs } = await getDocs(ratingQuery);
+  ratingDocs.forEach((doc) => {
+    const rating = doc.data().rating;
+    if (rating < 1 || rating > 10) return;
+    ratingData[rating - 1] += 1;
+    totalRatingCount += 1;
+    sumRating += rating;
+  });
+
+  const averageRating =
+    totalRatingCount > 0
+      ? Math.round((sumRating / totalRatingCount) * 10) / 10
+      : 0;
+
+  return {
+    ratingData,
+    totalRatingCount,
+    averageRating,
+  };
+};

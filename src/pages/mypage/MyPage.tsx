@@ -1,10 +1,4 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Avatar,
-  Box,
-} from '@mui/material';
+import { Box } from '@mui/material';
 import RatingChartAccordian from '../../components/mypage/RatingChartAccordian';
 import RatedMovieAccordian from '../../components/mypage/RatedMovieAccordian';
 import CommentAccordian from '../../components/mypage/CommentAccordian';
@@ -14,9 +8,7 @@ import ProfileBox from '../../components/mypage/ProfileBox';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 
-interface Props {}
-
-const MyPage = ({}: Props) => {
+const MyPage = () => {
   const { user } = useAuthContext();
   const props = { user };
   return <MyPageView {...props} />;
@@ -52,7 +44,7 @@ const MyPageView = ({ user }: ViewProps) => {
         }}
       >
         <ProfileBox user={user} />
-        <RatingChartAccordian />
+        <RatingChartAccordian userId={user.uid} />
         <PreferredGenreAccordian />
         <RatedMovieAccordian />
         <CommentAccordian />
