@@ -8,7 +8,7 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore';
-import Rating from '../types/Types';
+import Rating from '../types/Rating';
 
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
@@ -18,12 +18,16 @@ const commentsRef = collection(db, 'comments');
 interface postRatingParams {
   userId: string;
   movieId: number;
+  movieTitle: string;
+  movieGenreIds: number[];
   rating: number;
 }
 
 export const postRating = async ({
   userId,
   movieId,
+  movieTitle,
+  movieGenreIds,
   rating,
 }: postRatingParams) => {
   if (!userId || !movieId) {
@@ -52,11 +56,14 @@ export const postRating = async ({
 
   await runTransaction(db, async (transaction) => {
     if (ratingSnapshot.empty) {
-      await addDoc(ratingsRef, {
+      const newRating: Rating = {
         userId,
         movieId,
+        movieTitle,
+        movieGenreIds,
         rating,
-      });
+      };
+      await addDoc(ratingsRef, newRating);
       console.log('별점이 정상적으로 등록되었습니다.');
     } else {
       const ratingDocRef = ratingDocs[0].ref;

@@ -7,12 +7,12 @@ interface Params {
 
 const useMyRatings = ({ userId }: Params) => {
   return useQuery(
-    ['myRatingStatistics', userId],
+    ['myRatings', userId],
     () => {
       return getMyRatings({ userId });
     },
     {
-      staleTime: 1000 * 60 * 60 * 24,
+      staleTime: 1000 * 60 * 1,
     }
   );
 };

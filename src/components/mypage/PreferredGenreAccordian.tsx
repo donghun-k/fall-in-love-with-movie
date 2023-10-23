@@ -1,24 +1,166 @@
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Divider,
+  Typography,
+} from '@mui/material';
+import Rating from '../../types/Rating';
+import { useEffect, useState } from 'react';
+import { GENRE_IDS, getGenreNameById } from '../../utils/genre';
 
-interface Props {}
+interface Props {
+  ratings: Rating[];
+}
 
-const PreferredGenreAccordian = ({}: Props) => {
-  const props = {};
+const PreferredGenreAccordian = ({ ratings }: Props) => {
+  const [genreData, setGenreData] = useState<
+    { genreName: string; averageRating: number; count: number }[]
+  >([]);
+  useEffect(() => {
+    const genreDataObject: Record<number, { sum: number; count: number }> = {};
+    GENRE_IDS.forEach((genreId) => {
+      genreDataObject[genreId] = { sum: 0, count: 0 };
+    });
+    ratings.forEach((rating) => {
+      const { movieGenreIds } = rating;
+      movieGenreIds.forEach((genreId) => {
+        genreDataObject[genreId].sum += rating.rating;
+        genreDataObject[genreId].count++;
+      });
+    });
+    const genreData = Object.entries(genreDataObject)
+      .map(([genreId, data]) => {
+        const averageRating =
+          data.count !== 0 ? Number((data.sum / data.count).toFixed(1)) : 0;
+        return {
+          genreName: getGenreNameById(Number(genreId)),
+          averageRating,
+          count: data.count,
+        };
+      })
+      .sort((a, b) => b.averageRating - a.averageRating);
+    setGenreData(genreData);
+  }, [ratings]);
+
+  const props = {
+    genreData,
+  };
   return <PreferredGenreAccordianView {...props} />;
 };
 
-interface ViewProps {}
+interface ViewProps {
+  genreData: {
+    genreName: string;
+    averageRating: number;
+    count: number;
+  }[];
+}
 
-const PreferredGenreAccordianView = ({}: ViewProps) => {
+const PreferredGenreAccordianView = ({ genreData }: ViewProps) => {
+  console.log(genreData);
   return (
     <Accordion
       sx={{
         width: '100%',
         borderRadius: '5px',
+        fontSize: '1.2rem',
+        fontWeight: 'bold',
       }}
     >
       <AccordionSummary>선호하는 장르</AccordionSummary>
-      <AccordionDetails>장르</AccordionDetails>
+      <AccordionDetails>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+          }}
+        >
+          {[...genreData].splice(0, 3).map((data) => (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography
+                sx={{
+                  fontSize: { xs: '1.1rem', sm: '1.5rem' },
+                }}
+              >
+                {data.genreName}
+              </Typography>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: { xs: '.8rem', sm: '1rem' },
+                }}
+              >
+                평균 {data.averageRating}점
+              </Typography>
+              <Typography
+                sx={{
+                  color: 'text.secondary',
+                  fontSize: { xs: '.7rem', sm: '.8rem' },
+                }}
+              ></Typography>
+            </Box>
+          ))}
+        </Box>
+        <Divider
+          sx={{
+            margin: { xs: '10px', sm: '20px 0' },
+          }}
+        />
+        <Box
+          sx={{
+            padding: '0 10px',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-evenly',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: { xx: '10%', sm: '20%' },
+          }}
+        >
+          {genreData.map((data, i) => {
+            if (i < 3) return null;
+            return (
+              <Box
+                sx={{
+                  padding: { xs: '5px', sm: '10px' },
+                  width: { xs: '40%', sm: '30%' },
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: { xs: '.8rem', sm: '1rem' },
+                  }}
+                >
+                  {data.genreName}
+                </Typography>
+                <Typography
+                  sx={{
+                    color: 'text.secondary',
+                    fontSize: { xs: '.8rem', sm: '1rem' },
+                  }}
+                >
+                  {data.averageRating}점
+                </Typography>
+              </Box>
+            );
+          })}
+        </Box>
+      </AccordionDetails>
     </Accordion>
   );
 };

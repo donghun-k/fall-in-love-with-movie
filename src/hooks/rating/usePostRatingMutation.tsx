@@ -3,12 +3,19 @@ import { postRating } from '../../api/rating';
 
 interface Params {
   movieId: number;
+  movieTitle: string;
+  movieGenreIds: number[];
   userId: string;
 }
 
-const usePostRatingMutation = ({ movieId, userId }: Params) => {
+const usePostRatingMutation = ({
+  movieId,
+  movieTitle,
+  movieGenreIds,
+  userId,
+}: Params) => {
   return useMutation((rating: number) => {
-    return postRating({ movieId, userId, rating });
+    return postRating({ movieId, movieTitle, movieGenreIds, userId, rating });
   });
 };
 

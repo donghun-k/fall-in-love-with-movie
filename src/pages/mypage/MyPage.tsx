@@ -7,18 +7,24 @@ import DeleteAccountAccordian from '../../components/mypage/DeleteAccountAccordi
 import ProfileBox from '../../components/mypage/ProfileBox';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
+import useMyRatings from '../../hooks/rating/useMyRatings';
+import Rating from '../../types/Rating';
 
 const MyPage = () => {
   const { user } = useAuthContext();
-  const props = { user };
+  const { data: ratings } = useMyRatings({
+    userId: user?.uid || '',
+  });
+  const props = { user, ratings };
   return <MyPageView {...props} />;
 };
 
 interface ViewProps {
   user: User | null;
+  ratings: Rating[] | undefined;
 }
 
-const MyPageView = ({ user }: ViewProps) => {
+const MyPageView = ({ user, ratings }: ViewProps) => {
   if (!user) return null;
   return (
     <Box
@@ -44,8 +50,8 @@ const MyPageView = ({ user }: ViewProps) => {
         }}
       >
         <ProfileBox user={user} />
-        <RatingChartAccordian userId={user.uid} />
-        <PreferredGenreAccordian />
+        {ratings && <RatingChartAccordian ratings={ratings} />}
+        {ratings && <PreferredGenreAccordian ratings={ratings} />}
         <RatedMovieAccordian />
         <CommentAccordian />
         <DeleteAccountAccordian />

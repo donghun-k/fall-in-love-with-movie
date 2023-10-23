@@ -18,8 +18,8 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
-import useMyRatings from '../../hooks/rating/useMyRatings';
 import { useEffect, useState } from 'react';
+import Rating from '../../types/Rating';
 
 ChartJS.register(
   CategoryScale,
@@ -52,24 +52,22 @@ const chartOptions = {
 };
 
 interface Props {
-  userId: string;
+  ratings: Rating[];
 }
 
-const RatingChartAccordian = ({ userId }: Props) => {
+const RatingChartAccordian = ({ ratings }: Props) => {
   const theme = useTheme();
-  const { data } = useMyRatings({
-    userId,
-  });
+
   const [ratingData, setRatingData] = useState(Array(10).fill(0));
   const [averageRating, setAverageRating] = useState(0);
-  const totalRatingCount = data?.length || 0;
+  const totalRatingCount = ratings.length;
 
   useEffect(() => {
-    if (!data || data.length === 0) return;
+    if (ratings.length === 0) return;
     const ratingData = Array(10).fill(0);
     let sumRating = 0;
     let count = 0;
-    data.forEach((rating) => {
+    ratings.forEach((rating) => {
       ratingData[rating.rating - 1]++;
       sumRating += rating.rating;
       count++;
@@ -77,7 +75,7 @@ const RatingChartAccordian = ({ userId }: Props) => {
     const averageRating = Number((sumRating / count).toFixed(1));
     setRatingData(ratingData);
     setAverageRating(averageRating);
-  }, [data]);
+  }, [ratings]);
   const props = {
     theme,
     ratingData,
@@ -114,7 +112,10 @@ const RatingChartAccordianView = ({
         <Box
           sx={{
             padding: '10px',
+            paddingTop: '20px',
             backgroundColor: 'background.paper',
+            borderRadius: '10px',
+            overflow: 'hidden',
           }}
         >
           <Bar

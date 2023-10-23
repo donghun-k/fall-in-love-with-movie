@@ -9,7 +9,7 @@ interface Props {
 }
 
 const InfoSection = ({ movieDetail }: Props) => {
-  const { title, poster_path, overview, id: movieId } = movieDetail;
+  const { poster_path } = movieDetail;
 
   const posterSrc = generatePosterImgSrc({
     path: poster_path,
@@ -17,28 +17,20 @@ const InfoSection = ({ movieDetail }: Props) => {
   });
 
   const props = {
-    title,
+    movieDetail,
     posterSrc,
-    overview,
-    movieId,
   };
 
   return <InfoSectionView {...props} />;
 };
 
 interface ViewProps {
-  title: string;
+  movieDetail: MovieDetail;
   posterSrc: string;
-  overview: string;
-  movieId: number;
 }
 
-const InfoSectionView = ({
-  title,
-  posterSrc,
-  overview,
-  movieId,
-}: ViewProps) => {
+const InfoSectionView = ({ movieDetail, posterSrc }: ViewProps) => {
+  const { title, overview, id: movieId } = movieDetail;
   return (
     <Box
       component="section"
@@ -90,7 +82,7 @@ const InfoSectionView = ({
             width: '100%',
           }}
         />
-        <RatingBox />
+        <RatingBox movieDetail={movieDetail} />
         <Divider
           sx={{
             width: '100%',
