@@ -62,6 +62,7 @@ export const postRating = async ({
         movieTitle,
         movieGenreIds,
         rating,
+        ratedAt: Date.now(),
       };
       await addDoc(ratingsRef, newRating);
       console.log('별점이 정상적으로 등록되었습니다.');
@@ -73,6 +74,7 @@ export const postRating = async ({
       } else {
         transaction.update(ratingDocRef, {
           rating,
+          ratedAt: Date.now(),
         });
         console.log('별점이 정상적으로 수정되었습니다.');
       }

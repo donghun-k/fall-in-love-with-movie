@@ -25,7 +25,7 @@ interface Props {
   ratings: Rating[];
 }
 
-type SortOption = '별점 높은순' | '별점 낮은순' | '가나다순';
+type SortOption = '최신순' | '등록순' | '가나다순';
 
 const RatedMovieAccordian = ({ ratings }: Props) => {
   const navigate = useNavigate();
@@ -42,13 +42,13 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
       sortedRatings.sort((a, b) => {
         return a.movieTitle.localeCompare(b.movieTitle);
       });
-    } else if (sortOption === '별점 높은순') {
+    } else if (sortOption === '최신순') {
       sortedRatings.sort((a, b) => {
-        return b.rating - a.rating;
+        return b.ratedAt - a.ratedAt;
       });
-    } else if (sortOption === '별점 낮은순') {
+    } else if (sortOption === '등록순') {
       sortedRatings.sort((a, b) => {
-        return a.rating - b.rating;
+        return a.ratedAt - b.ratedAt;
       });
     }
     setSortedRatings(sortedRatings);
@@ -66,7 +66,7 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
     setAnchorEl(null);
   };
 
-  const handleSetPage = (e: ChangeEvent<unknown>, page: number) => {
+  const handleSetPage = (_: ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
 
@@ -151,8 +151,8 @@ const RatedMovieAccordianView = ({
             onClose={handleSortMenuClose}
           >
             <MenuItem onClick={handleSetSortOption}>가나다순</MenuItem>
-            <MenuItem onClick={handleSetSortOption}>별점 높은순</MenuItem>
-            <MenuItem onClick={handleSetSortOption}>별점 낮은순</MenuItem>
+            <MenuItem onClick={handleSetSortOption}>최신순</MenuItem>
+            <MenuItem onClick={handleSetSortOption}>등록순</MenuItem>
           </Menu>
         </Box>
         <Divider
@@ -176,6 +176,15 @@ const RatedMovieAccordianView = ({
               </ListItemButton>
             </ListItem>
           ))}
+          {sortedRatings.length === 0 && (
+            <Typography
+              sx={{
+                textAlign: 'center',
+              }}
+            >
+              아직 평가한 영화가 없습니다.
+            </Typography>
+          )}
         </List>
         <Divider
           sx={{

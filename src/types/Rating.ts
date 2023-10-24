@@ -4,4 +4,5 @@ export default interface Rating {
   movieTitle: string;
   rating: number;
   userId: string;
+  ratedAt: number;
 }
