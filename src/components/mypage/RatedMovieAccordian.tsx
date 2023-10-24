@@ -12,6 +12,8 @@ import {
   Menu,
   MenuItem,
   Pagination,
+  Select,
+  SelectChangeEvent,
   Typography,
 } from '@mui/material';
 import SortIcon from '@mui/icons-material/Sort';
@@ -29,6 +31,7 @@ type SortOption = '최신순' | '등록순' | '가나다순';
 
 const RatedMovieAccordian = ({ ratings }: Props) => {
   const navigate = useNavigate();
+  const [ratingValueToShow, setRatingValueToShow] = useState<number>(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState<SortOption>('가나다순');
   const [sortedRatings, setSortedRatings] = useState<Rating[]>([]);
@@ -37,7 +40,7 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
   const openSortMenu = Boolean(anchorEl);
 
   useEffect(() => {
-    const sortedRatings = [...ratings];
+    let sortedRatings = [...ratings];
     if (sortOption === '가나다순') {
       sortedRatings.sort((a, b) => {
         return a.movieTitle.localeCompare(b.movieTitle);
@@ -51,8 +54,15 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
         return a.ratedAt - b.ratedAt;
       });
     }
+
+    if (ratingValueToShow !== 0) {
+      sortedRatings = sortedRatings.filter((rating) => {
+        return rating.rating === ratingValueToShow;
+      });
+    }
+
     setSortedRatings(sortedRatings);
-  }, [ratings, sortOption]);
+  }, [ratings, sortOption, ratingValueToShow]);
 
   const handleSortMenuButtonClick = (e: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(e.currentTarget);
@@ -76,6 +86,10 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
     navigate(`/movie/${movieId}`);
   };
 
+  const handleSetRatingValueToShow = (e: SelectChangeEvent) => {
+    setRatingValueToShow(Number(e.target.value));
+  };
+
   const props = {
     sortOption,
     sortedRatings,
@@ -87,6 +101,8 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
     page,
     handleSetPage,
     handleToMovieDetailPage,
+    ratingValueToShow,
+    handleSetRatingValueToShow,
   };
   return <RatedMovieAccordianView {...props} />;
 };
@@ -102,6 +118,8 @@ interface ViewProps {
   page: number;
   handleSetPage: (e: ChangeEvent<unknown>, page: number) => void;
   handleToMovieDetailPage: (e: MouseEvent<HTMLElement>) => void;
+  ratingValueToShow: number;
+  handleSetRatingValueToShow: (e: SelectChangeEvent) => void;
 }
 
 const RatedMovieAccordianView = ({
@@ -115,6 +133,8 @@ const RatedMovieAccordianView = ({
   page,
   handleSetPage,
   handleToMovieDetailPage,
+  ratingValueToShow,
+  handleSetRatingValueToShow,
 }: ViewProps) => {
   return (
     <Accordion
@@ -133,7 +153,10 @@ const RatedMovieAccordianView = ({
       >
         <Box
           sx={{
-            height: 'fit-content',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: '40px',
           }}
         >
           <Button
@@ -154,6 +177,53 @@ const RatedMovieAccordianView = ({
             <MenuItem onClick={handleSetSortOption}>최신순</MenuItem>
             <MenuItem onClick={handleSetSortOption}>등록순</MenuItem>
           </Menu>
+          <Select
+            value={String(ratingValueToShow)}
+            onChange={handleSetRatingValueToShow}
+            sx={{
+              width: '100px',
+              height: '40px',
+              '& .MuiSelect-select': {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
+            }}
+          >
+            <MenuItem value={0}>
+              <StarIcon /> All
+            </MenuItem>
+            <MenuItem value={1}>
+              <StarIcon /> 1
+            </MenuItem>
+            <MenuItem value={2}>
+              <StarIcon /> 2
+            </MenuItem>
+            <MenuItem value={3}>
+              <StarIcon /> 3
+            </MenuItem>
+            <MenuItem value={4}>
+              <StarIcon /> 4
+            </MenuItem>
+            <MenuItem value={5}>
+              <StarIcon /> 5
+            </MenuItem>
+            <MenuItem value={6}>
+              <StarIcon /> 6
+            </MenuItem>
+            <MenuItem value={7}>
+              <StarIcon /> 7
+            </MenuItem>
+            <MenuItem value={8}>
+              <StarIcon /> 8
+            </MenuItem>
+            <MenuItem value={9}>
+              <StarIcon /> 9
+            </MenuItem>
+            <MenuItem value={10}>
+              <StarIcon /> 10
+            </MenuItem>
+          </Select>
         </Box>
         <Divider
           sx={{
@@ -182,7 +252,7 @@ const RatedMovieAccordianView = ({
                 textAlign: 'center',
               }}
             >
-              아직 평가한 영화가 없습니다.
+              평가한 영화가 없습니다.
             </Typography>
           )}
         </List>
