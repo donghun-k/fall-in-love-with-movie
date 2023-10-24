@@ -52,7 +52,7 @@ const MyPageView = ({ user, ratings }: ViewProps) => {
         <ProfileBox user={user} />
         {ratings && <RatingChartAccordian ratings={ratings} />}
         {ratings && <PreferredGenreAccordian ratings={ratings} />}
-        <RatedMovieAccordian />
+        {ratings && <RatedMovieAccordian ratings={ratings} />}
         <CommentAccordian />
         <DeleteAccountAccordian />
       </Box>

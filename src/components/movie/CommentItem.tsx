@@ -194,7 +194,7 @@ const CommentItemView = ({
             </span>
           </Typography>
           {rating !== 0 && (
-            <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
+            <Chip icon={<StarIcon />} label={rating} size="small" />
           )}
         </Box>
         <Typography
