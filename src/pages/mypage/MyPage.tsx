@@ -3,7 +3,7 @@ import RatingChartAccordian from '../../components/mypage/RatingChartAccordian';
 import RatedMovieAccordian from '../../components/mypage/RatedMovieAccordian';
 import CommentAccordian from '../../components/mypage/CommentAccordian';
 import PreferredGenreAccordian from '../../components/mypage/PreferredGenreAccordian';
-import DeleteAccountAccordian from '../../components/mypage/DeleteAccountAccordian';
+import DeleteUserAccordian from '../../components/mypage/DeleteUserAccordian';
 import ProfileBox from '../../components/mypage/ProfileBox';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
@@ -61,7 +61,7 @@ const MyPageView = ({ user, ratings, comments }: ViewProps) => {
         {ratings && <PreferredGenreAccordian ratings={ratings} />}
         {ratings && <RatedMovieAccordian ratings={ratings} />}
         {comments && <CommentAccordian myComments={comments} />}
-        <DeleteAccountAccordian />
+        <DeleteUserAccordian />
       </Box>
     </Box>
   );

@@ -132,6 +132,7 @@ const PreferredGenreAccordianView = ({ genreData }: ViewProps) => {
             if (i < 3) return null;
             return (
               <Box
+                key={data.genreName}
                 sx={{
                   padding: { xs: '5px', sm: '10px' },
                   width: { xs: '40%', sm: '30%' },

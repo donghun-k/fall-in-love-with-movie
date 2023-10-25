@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   NextFn,
   User,
+  deleteUser,
   getAuth,
   signInWithPopup,
   signOut as signOutFirebase,
@@ -28,6 +29,14 @@ export const signIn = async (authType: AuthType) => {
 
 export const signOut = async () => {
   await signOutFirebase(auth);
+};
+
+export const deleteAccount = async () => {
+  const user = auth.currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  await deleteUser(user);
 };
 
 export const onUserStateChange = (callback: NextFn<User | null>) => {
