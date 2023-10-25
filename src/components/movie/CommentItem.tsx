@@ -121,43 +121,13 @@ const CommentItemView = ({
         width: '100%',
         height: 'fit-content',
         padding: '10px',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        gap: { xs: '10px', sm: '20px' },
         backgroundColor: 'transparent',
         borderRadius: '10px',
       }}
     >
       <Box
         sx={{
-          width: '50px',
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          paddingTop: '10px',
-        }}
-      >
-        <Avatar
-          src={userProfileImage}
-          sx={{
-            width: '50px',
-            height: '50px',
-            '& img': {
-              filter: 'grayscale(100%)',
-              transition: 'filter 0.5s ease',
-              '&:hover': {
-                filter: 'grayscale(0%)',
-              },
-            },
-          }}
-        />
-      </Box>
-      <Box
-        sx={{
-          width: 'calc(100% - 70px)',
+          width: '100%',
           height: 'fit-content',
           display: 'flex',
           flexDirection: 'column',
@@ -167,36 +137,68 @@ const CommentItemView = ({
         <Box
           sx={{
             width: '100%',
-            height: '25px',
+            height: '40px',
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'space-between',
           }}
         >
-          <Typography
+          <Box
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              alignItems: 'flex-end',
-              fontSize: { xs: '0.8rem', sm: '1rem' },
-              gap: '5px',
-              '& span': {
-                fontSize: { xs: '0.6rem', sm: '0.8rem' },
-                color: 'text.secondary',
-              },
+              alignItems: 'center',
+              gap: '10px',
             }}
           >
-            {username}
-            <span>
-              {convertTimestampToDateString(createdAt)}
-              {isUpdated && ' (수정됨)'}
-            </span>
-          </Typography>
+            <Avatar
+              src={userProfileImage}
+              sx={{
+                width: '40px',
+                height: '40px',
+                '& img': {
+                  filter: 'grayscale(100%)',
+                  transition: 'filter 0.5s ease',
+                  '&:hover': {
+                    filter: 'grayscale(0%)',
+                  },
+                },
+              }}
+            />
+            <Box>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'flex-end',
+                  fontSize: { xs: '0.8rem', sm: '1rem' },
+                  gap: '5px',
+                }}
+              >
+                {username}
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: { xs: '0.6rem', sm: '0.8rem' },
+                  color: 'text.secondary',
+                }}
+              >
+                {convertTimestampToDateString(createdAt)}
+                {isUpdated && ' (수정됨)'}
+              </Typography>
+            </Box>
+          </Box>
           {rating !== 0 && (
-            <Chip icon={<StarIcon />} label={rating} size="small" />
+            <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
           )}
         </Box>
+        <Divider
+          sx={{
+            width: '100%',
+            margin: '10px 0',
+          }}
+        />
         <Typography
           ref={contentRef}
           sx={{
@@ -207,8 +209,7 @@ const CommentItemView = ({
             maxHeight: `${expand ? 'none' : '60px'}`,
             color: 'text.secondary',
             overflow: 'hidden',
-            margin: '10px 0',
-            paddingRight: '10px',
+            paddingRight: '5px',
             ...(!expand && {
               display: '-webkit-box',
               WebkitLineClamp: 3,
@@ -222,8 +223,7 @@ const CommentItemView = ({
           <Button
             sx={{
               minWidth: 'fit-content',
-              padding: '0',
-              marginBottom: '10px',
+              padding: '5px 0',
               fontSize: { xs: '0.8rem', sm: '1rem' },
             }}
             onClick={handleExpand}
@@ -231,7 +231,12 @@ const CommentItemView = ({
             {expand ? '접기' : '자세히 보기'}
           </Button>
         )}
-        <Divider sx={{ width: '100%' }} />
+        <Divider
+          sx={{
+            width: '100%',
+            margin: '10px 0',
+          }}
+        />
         <Box
           sx={{
             width: '100%',
