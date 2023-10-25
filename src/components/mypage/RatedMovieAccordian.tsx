@@ -28,10 +28,10 @@ type SortOption = '최신순' | '등록순' | '가나다순';
 
 const RatedMovieAccordian = ({ ratings }: Props) => {
   const navigate = useNavigate();
-  const [ratingValueToShow, setRatingValueToShow] = useState<number>(0);
+  const [ratingValueToShow, setRatingValueToShow] = useState(0);
   const [sortOption, setSortOption] = useState<SortOption>('가나다순');
   const [sortedRatings, setSortedRatings] = useState<Rating[]>([]);
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     let sortedRatings = [...ratings];
@@ -115,7 +115,7 @@ const RatedMovieAccordianView = ({
       sx={{
         width: '100%',
         borderRadius: '5px',
-        fontSize: '1.2rem',
+        fontSize: { xs: '1rem', sm: '1.2rem' },
         fontWeight: 'bold',
       }}
     >
@@ -137,7 +137,8 @@ const RatedMovieAccordianView = ({
             value={String(sortOption)}
             onChange={handleSetSortOption}
             sx={{
-              width: '100px',
+              width: { xs: '80px', sm: '100px' },
+              fontSize: { xs: '0.8rem', sm: '1rem' },
               height: '40px',
               '& .MuiSelect-select': {
                 display: 'flex',
@@ -157,7 +158,8 @@ const RatedMovieAccordianView = ({
             value={String(ratingValueToShow)}
             onChange={handleSetRatingValueToShow}
             sx={{
-              width: '80px',
+              width: { xs: '80px', sm: '100px' },
+              fontSize: { xs: '0.8rem', sm: '1rem' },
               height: '40px',
               '& .MuiSelect-select': {
                 display: 'flex',
@@ -167,6 +169,9 @@ const RatedMovieAccordianView = ({
               },
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
+              },
+              '& .MuiSvgIcon-root': {
+                fontSize: { xs: '1rem', sm: '1.2rem' },
               },
             }}
           >

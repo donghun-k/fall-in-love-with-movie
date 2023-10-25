@@ -7,12 +7,12 @@ import {
 } from 'firebase/firestore';
 
 // POST LIKE
-interface addLikeParams {
+interface AddLikeParams {
   commentRef: DocumentReference;
   userId: string;
 }
 
-export const addLike = async ({ commentRef, userId }: addLikeParams) => {
+export const addLike = async ({ commentRef, userId }: AddLikeParams) => {
   const commentDoc = await getDoc(commentRef);
 
   if (!commentDoc.exists()) {
@@ -27,12 +27,12 @@ export const addLike = async ({ commentRef, userId }: addLikeParams) => {
 };
 
 // DELETE LIKE
-interface deleteLikeParams {
+interface DeleteLikeParams {
   commentRef: DocumentReference;
   userId: string;
 }
 
-export const deleteLike = async ({ commentRef, userId }: deleteLikeParams) => {
+export const deleteLike = async ({ commentRef, userId }: DeleteLikeParams) => {
   const commentDoc = await getDoc(commentRef);
 
   if (!commentDoc.exists()) {

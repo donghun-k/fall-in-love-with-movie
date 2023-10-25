@@ -35,13 +35,13 @@ export const searchMovie = async ({ query, page = 1 }: SearchMovieParams) => {
 };
 
 // GET MOVIE DETAIL
-interface getMovieDetailParams {
+interface GetMovieDetailParams {
   movieId: number;
 }
 
-export interface getMovieDetailResponse extends MovieDetail {}
+export interface GetMovieDetailResponse extends MovieDetail {}
 
-export const getMovieDetail = async ({ movieId }: getMovieDetailParams) => {
+export const getMovieDetail = async ({ movieId }: GetMovieDetailParams) => {
   const options = {
     method: 'GET',
     headers: {
@@ -53,23 +53,23 @@ export const getMovieDetail = async ({ movieId }: getMovieDetailParams) => {
     `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
     options
   );
-  const json: getMovieDetailResponse = await res.json();
+  const json: GetMovieDetailResponse = await res.json();
   return json;
 };
 
 // GET SIMILAR MOVIES
-interface getSimilarMoviesParams {
+interface GetSimilarMoviesParams {
   movieId: number;
 }
 
-export interface getSimilarMoviesResponse {
+export interface GetSimilarMoviesResponse {
   page: number;
   results: Movie[];
   total_pages: number;
   total_results: number;
 }
 
-export const getSimilarMovies = async ({ movieId }: getSimilarMoviesParams) => {
+export const getSimilarMovies = async ({ movieId }: GetSimilarMoviesParams) => {
   const options = {
     method: 'GET',
     headers: {
@@ -81,6 +81,6 @@ export const getSimilarMovies = async ({ movieId }: getSimilarMoviesParams) => {
     `https://api.themoviedb.org/3/movie/${movieId}/similar?language=ko-KR`,
     options
   );
-  const json: getSimilarMoviesResponse = await res.json();
+  const json: GetSimilarMoviesResponse = await res.json();
   return json.results;
 };

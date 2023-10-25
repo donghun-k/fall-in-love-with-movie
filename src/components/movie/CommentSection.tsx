@@ -92,6 +92,7 @@ const CommentSection = ({ movieDetail }: Props) => {
     fetchNextPage,
     isCommentsLoading,
     isCommentsFetching,
+    movieDetail,
   };
   return <CommentSectionView {...props} />;
 };
@@ -113,6 +114,7 @@ interface ViewProps {
   fetchNextPage: () => void;
   isCommentsLoading: boolean;
   isCommentsFetching: boolean;
+  movieDetail: MovieDetail;
 }
 
 const CommentSectionView = ({
@@ -132,6 +134,7 @@ const CommentSectionView = ({
   fetchNextPage,
   isCommentsLoading,
   isCommentsFetching,
+  movieDetail,
 }: ViewProps) => {
   return (
     <Box
@@ -270,6 +273,7 @@ const CommentSectionView = ({
       </Box>
       {isEditCommentDialogOpened && (
         <EditCommentDialog
+          movieDetail={movieDetail}
           myComment={myComment ?? undefined}
           handleEditCommentDialogClose={handleEditCommentDialogClose}
         />

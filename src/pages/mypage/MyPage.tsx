@@ -9,22 +9,29 @@ import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import useMyRatings from '../../hooks/rating/useMyRatings';
 import Rating from '../../types/Rating';
+import Comment from '../../types/Comment';
+import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
 
 const MyPage = () => {
   const { user } = useAuthContext();
   const { data: ratings } = useMyRatings({
     userId: user?.uid || '',
   });
-  const props = { user, ratings };
+  const { data: comments } = useMyCommentsQuery({
+    userId: user?.uid || '',
+  });
+
+  const props = { user, ratings, comments };
   return <MyPageView {...props} />;
 };
 
 interface ViewProps {
   user: User | null;
   ratings: Rating[] | undefined;
+  comments: Comment[] | undefined;
 }
 
-const MyPageView = ({ user, ratings }: ViewProps) => {
+const MyPageView = ({ user, ratings, comments }: ViewProps) => {
   if (!user) return null;
   return (
     <Box
@@ -53,7 +60,7 @@ const MyPageView = ({ user, ratings }: ViewProps) => {
         {ratings && <RatingChartAccordian ratings={ratings} />}
         {ratings && <PreferredGenreAccordian ratings={ratings} />}
         {ratings && <RatedMovieAccordian ratings={ratings} />}
-        <CommentAccordian />
+        {comments && <CommentAccordian myComments={comments} />}
         <DeleteAccountAccordian />
       </Box>
     </Box>

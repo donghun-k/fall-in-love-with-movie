@@ -2,6 +2,7 @@ import { DocumentReference } from 'firebase/firestore';
 
 export default interface Comment {
   movieId: number;
+  movieTitle: string;
   authorId: string;
   username: string;
   userProfileImage: string;

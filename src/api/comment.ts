@@ -20,8 +20,9 @@ import app from '../configs/firebase';
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');
 
-interface postCommentParams {
+interface PostCommentParams {
   movieId: number;
+  movieTitle: string;
   authorId: string;
   username: string;
   userProfileImage: string;
@@ -31,14 +32,16 @@ interface postCommentParams {
 
 export const postComment = async ({
   movieId,
+  movieTitle,
   authorId,
   username,
   userProfileImage,
   content,
   rating,
-}: postCommentParams) => {
+}: PostCommentParams) => {
   const comment = {
     movieId,
+    movieTitle,
     authorId,
     username,
     userProfileImage,
@@ -64,7 +67,7 @@ export const postComment = async ({
 };
 
 // GET MY COMMENT
-interface getMyCommentParams {
+interface GetMyCommentParams {
   movieId: number;
   authorId: string;
 }
@@ -72,7 +75,7 @@ interface getMyCommentParams {
 export const getMyComment = async ({
   movieId,
   authorId,
-}: getMyCommentParams) => {
+}: GetMyCommentParams) => {
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
@@ -91,11 +94,11 @@ export const getMyComment = async ({
 };
 
 // GET COMMENT
-interface getCommentParams {
+interface GetCommentParams {
   commentRef: DocumentReference;
 }
 
-export const getComment = async ({ commentRef }: getCommentParams) => {
+export const getComment = async ({ commentRef }: GetCommentParams) => {
   const commentSnapshot = await getDoc(commentRef);
   if (!commentSnapshot.exists()) {
     throw new Error('코멘트를 찾지 못했습니다.');
@@ -104,17 +107,17 @@ export const getComment = async ({ commentRef }: getCommentParams) => {
 };
 
 // DELETE COMMENT
-interface deleteCommentParams {
+interface DeleteCommentParams {
   commentRef: DocumentReference;
 }
 
-export const deleteComment = async ({ commentRef }: deleteCommentParams) => {
+export const deleteComment = async ({ commentRef }: DeleteCommentParams) => {
   await deleteDoc(commentRef);
   console.log('코멘트가 정상적으로 삭제되었습니다.');
 };
 
 // UPDATE COMMENT
-interface updateCommentParams {
+interface UpdateCommentParams {
   commentRef: DocumentReference;
   username: string;
   userProfileImage: string;
@@ -126,7 +129,7 @@ export const updateComment = async ({
   username,
   userProfileImage,
   content,
-}: updateCommentParams) => {
+}: UpdateCommentParams) => {
   await updateDoc(commentRef, {
     username,
     userProfileImage,
@@ -144,7 +147,7 @@ export type SortOptionType =
   | 'likeCount'
   | 'highRated'
   | 'lowRated';
-interface getCommentsParams {
+interface GetCommentsParams {
   movieId: number;
   sortOption?: SortOptionType;
   lastDocRef?: DocumentReference;
@@ -154,7 +157,7 @@ export const getComments = async ({
   movieId,
   sortOption = 'latest',
   lastDocRef,
-}: getCommentsParams) => {
+}: GetCommentsParams) => {
   let sortBy: QueryOrderByConstraint;
   if (sortOption === 'latest') {
     sortBy = orderBy('createdAt', 'desc');
@@ -190,6 +193,23 @@ export const getComments = async ({
     );
   }
 
+  const commentsSnapshot = await getDocs(commentsQuery);
+  const result = commentsSnapshot.docs.map((doc) => {
+    return {
+      ...doc.data(),
+      commentRef: doc.ref,
+    } as Comment;
+  });
+  return result;
+};
+
+// GET MY COMMENTS
+interface GetMyCommentsParams {
+  authorId: string;
+}
+
+export const getMyComments = async ({ authorId }: GetMyCommentsParams) => {
+  const commentsQuery = query(commentsRef, where('authorId', '==', authorId));
   const commentsSnapshot = await getDocs(commentsQuery);
   const result = commentsSnapshot.docs.map((doc) => {
     return {

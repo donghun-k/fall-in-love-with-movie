@@ -3,6 +3,7 @@ import { postComment } from '../../api/comment';
 
 interface Params {
   movieId: number;
+  movieTitle: string;
   authorId: string;
   username: string;
   userProfileImage: string;
@@ -10,6 +11,7 @@ interface Params {
 
 const usePostCommentMutation = ({
   movieId,
+  movieTitle,
   authorId,
   username,
   userProfileImage,
@@ -18,6 +20,7 @@ const usePostCommentMutation = ({
     ({ content, rating }: { content: string; rating: number }) => {
       return postComment({
         movieId,
+        movieTitle,
         authorId,
         username,
         userProfileImage,

@@ -9,38 +9,40 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import useAuthContext from '../../hooks/useAuthContext';
-import { useParams } from 'react-router-dom';
 import usePostCommentMutation from '../../hooks/comment/usePostCommentMutation';
 import LoadingBackdrop from '../common/LoadingBackdrop';
 import { useQueryClient } from '@tanstack/react-query';
 import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
 import useRatingQuery from '../../hooks/rating/useRatingQuery';
 import MyComment from '../../types/MyComment';
+import MovieDetail from '../../types/MovieDetail';
 
 interface Props {
+  movieDetail: MovieDetail;
   myComment?: MyComment;
   handleEditCommentDialogClose: () => void;
 }
 
 const EditCommentDialog = ({
+  movieDetail,
   myComment,
   handleEditCommentDialogClose,
 }: Props) => {
+  const { id: movieId, title: movieTitle } = movieDetail;
   const isUpdateMode = !!myComment;
   const prevContent = myComment?.content ?? '';
   const commentRef = myComment?.commentRef;
   const [commentContent, setCommentContent] = useState(prevContent);
   const [commentLength, setCommentLength] = useState(prevContent.length);
-  const { movieId } = useParams<{ movieId: string }>();
   const { user } = useAuthContext();
-  const movieIdNum = Number(movieId);
   const { data: rating } = useRatingQuery({
-    movieId: movieIdNum,
+    movieId,
     userId: user?.uid ?? '',
   });
   const { mutateAsync: postCommentMutate, isLoading: isPostingComment } =
     usePostCommentMutation({
-      movieId: movieIdNum,
+      movieId,
+      movieTitle,
       authorId: user?.uid ?? '',
       username: user?.displayName ?? '',
       userProfileImage: user?.photoURL ?? '',
@@ -73,7 +75,7 @@ const EditCommentDialog = ({
         rating: rating ?? 0,
       });
       handleEditCommentDialogClose();
-      queryClient.invalidateQueries(['myComment', movieIdNum, user?.uid]);
+      queryClient.invalidateQueries(['myComment', movieId, user?.uid]);
     } catch (error) {
       alert(error);
     }
@@ -91,7 +93,7 @@ const EditCommentDialog = ({
     try {
       await updateCommentMutate({ content: commentContent });
       handleEditCommentDialogClose();
-      queryClient.invalidateQueries(['myComment', movieIdNum, user?.uid]);
+      queryClient.invalidateQueries(['myComment', movieId, user?.uid]);
     } catch (error) {
       alert(error);
     }
