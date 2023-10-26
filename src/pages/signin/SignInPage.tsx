@@ -1,8 +1,14 @@
 import { Box, Divider, Typography } from '@mui/material';
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
+import { Navigate } from 'react-router-dom';
+import useAuthContext from '../../hooks/useAuthContext';
 
 const SignInPage = () => {
+  const { user } = useAuthContext();
+  if (user) {
+    return <Navigate to="/" replace />;
+  }
   const props = {};
   return <SignInPageView {...props} />;
 };
