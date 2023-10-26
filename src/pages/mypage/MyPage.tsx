@@ -11,28 +11,46 @@ import useMyRatings from '../../hooks/rating/useMyRatings';
 import Rating from '../../types/Rating';
 import Comment from '../../types/Comment';
 import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
+import LoadingPage from '../../components/common/LoadingPage';
+import { Navigate } from 'react-router-dom';
 
 const MyPage = () => {
   const { user } = useAuthContext();
-  const { data: ratings } = useMyRatings({
+  const { data: myRatings, isLoading: isMyRatingsLoading } = useMyRatings({
     userId: user?.uid || '',
   });
-  const { data: comments } = useMyCommentsQuery({
-    userId: user?.uid || '',
-  });
+  const { data: myComments, isLoading: isMyCommentsLoading } =
+    useMyCommentsQuery({
+      userId: user?.uid || '',
+    });
 
-  const props = { user, ratings, comments };
+  if (!user) {
+    alert('로그인 후 이용해주세요.');
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (isMyRatingsLoading || isMyCommentsLoading) return <LoadingPage />;
+
+  if (!myRatings || !myComments) {
+    alert('데이터를 불러오는데 실패했습니다. 다시 시도해주세요.');
+    return <Navigate to="-1" replace />;
+  }
+
+  const props = {
+    user,
+    myRatings,
+    myComments,
+  };
   return <MyPageView {...props} />;
 };
 
 interface ViewProps {
-  user: User | null;
-  ratings: Rating[] | undefined;
-  comments: Comment[] | undefined;
+  user: User;
+  myRatings: Rating[];
+  myComments: Comment[];
 }
 
-const MyPageView = ({ user, ratings, comments }: ViewProps) => {
-  if (!user) return null;
+const MyPageView = ({ user, myRatings, myComments }: ViewProps) => {
   return (
     <Box
       component="main"
@@ -57,10 +75,10 @@ const MyPageView = ({ user, ratings, comments }: ViewProps) => {
         }}
       >
         <ProfileBox user={user} />
-        {ratings && <RatingChartAccordian ratings={ratings} />}
-        {ratings && <PreferredGenreAccordian ratings={ratings} />}
-        {ratings && <RatedMovieAccordian ratings={ratings} />}
-        {comments && <CommentAccordian myComments={comments} />}
+        <RatingChartAccordian myRatings={myRatings} />
+        <PreferredGenreAccordian myRatings={myRatings} />
+        <RatedMovieAccordian myRatings={myRatings} />
+        <CommentAccordian myComments={myComments} />
         <DeleteUserAccordian />
       </Box>
     </Box>

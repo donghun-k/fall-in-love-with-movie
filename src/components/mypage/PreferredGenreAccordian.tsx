@@ -11,10 +11,10 @@ import { useEffect, useState } from 'react';
 import { GENRE_IDS, getGenreNameById } from '../../utils/genre';
 
 interface Props {
-  ratings: Rating[];
+  myRatings: Rating[];
 }
 
-const PreferredGenreAccordian = ({ ratings }: Props) => {
+const PreferredGenreAccordian = ({ myRatings }: Props) => {
   const [genreData, setGenreData] = useState<
     { genreName: string; averageRating: number; count: number }[]
   >([]);
@@ -23,7 +23,7 @@ const PreferredGenreAccordian = ({ ratings }: Props) => {
     GENRE_IDS.forEach((genreId) => {
       genreDataObject[genreId] = { sum: 0, count: 0 };
     });
-    ratings.forEach((rating) => {
+    myRatings.forEach((rating) => {
       const { movieGenreIds } = rating;
       movieGenreIds.forEach((genreId) => {
         genreDataObject[genreId].sum += rating.rating;
@@ -42,7 +42,7 @@ const PreferredGenreAccordian = ({ ratings }: Props) => {
       })
       .sort((a, b) => b.averageRating - a.averageRating);
     setGenreData(genreData);
-  }, [ratings]);
+  }, [myRatings]);
 
   const props = {
     genreData,

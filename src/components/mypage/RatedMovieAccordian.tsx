@@ -21,12 +21,12 @@ import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface Props {
-  ratings: Rating[];
+  myRatings: Rating[];
 }
 
 type SortOption = '최신순' | '등록순' | '가나다순';
 
-const RatedMovieAccordian = ({ ratings }: Props) => {
+const RatedMovieAccordian = ({ myRatings }: Props) => {
   const navigate = useNavigate();
   const [ratingValueToShow, setRatingValueToShow] = useState(0);
   const [sortOption, setSortOption] = useState<SortOption>('가나다순');
@@ -34,7 +34,7 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
-    let sortedRatings = [...ratings];
+    let sortedRatings = [...myRatings];
     if (sortOption === '가나다순') {
       sortedRatings.sort((a, b) => {
         return a.movieTitle.localeCompare(b.movieTitle);
@@ -56,7 +56,7 @@ const RatedMovieAccordian = ({ ratings }: Props) => {
     }
 
     setSortedRatings(sortedRatings);
-  }, [ratings, sortOption, ratingValueToShow]);
+  }, [myRatings, sortOption, ratingValueToShow]);
 
   const handleSetPage = (_: ChangeEvent<unknown>, page: number) => {
     setPage(page);

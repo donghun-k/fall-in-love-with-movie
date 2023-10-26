@@ -52,22 +52,22 @@ const chartOptions = {
 };
 
 interface Props {
-  ratings: Rating[];
+  myRatings: Rating[];
 }
 
-const RatingChartAccordian = ({ ratings }: Props) => {
+const RatingChartAccordian = ({ myRatings }: Props) => {
   const theme = useTheme();
 
   const [ratingData, setRatingData] = useState(Array(10).fill(0));
   const [averageRating, setAverageRating] = useState(0);
-  const totalRatingCount = ratings.length;
+  const totalRatingCount = myRatings.length;
 
   useEffect(() => {
-    if (ratings.length === 0) return;
+    if (myRatings.length === 0) return;
     const ratingData = Array(10).fill(0);
     let sumRating = 0;
     let count = 0;
-    ratings.forEach((rating) => {
+    myRatings.forEach((rating) => {
       ratingData[rating.rating - 1]++;
       sumRating += rating.rating;
       count++;
@@ -75,7 +75,7 @@ const RatingChartAccordian = ({ ratings }: Props) => {
     const averageRating = Number((sumRating / count).toFixed(1));
     setRatingData(ratingData);
     setAverageRating(averageRating);
-  }, [ratings]);
+  }, [myRatings]);
   const props = {
     theme,
     ratingData,
