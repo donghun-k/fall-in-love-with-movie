@@ -1,4 +1,9 @@
 import { initializeApp } from 'firebase/app';
+import {
+  browserSessionPersistence,
+  getAuth,
+  setPersistence,
+} from 'firebase/auth';
 
 const {
   VITE_FIREBASE_API_KEY,
@@ -13,5 +18,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+setPersistence(auth, browserSessionPersistence);
 
 export default app;

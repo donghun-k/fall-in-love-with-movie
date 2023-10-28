@@ -3,12 +3,16 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
 import usePalletteMode from '../../hooks/usePaletteMode';
 import LOGO_IMAGES from '../../utils/logo';
+import useAuthContext from '../../hooks/useAuthContext';
+import { User } from 'firebase/auth';
 
 const TitleSection = () => {
   const mode = usePalletteMode();
+  const { user } = useAuthContext();
 
   const props = {
     mode,
+    user,
   };
 
   return <TitleSectionView {...props} />;
@@ -16,9 +20,10 @@ const TitleSection = () => {
 
 interface ViewProps {
   mode: PaletteMode;
+  user: User | null;
 }
 
-const TitleSectionView = ({ mode }: ViewProps) => {
+const TitleSectionView = ({ mode, user }: ViewProps) => {
   return (
     <Box
       component="section"
@@ -35,8 +40,8 @@ const TitleSectionView = ({ mode }: ViewProps) => {
       <Box
         component="div"
         sx={{
-          width: '250px',
-          height: '200px',
+          width: { xs: '150px', md: '200px' },
+          height: { xs: '120px', md: '160px' },
           backgroundImage: `url(${LOGO_IMAGES[mode].logoIcon})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -44,31 +49,43 @@ const TitleSectionView = ({ mode }: ViewProps) => {
       ></Box>
       <Typography
         sx={{
-          fontSize: { xs: '30px', md: '40px' },
+          fontSize: { xs: '20px', md: '30px' },
           color: 'text.secondary',
           fontWeight: 'bold',
           '& span': {
-            fontSize: { xs: '45px', md: '60px' },
+            fontSize: { xs: '30px', md: '45px' },
             color: 'text.primary',
           },
-          marginBottom: '20px',
         }}
       >
         <span>F</span>all <span>I</span>n <span>L</span>ove with <span>M</span>
         ovie
       </Typography>
-      <Link to="/signin">
-        <Button
-          variant="contained"
-          size="large"
-          endIcon={<LoginIcon />}
-          sx={{
-            color: '#fff',
-          }}
-        >
-          시작하기
-        </Button>
-      </Link>
+      <Typography
+        sx={{
+          fontSize: { xs: '16px', md: '20px' },
+          marginBottom: {
+            xs: '10px',
+            sm: '15px',
+          },
+        }}
+      >
+        영화 정보 조회 및 별점 평가 서비스
+      </Typography>
+      {!user && (
+        <Link to="/signin">
+          <Button
+            variant="contained"
+            size="large"
+            endIcon={<LoginIcon />}
+            sx={{
+              color: '#fff',
+            }}
+          >
+            시작하기
+          </Button>
+        </Link>
+      )}
     </Box>
   );
 };

@@ -59,7 +59,6 @@ interface ViewProps {
 }
 
 const PreferredGenreAccordianView = ({ genreData }: ViewProps) => {
-  console.log(genreData);
   return (
     <Accordion
       sx={{
@@ -81,6 +80,7 @@ const PreferredGenreAccordianView = ({ genreData }: ViewProps) => {
         >
           {[...genreData].splice(0, 3).map((data) => (
             <Box
+              key={data.genreName}
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
