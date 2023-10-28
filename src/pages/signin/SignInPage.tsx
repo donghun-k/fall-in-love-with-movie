@@ -3,9 +3,11 @@ import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
 import { Navigate } from 'react-router-dom';
 import useAuthContext from '../../hooks/useAuthContext';
+import LoadingPage from '../../components/common/LoadingPage';
 
 const SignInPage = () => {
-  const { user } = useAuthContext();
+  const { user, isCheckingAuth } = useAuthContext();
+  if (isCheckingAuth) return <LoadingPage />;
   if (user) {
     return <Navigate to="/" replace />;
   }

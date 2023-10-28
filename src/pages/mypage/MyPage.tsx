@@ -15,7 +15,7 @@ import LoadingPage from '../../components/common/LoadingPage';
 import { Navigate } from 'react-router-dom';
 
 const MyPage = () => {
-  const { user } = useAuthContext();
+  const { user, isCheckingAuth } = useAuthContext();
   const { data: myRatings, isLoading: isMyRatingsLoading } = useMyRatings({
     userId: user?.uid || '',
   });
@@ -23,6 +23,8 @@ const MyPage = () => {
     useMyCommentsQuery({
       userId: user?.uid || '',
     });
+
+  if (isCheckingAuth) return <LoadingPage />;
 
   if (!user) {
     alert('로그인 후 이용해주세요.');

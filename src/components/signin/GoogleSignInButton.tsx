@@ -1,16 +1,13 @@
 import { Button } from '@mui/material';
-import useAuthContext from '../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../api/auth';
 import GoogleIcon from '@mui/icons-material/Google';
 
 const GoogleSignInButton = () => {
-  const { setUser } = useAuthContext();
   const navigate = useNavigate();
   const handleSignIn = async () => {
     try {
-      const user = await signIn('google');
-      setUser(user);
+      await signIn('google');
       navigate(-1);
     } catch (error) {
       console.error(error);

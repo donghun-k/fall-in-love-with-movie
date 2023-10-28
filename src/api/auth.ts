@@ -22,9 +22,7 @@ const AUTH_PROVIDER: Record<AuthType, AuthProvider> = {
 
 export const signIn = async (authType: AuthType) => {
   const provider = AUTH_PROVIDER[authType];
-  const result = await signInWithPopup(auth, provider);
-  const user = result.user;
-  return user;
+  await signInWithPopup(auth, provider);
 };
 
 export const signOut = async () => {

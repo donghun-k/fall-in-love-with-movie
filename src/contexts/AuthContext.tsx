@@ -4,27 +4,30 @@ import { onUserStateChange } from '../api/auth';
 
 interface AuthContextValue {
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  isCheckingAuth: boolean;
 }
 
 export const AuthContext = createContext<AuthContextValue>({
   user: null,
-  setUser: () => {},
+  isCheckingAuth: true,
 });
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
     onUserStateChange((user) => {
       setUser(user);
+      setIsCheckingAuth(false);
+      console.log('user state changed');
     });
   }, []);
   return (
     <AuthContext.Provider
       value={{
         user,
-        setUser,
+        isCheckingAuth,
       }}
     >
       {children}

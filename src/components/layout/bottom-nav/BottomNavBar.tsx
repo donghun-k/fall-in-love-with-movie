@@ -15,7 +15,7 @@ interface Props {
 
 const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const navigate = useNavigate();
-  const { user } = useAuthContext();
+  const { user, isCheckingAuth } = useAuthContext();
 
   const handleHomeBtnClick = () => {
     navigate('/');
@@ -40,6 +40,7 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
 
   const props = {
     user,
+    isCheckingAuth,
     handleHomeBtnClick,
     handleMyPageBtnClick,
     handleSearchBtnClick,
@@ -52,6 +53,7 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
 
 interface ViewProps {
   user: User | null;
+  isCheckingAuth: boolean;
   handleHomeBtnClick: () => void;
   handleMyPageBtnClick: () => void;
   handleSearchBtnClick: () => void;
@@ -61,6 +63,7 @@ interface ViewProps {
 
 const BottomNavBarView = ({
   user,
+  isCheckingAuth,
   handleHomeBtnClick,
   handleMyPageBtnClick,
   handleSearchBtnClick,
@@ -92,21 +95,21 @@ const BottomNavBarView = ({
         icon={<SearchIcon />}
         label="검색"
       />
-      {user && (
+      {!isCheckingAuth && user && (
         <BottomNavigationAction
           onClick={handleMyPageBtnClick}
           icon={<AccountCircleIcon />}
           label="내 정보"
         />
       )}
-      {user && (
+      {!isCheckingAuth && user && (
         <BottomNavigationAction
           onClick={handleSignOutBtnClick}
           icon={<LogoutIcon />}
           label="로그아웃"
         />
       )}
-      {!user && (
+      {!isCheckingAuth && !user && (
         <BottomNavigationAction
           onClick={handleSignInBtnClick}
           icon={<LoginIcon />}

@@ -10,7 +10,7 @@ const SignOutButton = () => {
       await signOut();
       queryClient.invalidateQueries(['myComment']);
       queryClient.invalidateQueries(['comments']);
-      alert('Sign out successfully!');
+      alert('정상적으로 로그아웃 되었습니다.');
     } catch (error) {
       console.error(error);
     }

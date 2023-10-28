@@ -21,7 +21,7 @@ interface Props {
 const RatingBox = ({ movieDetail }: Props) => {
   const queryClient = useQueryClient();
   const { id: movieId, title: movieTitle, genres } = movieDetail;
-  const { user } = useAuthContext();
+  const { user, isCheckingAuth } = useAuthContext();
   const userId = user?.uid ?? '';
   const movieGenreIds = genres.map((genre) => genre.id);
 
@@ -55,35 +55,10 @@ const RatingBox = ({ movieDetail }: Props) => {
     }
   };
 
-  const props = {
-    handleRatingChange,
-    rating,
-    isRatingLoading,
-    isRatingFetching,
-    isPostingRating,
-    user,
-  };
-  return <RatingBoxView {...props} />;
-};
-
-interface ViewProps {
-  handleRatingChange: (event: SyntheticEvent, value: number | null) => void;
-  rating: number;
-  isRatingLoading: boolean;
-  isRatingFetching: boolean;
-  isPostingRating: boolean;
-  user: User | null;
-}
-
-const RatingBoxView = ({
-  user,
-  rating,
-  isRatingLoading,
-  isRatingFetching,
-  isPostingRating,
-  handleRatingChange,
-}: ViewProps) => {
-  if (user && (isRatingLoading || isRatingFetching || isPostingRating)) {
+  if (
+    isCheckingAuth ||
+    (user && (isRatingLoading || isRatingFetching || isPostingRating))
+  ) {
     return (
       <Box
         sx={{
@@ -99,6 +74,21 @@ const RatingBoxView = ({
     );
   }
 
+  const props = {
+    handleRatingChange,
+    rating,
+    user,
+  };
+  return <RatingBoxView {...props} />;
+};
+
+interface ViewProps {
+  handleRatingChange: (event: SyntheticEvent, value: number | null) => void;
+  rating: number;
+  user: User | null;
+}
+
+const RatingBoxView = ({ user, rating, handleRatingChange }: ViewProps) => {
   return (
     <Box
       sx={{

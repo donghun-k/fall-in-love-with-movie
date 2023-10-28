@@ -1,16 +1,13 @@
 import { Button } from '@mui/material';
-import useAuthContext from '../../hooks/useAuthContext';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../api/auth';
 import GitHubIcon from '@mui/icons-material/GitHub';
 
 const GitHubSignInButton = () => {
-  const { setUser } = useAuthContext();
   const navigate = useNavigate();
   const handleSignIn = async () => {
     try {
-      const user = await signIn('github');
-      setUser(user);
+      await signIn('github');
       navigate(-1);
     } catch (error) {
       console.error(error);

@@ -17,13 +17,14 @@ interface Props {
 
 const NavBar = ({ togglePaletteMode, handleSearchDialogOpen }: Props) => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();
-  const { user } = useAuthContext();
+  const { user, isCheckingAuth } = useAuthContext();
 
   const props = {
     user,
     isSmDown,
     isSmUp,
     isMdDown,
+    isCheckingAuth,
     togglePaletteMode,
     handleSearchDialogOpen,
   };
@@ -36,6 +37,7 @@ interface ViewProps {
   isSmDown: boolean;
   isSmUp: boolean;
   isMdDown: boolean;
+  isCheckingAuth: boolean;
   togglePaletteMode: () => void;
   handleSearchDialogOpen: () => void;
 }
@@ -45,6 +47,7 @@ const NavBarView = ({
   isSmDown,
   isSmUp,
   isMdDown,
+  isCheckingAuth,
   togglePaletteMode,
   handleSearchDialogOpen,
 }: ViewProps) => {
@@ -91,7 +94,7 @@ const NavBarView = ({
                 ) : (
                   <SearchBar />
                 ))}
-              {!isSmDown && (
+              {!isCheckingAuth && !isSmDown && (
                 <>
                   {user && <MyPageButton />}
                   {user === null ? <SignInButton /> : <SignOutButton />}
