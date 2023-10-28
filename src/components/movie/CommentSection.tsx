@@ -37,7 +37,6 @@ const CommentSection = ({ movieDetail }: Props) => {
   const [sortOption, setSortOption] = useState<SortOptionType>('latest');
   const { data: myComment } = useMyCommentQuery({
     movieId,
-    authorId: user?.uid ?? '',
   });
   const {
     data,
@@ -229,7 +228,6 @@ const CommentSectionView = ({
           <MyCommentItem
             myComment={myComment}
             movieId={movieId}
-            user={user}
             handleEditCommentDialogOpen={handleEditCommentDialogOpen}
           />
         )}

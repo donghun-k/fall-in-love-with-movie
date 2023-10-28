@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import {
   DocumentReference,
   arrayRemove,
@@ -9,10 +10,14 @@ import {
 // POST LIKE
 interface AddLikeParams {
   commentRef: DocumentReference;
-  userId: string;
 }
 
-export const addLike = async ({ commentRef, userId }: AddLikeParams) => {
+export const addLike = async ({ commentRef }: AddLikeParams) => {
+  const user = getAuth().currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { uid: userId } = user;
   const commentDoc = await getDoc(commentRef);
 
   if (!commentDoc.exists()) {
@@ -29,10 +34,14 @@ export const addLike = async ({ commentRef, userId }: AddLikeParams) => {
 // DELETE LIKE
 interface DeleteLikeParams {
   commentRef: DocumentReference;
-  userId: string;
 }
 
-export const deleteLike = async ({ commentRef, userId }: DeleteLikeParams) => {
+export const deleteLike = async ({ commentRef }: DeleteLikeParams) => {
+  const user = getAuth().currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { uid: userId } = user;
   const commentDoc = await getDoc(commentRef);
 
   if (!commentDoc.exists()) {

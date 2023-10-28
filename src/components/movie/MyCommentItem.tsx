@@ -1,4 +1,3 @@
-import { User } from 'firebase/auth';
 import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import { useQueryClient } from '@tanstack/react-query';
@@ -9,19 +8,16 @@ import { convertTimestampToDateString } from '../../utils/date';
 import MyComment from '../../types/MyComment';
 
 interface Props {
-  user: User;
   movieId: number;
   myComment: MyComment;
   handleEditCommentDialogOpen: () => void;
 }
 
 const MyCommentItem = ({
-  user,
   movieId,
   myComment,
   handleEditCommentDialogOpen,
 }: Props) => {
-  const userId = user.uid;
   const commentRef = myComment.commentRef;
   const queryClient = useQueryClient();
   const { mutateAsync: deleteCommentMutate, isLoading: isDeletingComment } =
@@ -33,7 +29,7 @@ const MyCommentItem = ({
   const handleDeleteComment = async () => {
     try {
       await deleteCommentMutate();
-      queryClient.invalidateQueries(['myComment', movieId, userId]);
+      queryClient.invalidateQueries(['myComment', movieId]);
     } catch (error) {
       alert(error);
     }

@@ -7,7 +7,7 @@ import DeleteUserAccordian from '../../components/mypage/DeleteUserAccordian';
 import ProfileBox from '../../components/mypage/ProfileBox';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
-import useMyRatings from '../../hooks/rating/useMyRatings';
+import useMyRatingsQuery from '../../hooks/rating/useMyRatingsQuery';
 import Rating from '../../types/Rating';
 import Comment from '../../types/Comment';
 import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
@@ -16,13 +16,10 @@ import { Navigate } from 'react-router-dom';
 
 const MyPage = () => {
   const { user, isCheckingAuth } = useAuthContext();
-  const { data: myRatings, isLoading: isMyRatingsLoading } = useMyRatings({
-    userId: user?.uid || '',
-  });
+  const { data: myRatings, isLoading: isMyRatingsLoading } =
+    useMyRatingsQuery();
   const { data: myComments, isLoading: isMyCommentsLoading } =
-    useMyCommentsQuery({
-      userId: user?.uid || '',
-    });
+    useMyCommentsQuery();
 
   if (isCheckingAuth) return <LoadingPage />;
 

@@ -3,17 +3,16 @@ import { getMyComment } from '../../api/comment';
 
 interface Params {
   movieId: number;
-  authorId: string;
 }
 
-const useMyCommentQuery = ({ movieId, authorId }: Params) => {
+const useMyCommentQuery = ({ movieId }: Params) => {
   return useQuery(
-    ['myComment', movieId, authorId],
+    ['myComment', movieId],
     () => {
-      return getMyComment({ movieId, authorId });
+      return getMyComment({ movieId });
     },
     {
-      enabled: !!movieId && !!authorId,
+      enabled: !!movieId,
       refetchOnMount: 'always',
       staleTime: 1000 * 60 * 60 * 24,
     }

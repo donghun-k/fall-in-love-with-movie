@@ -4,26 +4,14 @@ import { postComment } from '../../api/comment';
 interface Params {
   movieId: number;
   movieTitle: string;
-  authorId: string;
-  username: string;
-  userProfileImage: string;
 }
 
-const usePostCommentMutation = ({
-  movieId,
-  movieTitle,
-  authorId,
-  username,
-  userProfileImage,
-}: Params) => {
+const usePostCommentMutation = ({ movieId, movieTitle }: Params) => {
   return useMutation(
     ({ content, rating }: { content: string; rating: number }) => {
       return postComment({
         movieId,
         movieTitle,
-        authorId,
-        username,
-        userProfileImage,
         content,
         rating,
       });

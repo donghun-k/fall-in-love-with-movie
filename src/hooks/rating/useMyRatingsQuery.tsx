@@ -1,15 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyRatings } from '../../api/rating';
 
-interface Params {
-  userId: string;
-}
-
-const useMyRatings = ({ userId }: Params) => {
+const useMyRatingsQuery = () => {
   return useQuery(
-    ['myRatings', userId],
+    ['myRatings'],
     () => {
-      return getMyRatings({ userId });
+      return getMyRatings();
     },
     {
       staleTime: 1000 * 60 * 1,
@@ -17,4 +13,4 @@ const useMyRatings = ({ userId }: Params) => {
   );
 };
 
-export default useMyRatings;
+export default useMyRatingsQuery;

@@ -5,17 +5,15 @@ interface Params {
   movieId: number;
   movieTitle: string;
   movieGenreIds: number[];
-  userId: string;
 }
 
 const usePostRatingMutation = ({
   movieId,
   movieTitle,
   movieGenreIds,
-  userId,
 }: Params) => {
   return useMutation((rating: number) => {
-    return postRating({ movieId, movieTitle, movieGenreIds, userId, rating });
+    return postRating({ movieId, movieTitle, movieGenreIds, rating });
   });
 };
 

@@ -4,12 +4,11 @@ import { DocumentReference } from 'firebase/firestore';
 
 interface Params {
   commentRef: DocumentReference;
-  userId: string;
 }
 
-const useDeleteLikeMutation = ({ commentRef, userId }: Params) => {
+const useDeleteLikeMutation = ({ commentRef }: Params) => {
   return useMutation(() => {
-    return deleteLike({ commentRef, userId });
+    return deleteLike({ commentRef });
   });
 };
 

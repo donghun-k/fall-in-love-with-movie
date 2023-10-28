@@ -16,6 +16,7 @@ import {
 } from 'firebase/firestore';
 import Comment from '../types/Comment';
 import app from '../configs/firebase';
+import { getAuth } from 'firebase/auth';
 
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');
@@ -23,9 +24,6 @@ const commentsRef = collection(db, 'comments');
 interface PostCommentParams {
   movieId: number;
   movieTitle: string;
-  authorId: string;
-  username: string;
-  userProfileImage: string;
   content: string;
   rating: number;
 }
@@ -33,16 +31,22 @@ interface PostCommentParams {
 export const postComment = async ({
   movieId,
   movieTitle,
-  authorId,
-  username,
-  userProfileImage,
   content,
   rating,
 }: PostCommentParams) => {
+  const user = getAuth(app).currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const {
+    uid: userId,
+    displayName: username,
+    photoURL: userProfileImage,
+  } = user;
   const comment = {
     movieId,
     movieTitle,
-    authorId,
+    authorId: userId,
     username,
     userProfileImage,
     content,
@@ -56,7 +60,7 @@ export const postComment = async ({
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('authorId', '==', authorId)
+    where('authorId', '==', userId)
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (!commentSnapshot.empty) {
@@ -69,17 +73,18 @@ export const postComment = async ({
 // GET MY COMMENT
 interface GetMyCommentParams {
   movieId: number;
-  authorId: string;
 }
 
-export const getMyComment = async ({
-  movieId,
-  authorId,
-}: GetMyCommentParams) => {
+export const getMyComment = async ({ movieId }: GetMyCommentParams) => {
+  const user = getAuth(app).currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { uid: userId } = user;
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('authorId', '==', authorId)
+    where('authorId', '==', userId)
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
@@ -119,17 +124,18 @@ export const deleteComment = async ({ commentRef }: DeleteCommentParams) => {
 // UPDATE COMMENT
 interface UpdateCommentParams {
   commentRef: DocumentReference;
-  username: string;
-  userProfileImage: string;
   content: string;
 }
 
 export const updateComment = async ({
   commentRef,
-  username,
-  userProfileImage,
   content,
 }: UpdateCommentParams) => {
+  const user = getAuth(app).currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { displayName: username, photoURL: userProfileImage } = user;
   await updateDoc(commentRef, {
     username,
     userProfileImage,
@@ -137,10 +143,10 @@ export const updateComment = async ({
     updatedAt: Date.now(),
     isUpdated: true,
   });
-  console.log('코멘트가 ㅈ정상적으로 수정되었습니다.');
+  console.log('코멘트가 정상적으로 수정되었습니다.');
 };
 
-// GET COMMENT REFS
+// GET COMMENTS
 export type SortOptionType =
   | 'latest'
   | 'registered'
@@ -204,12 +210,13 @@ export const getComments = async ({
 };
 
 // GET MY COMMENTS
-interface GetMyCommentsParams {
-  authorId: string;
-}
-
-export const getMyComments = async ({ authorId }: GetMyCommentsParams) => {
-  const commentsQuery = query(commentsRef, where('authorId', '==', authorId));
+export const getMyComments = async () => {
+  const user = getAuth(app).currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { uid: userId } = user;
+  const commentsQuery = query(commentsRef, where('authorId', '==', userId));
   const commentsSnapshot = await getDocs(commentsQuery);
   const result = commentsSnapshot.docs.map((doc) => {
     return {

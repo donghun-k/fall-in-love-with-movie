@@ -22,11 +22,9 @@ const CommentItem = ({ user, comment }: Props) => {
   const [likeCount, setLikeCount] = useState(0);
   const { mutateAsync: addLikeMutate } = useAddLikeMutation({
     commentRef,
-    userId,
   });
   const { mutateAsync: deleteLikeMutate } = useDeleteLikeMutation({
     commentRef,
-    userId,
   });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 

@@ -3,21 +3,13 @@ import { updateComment } from '../../api/comment';
 import { DocumentReference } from 'firebase/firestore';
 
 interface Params {
-  username: string;
-  userProfileImage: string;
   commentRef: DocumentReference;
 }
 
-const useUpdateCommentMutation = ({
-  username,
-  userProfileImage,
-  commentRef,
-}: Params) => {
+const useUpdateCommentMutation = ({ commentRef }: Params) => {
   return useMutation(({ content }: { content: string }) => {
     return updateComment({
       commentRef,
-      username,
-      userProfileImage,
       content,
     });
   });

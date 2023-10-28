@@ -1,20 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyComments } from '../../api/comment';
 
-interface Params {
-  userId: string;
-}
-
-const useMyCommentsQuery = ({ userId }: Params) => {
+const useMyCommentsQuery = () => {
   return useQuery(
-    ['myComments', userId],
+    ['myComments'],
     () => {
-      return getMyComments({
-        authorId: userId,
-      });
+      return getMyComments();
     },
     {
-      enabled: !!userId,
       staleTime: 1000 * 60 * 1,
     }
   );

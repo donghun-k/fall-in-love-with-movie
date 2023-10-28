@@ -9,14 +9,14 @@ import {
   where,
 } from 'firebase/firestore';
 import Rating from '../types/Rating';
+import { getAuth } from 'firebase/auth';
 
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
 const commentsRef = collection(db, 'comments');
 
 // POST MY RATING
-interface postRatingParams {
-  userId: string;
+interface PostRatingParams {
   movieId: number;
   movieTitle: string;
   movieGenreIds: number[];
@@ -24,15 +24,16 @@ interface postRatingParams {
 }
 
 export const postRating = async ({
-  userId,
   movieId,
   movieTitle,
   movieGenreIds,
   rating,
-}: postRatingParams) => {
-  if (!userId || !movieId) {
-    throw new Error('Invalid params');
+}: PostRatingParams) => {
+  const user = getAuth().currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
   }
+  const { uid: userId } = user;
 
   const ratingQuery = query(
     ratingsRef,
@@ -90,13 +91,18 @@ export const postRating = async ({
   console.log('별점 등록 과정이 정상적으로 완료되었습니다.');
 };
 
-// GET RATING
-interface getRatingParams {
-  userId: string;
+// GET MY RATING
+interface GetMyRatingParams {
   movieId: number;
 }
 
-export const getRating = async ({ userId, movieId }: getRatingParams) => {
+export const getMyRating = async ({ movieId }: GetMyRatingParams) => {
+  const user = getAuth().currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { uid: userId } = user;
+
   const ratingQuery = query(
     ratingsRef,
     where('userId', '==', userId),
@@ -112,7 +118,7 @@ export const getRating = async ({ userId, movieId }: getRatingParams) => {
 };
 
 // GET RATINGS STATISICS
-interface getRatingsStatisticsParams {
+interface GetRatingsStatisticsParams {
   movieId: number;
 }
 
@@ -124,7 +130,7 @@ export interface RatingsStatisticsResponse {
 
 export const getRatingsStatistics = async ({
   movieId,
-}: getRatingsStatisticsParams): Promise<RatingsStatisticsResponse> => {
+}: GetRatingsStatisticsParams): Promise<RatingsStatisticsResponse> => {
   const ratingData = Array(10).fill(0);
   let totalRatingCount = 0;
   let sumRating = 0;
@@ -152,11 +158,14 @@ export const getRatingsStatistics = async ({
 };
 
 // GET MY RATINGS
-interface getMyRatingsParams {
-  userId: string;
-}
 
-export const getMyRatings = async ({ userId }: getMyRatingsParams) => {
+export const getMyRatings = async () => {
+  const user = getAuth().currentUser;
+  if (!user) {
+    throw new Error('로그인 상태가 아닙니다.');
+  }
+  const { uid: userId } = user;
+
   const ratingQuery = query(ratingsRef, where('userId', '==', userId));
   const { docs: raingDocs } = await getDocs(ratingQuery);
   return raingDocs.map((doc) => doc.data() as Rating);

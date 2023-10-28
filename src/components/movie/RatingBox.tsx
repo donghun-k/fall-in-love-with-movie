@@ -9,7 +9,7 @@ import { SyntheticEvent } from 'react';
 import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { Link } from 'react-router-dom';
-import useRatingQuery from '../../hooks/rating/useRatingQuery';
+import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
 import MovieDetail from '../../types/MovieDetail';
@@ -22,23 +22,20 @@ const RatingBox = ({ movieDetail }: Props) => {
   const queryClient = useQueryClient();
   const { id: movieId, title: movieTitle, genres } = movieDetail;
   const { user, isCheckingAuth } = useAuthContext();
-  const userId = user?.uid ?? '';
   const movieGenreIds = genres.map((genre) => genre.id);
 
   const {
     data: rating = 0,
     isLoading: isRatingLoading,
     isFetching: isRatingFetching,
-  } = useRatingQuery({
+  } = useMyRatingQuery({
     movieId,
-    userId,
   });
   const { mutateAsync: postRating, isLoading: isPostingRating } =
     usePostRatingMutation({
       movieId,
       movieTitle,
       movieGenreIds,
-      userId,
     });
 
   const handleRatingChange = async (
@@ -47,8 +44,8 @@ const RatingBox = ({ movieDetail }: Props) => {
   ) => {
     try {
       await postRating(value ?? 0);
-      queryClient.invalidateQueries(['rating', movieId, userId]);
-      queryClient.invalidateQueries(['myComment', movieId, userId]);
+      queryClient.invalidateQueries(['myRating', movieId]);
+      queryClient.invalidateQueries(['myComment', movieId]);
       queryClient.invalidateQueries(['ratingStatistics', movieId]);
     } catch (error) {
       alert(error);
