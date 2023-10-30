@@ -12,27 +12,25 @@ import Rating from '../../types/Rating';
 import Comment from '../../types/Comment';
 import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
 import LoadingPage from '../../components/common/LoadingPage';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const MyPage = () => {
-  const { user, isCheckingAuth } = useAuthContext();
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
   const { data: myRatings, isLoading: isMyRatingsLoading } =
     useMyRatingsQuery();
   const { data: myComments, isLoading: isMyCommentsLoading } =
     useMyCommentsQuery();
 
-  if (isCheckingAuth) return <LoadingPage />;
-
   if (!user) {
-    alert('로그인 후 이용해주세요.');
-    return <Navigate to="/signin" replace />;
+    return null;
   }
-
   if (isMyRatingsLoading || isMyCommentsLoading) return <LoadingPage />;
 
   if (!myRatings || !myComments) {
     alert('데이터를 불러오는데 실패했습니다. 다시 시도해주세요.');
-    return <Navigate to="-1" replace />;
+    navigate('/', { replace: true });
+    return null;
   }
 
   const props = {

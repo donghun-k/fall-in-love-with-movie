@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import useSearchInfiniteQuery from '../../hooks/search/useSearchInfiniteQuery';
 import Movie from '../../types/Movie';
 import MovieCard from '../../components/common/MovieCard';
@@ -14,6 +14,7 @@ import { useMemo } from 'react';
 import LoadingPage from '../../components/common/LoadingPage';
 
 const SearchPage = () => {
+  const navigate = useNavigate();
   const [searchPrams] = useSearchParams();
   const query = searchPrams.get('query') || '';
   const { data, isLoading, isFetching, fetchNextPage, hasNextPage } =
@@ -35,7 +36,10 @@ const SearchPage = () => {
     fetchNextPage,
   };
 
-  if (query.trim() === '') return <Navigate to="/" />;
+  if (query.trim() === '') {
+    navigate('/', { replace: true });
+    return null;
+  }
 
   if (isLoading) return <LoadingPage />;
   return <SearchPageView {...props} />;
