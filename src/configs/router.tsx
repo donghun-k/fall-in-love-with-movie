@@ -6,6 +6,7 @@ import SearchPage from '../pages/search/SearchPage';
 import MovieDetailPage from '../pages/movie/MovieDetailPage';
 import MyPage from '../pages/mypage/MyPage';
 import PrivateRoute from '../pages/PrivateRoute';
+import PublicRoute from '../pages/PublicRoute';
 
 const router = createBrowserRouter([
   {
@@ -17,10 +18,6 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: '/signin',
-        element: <SignInPage />,
-      },
-      {
         path: '/search',
         element: <SearchPage />,
       },
@@ -29,12 +26,22 @@ const router = createBrowserRouter([
         element: <MovieDetailPage />,
       },
       {
-        path: '/mypage',
-        element: (
-          <PrivateRoute>
-            <MyPage />
-          </PrivateRoute>
-        ),
+        element: <PublicRoute />,
+        children: [
+          {
+            path: '/signin',
+            element: <SignInPage />,
+          },
+        ],
+      },
+      {
+        element: <PrivateRoute />,
+        children: [
+          {
+            path: '/mypage',
+            element: <MyPage />,
+          },
+        ],
       },
     ],
   },

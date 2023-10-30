@@ -1,18 +1,8 @@
 import { Box, Divider, Typography } from '@mui/material';
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
-import { useNavigate } from 'react-router-dom';
-import useAuthContext from '../../hooks/useAuthContext';
-import LoadingPage from '../../components/common/LoadingPage';
 
 const SignInPage = () => {
-  const navigate = useNavigate();
-  const { user, isCheckingAuth } = useAuthContext();
-  if (isCheckingAuth) return <LoadingPage />;
-  if (user) {
-    navigate('/', { replace: true });
-    return null;
-  }
   const props = {};
   return <SignInPageView {...props} />;
 };

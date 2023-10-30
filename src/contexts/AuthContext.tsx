@@ -20,7 +20,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     onUserStateChange((user) => {
       setUser(user);
       setIsCheckingAuth(false);
-      console.log('user state changed');
     });
   }, []);
   return (

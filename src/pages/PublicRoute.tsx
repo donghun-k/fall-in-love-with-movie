@@ -3,12 +3,12 @@ import useAuthContext from '../hooks/useAuthContext';
 import LoadingPage from '../components/common/LoadingPage';
 import { useEffect } from 'react';
 
-const PrivateRoute = () => {
+const PublicRoute = () => {
   const navigate = useNavigate();
   const { user, isCheckingAuth } = useAuthContext();
   useEffect(() => {
     if (isCheckingAuth) return;
-    if (!user) navigate('/');
+    if (user) navigate('/');
   }, [user, navigate, isCheckingAuth]);
 
   if (isCheckingAuth) return <LoadingPage />;
@@ -16,4 +16,4 @@ const PrivateRoute = () => {
   return <Outlet />;
 };
 
-export default PrivateRoute;
+export default PublicRoute;

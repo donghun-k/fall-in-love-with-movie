@@ -8,10 +8,10 @@ const SignOutButton = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      queryClient.invalidateQueries(['myComment']);
-      queryClient.invalidateQueries(['myRating']);
-      queryClient.invalidateQueries(['myRatings']);
-      queryClient.invalidateQueries(['myComments']);
+      queryClient.removeQueries(['myComment']);
+      queryClient.removeQueries(['myRating']);
+      queryClient.removeQueries(['myRatings']);
+      queryClient.removeQueries(['myComments']);
 
       alert('정상적으로 로그아웃 되었습니다.');
     } catch (error) {
