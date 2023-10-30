@@ -20,12 +20,14 @@ const CommentItem = ({ user, comment }: Props) => {
   const { commentRef, likeCount: likeCnt } = comment;
   const [alreadyLiked, setAlreadyLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const { mutateAsync: addLikeMutate } = useAddLikeMutation({
-    commentRef,
-  });
-  const { mutateAsync: deleteLikeMutate } = useDeleteLikeMutation({
-    commentRef,
-  });
+  const { mutateAsync: addLikeMutate, isLoading: isAddingLike } =
+    useAddLikeMutation({
+      commentRef,
+    });
+  const { mutateAsync: deleteLikeMutate, isLoading: isDeletingLike } =
+    useDeleteLikeMutation({
+      commentRef,
+    });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
   useEffect(() => {
@@ -40,6 +42,7 @@ const CommentItem = ({ user, comment }: Props) => {
       alert('공감 하려면 로그인이 필요합니다.');
       return;
     }
+    if (isAddingLike || isDeletingLike) return;
     try {
       await addLikeMutate();
       setAlreadyLiked(true);
@@ -53,6 +56,7 @@ const CommentItem = ({ user, comment }: Props) => {
       alert('공감 하려면 로그인이 필요합니다.');
       return;
     }
+    if (isAddingLike || isDeletingLike) return;
     try {
       await deleteLikeMutate();
       setAlreadyLiked(false);

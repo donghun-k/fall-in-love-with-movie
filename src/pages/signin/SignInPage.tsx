@@ -10,7 +10,6 @@ const SignInPage = () => {
   const { user, isCheckingAuth } = useAuthContext();
   if (isCheckingAuth) return <LoadingPage />;
   if (user) {
-    alert('이미 로그인되어 있습니다.');
     navigate('/', { replace: true });
     return null;
   }
