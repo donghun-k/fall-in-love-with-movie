@@ -7,6 +7,7 @@ import SimilarSection from '../../components/movie/SimilarSection';
 import { useParams } from 'react-router-dom';
 import useMovieDetailQuery from '../../hooks/movie/useMovieDetailQuery';
 import LoadingPage from '../../components/common/LoadingPage';
+import { Helmet } from 'react-helmet-async';
 
 const MovieDetailPage = () => {
   const { movieId } = useParams();
@@ -35,22 +36,27 @@ const MovieDetailPageView = ({ isLoading, movieDetail }: ViewProps) => {
     return null;
   }
   return (
-    <Box
-      component="main"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: { xs: '10px', sm: '30px' },
-        marginBottom: '30px',
-      }}
-    >
-      <BackdropSection movieDetail={movieDetail} />
-      <InfoSection movieDetail={movieDetail} />
-      <CommentSection movieDetail={movieDetail} />
-      <SimilarSection movieId={movieDetail.id} />
-    </Box>
+    <>
+      <Helmet>
+        <title>{movieDetail.title} - FILM</title>
+      </Helmet>
+      <Box
+        component="main"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: { xs: '10px', sm: '30px' },
+          marginBottom: '30px',
+        }}
+      >
+        <BackdropSection movieDetail={movieDetail} />
+        <InfoSection movieDetail={movieDetail} />
+        <CommentSection movieDetail={movieDetail} />
+        <SimilarSection movieId={movieDetail.id} />
+      </Box>
+    </>
   );
 };
 export default MovieDetailPage;

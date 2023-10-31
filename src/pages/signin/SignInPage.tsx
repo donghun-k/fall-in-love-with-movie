@@ -1,6 +1,7 @@
 import { Box, Divider, Typography } from '@mui/material';
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
+import { Helmet } from 'react-helmet-async';
 
 const SignInPage = () => {
   const props = {};
@@ -11,51 +12,56 @@ const SignInPage = () => {
 
 const SignInPageView = () => {
   return (
-    <Box
-      component="main"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100%',
-        paddingBottom: '20vh',
-      }}
-    >
+    <>
+      <Helmet>
+        <title>로그인 - FILM</title>
+      </Helmet>
       <Box
+        component="main"
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '300px',
           height: '100%',
+          paddingBottom: '20vh',
         }}
       >
-        <Typography color="primary.main" fontSize={40} fontWeight={800}>
-          로그인
-        </Typography>
-        <Divider
-          sx={{
-            width: '100%',
-            marginBottom: '30px',
-          }}
-        />
         <Box
           sx={{
-            width: '100%',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '10px',
+            width: '300px',
+            height: '100%',
           }}
         >
-          <GoogleSignInButton />
-          <GitHubSignInButton />
+          <Typography color="primary.main" fontSize={40} fontWeight={800}>
+            로그인
+          </Typography>
+          <Divider
+            sx={{
+              width: '100%',
+              marginBottom: '30px',
+            }}
+          />
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+            }}
+          >
+            <GoogleSignInButton />
+            <GitHubSignInButton />
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

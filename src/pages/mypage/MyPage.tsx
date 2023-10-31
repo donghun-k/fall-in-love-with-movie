@@ -14,6 +14,7 @@ import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
 import LoadingPage from '../../components/common/LoadingPage';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+import { Helmet } from 'react-helmet-async';
 
 const MyPage = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -53,36 +54,41 @@ interface ViewProps {
 
 const MyPageView = ({ user, myRatings, myComments }: ViewProps) => {
   return (
-    <Box
-      component="main"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: { xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' },
-        padding: '20px',
-      }}
-    >
+    <>
+      <Helmet>
+        <title>{user.displayName}님의 페이지 - FILM</title>
+      </Helmet>
       <Box
+        component="main"
         sx={{
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          width: '100%',
-          maxWidth: '500px',
-          gap: '10px',
+          minHeight: { xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' },
+          padding: '20px',
         }}
       >
-        <ProfileBox user={user} />
-        <RatingChartAccordian myRatings={myRatings} />
-        <PreferredGenreAccordian myRatings={myRatings} />
-        <RatedMovieAccordian myRatings={myRatings} />
-        <CommentAccordian myComments={myComments} />
-        <DeleteUserAccordian />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            maxWidth: '500px',
+            gap: '10px',
+          }}
+        >
+          <ProfileBox user={user} />
+          <RatingChartAccordian myRatings={myRatings} />
+          <PreferredGenreAccordian myRatings={myRatings} />
+          <RatedMovieAccordian myRatings={myRatings} />
+          <CommentAccordian myComments={myComments} />
+          <DeleteUserAccordian />
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
