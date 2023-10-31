@@ -6,6 +6,7 @@ import StarIcon from '@mui/icons-material/Star';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { convertTimestampToDateString } from '../../utils/date';
 import MyComment from '../../types/MyComment';
+import { useSnackbar } from 'notistack';
 
 interface Props {
   movieId: number;
@@ -19,6 +20,7 @@ const MyCommentItem = ({
   handleEditCommentDialogOpen,
 }: Props) => {
   const commentRef = myComment.commentRef;
+  const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const { mutateAsync: deleteCommentMutate, isLoading: isDeletingComment } =
     useDeleteCommentMutation({
@@ -29,9 +31,14 @@ const MyCommentItem = ({
   const handleDeleteComment = async () => {
     try {
       await deleteCommentMutate();
+      enqueueSnackbar('댓글이 삭제되었습니다.', {
+        variant: 'success',
+      });
       queryClient.invalidateQueries(['myComment', movieId]);
     } catch (error) {
-      alert(error);
+      enqueueSnackbar('댓글 삭제에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
 

@@ -13,14 +13,16 @@ import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
 import MovieDetail from '../../types/MovieDetail';
+import { useSnackbar } from 'notistack';
 
 interface Props {
   movieDetail: MovieDetail;
 }
 
 const RatingBox = ({ movieDetail }: Props) => {
-  const queryClient = useQueryClient();
   const { id: movieId, title: movieTitle, genres } = movieDetail;
+  const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
   const { user, isCheckingAuth } = useAuthContext();
   const movieGenreIds = genres.map((genre) => genre.id);
 
@@ -44,11 +46,16 @@ const RatingBox = ({ movieDetail }: Props) => {
   ) => {
     try {
       await postRating(value ?? 0);
+      enqueueSnackbar('별점이 변경되었습니다.', {
+        variant: 'success',
+      });
       queryClient.invalidateQueries(['myRating', movieId]);
       queryClient.invalidateQueries(['myComment', movieId]);
       queryClient.invalidateQueries(['ratingStatistics', movieId]);
     } catch (error) {
-      alert(error);
+      enqueueSnackbar('별점 변경에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
 

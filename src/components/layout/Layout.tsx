@@ -6,6 +6,7 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
+import { SnackbarProvider } from 'notistack';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import getDesignTokens from '../../configs/theme';
 import BottomNavBar from './bottom-nav/BottomNavBar';
@@ -77,9 +78,18 @@ const LayoutView = ({
         }}
       >
         <Grid item xs={0} md={1} lg={2} />
-        <Grid item xs={12} md={10} lg={8} position="relative">
-          {children}
-        </Grid>
+        <SnackbarProvider
+          anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+          autoHideDuration={3000}
+          style={{
+            background: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
+          <Grid item xs={12} md={10} lg={8} position="relative">
+            {children}
+          </Grid>
+        </SnackbarProvider>
         <Grid item xs={0} md={1} lg={2} />
       </Grid>
       <BottomNavBar handleSearchDialogOpen={handleSearchDialogOpen} />

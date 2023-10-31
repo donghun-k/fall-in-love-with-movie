@@ -11,8 +11,10 @@ import WarningIcon from '@mui/icons-material/Warning';
 import { ChangeEvent, useState } from 'react';
 import { deleteAccount, signOut } from '../../api/auth';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 const DeleteUserAccordian = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [inputText, setInputText] = useState('');
 
@@ -25,10 +27,13 @@ const DeleteUserAccordian = () => {
     if (!isButtonActive) return;
     try {
       await deleteAccount();
-      alert('정상적으로 계정이 삭제되었습니다.');
+      enqueueSnackbar('계정이 삭제되었습니다.', {
+        variant: 'success',
+      });
     } catch (error) {
-      console.error(error);
-      alert('계정 삭제에 실패했습니다. 다시 로그인 후 시도해주세요.');
+      enqueueSnackbar('계정 삭제에 실패하였습니다.', {
+        variant: 'error',
+      });
       await signOut();
     } finally {
       navigate('/signin');

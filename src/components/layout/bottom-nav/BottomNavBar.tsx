@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import useAuthContext from '../../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { signOut } from '../../../api/auth';
+import { useSnackbar } from 'notistack';
 
 interface Props {
   handleSearchDialogOpen: () => void;
@@ -15,6 +16,7 @@ interface Props {
 
 const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const navigate = useNavigate();
+  const { enqueueSnackbar } = useSnackbar();
   const { user, isCheckingAuth } = useAuthContext();
 
   const handleHomeBtnClick = () => {
@@ -32,9 +34,13 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const handleSignOutBtnClick = async () => {
     try {
       await signOut();
-      alert('Sign out successfully!');
+      enqueueSnackbar('로그아웃 되었습니다.', {
+        variant: 'success',
+      });
     } catch (error) {
-      console.error(error);
+      enqueueSnackbar('로그아웃에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
 

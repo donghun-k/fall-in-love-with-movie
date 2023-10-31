@@ -13,8 +13,10 @@ import Comment from '../../types/Comment';
 import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
 import LoadingPage from '../../components/common/LoadingPage';
 import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
 
 const MyPage = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const { user } = useAuthContext();
   const { data: myRatings, isLoading: isMyRatingsLoading } =
@@ -28,7 +30,9 @@ const MyPage = () => {
   if (isMyRatingsLoading || isMyCommentsLoading) return <LoadingPage />;
 
   if (!myRatings || !myComments) {
-    alert('데이터를 불러오는데 실패했습니다. 다시 시도해주세요.');
+    enqueueSnackbar('내 정보를 불러오는데 실패하였습니다.', {
+      variant: 'error',
+    });
     navigate('/', { replace: true });
     return null;
   }

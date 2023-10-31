@@ -9,6 +9,7 @@ import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';
 import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import { useEffect, useState } from 'react';
+import { useSnackbar } from 'notistack';
 
 interface Props {
   user: User | null;
@@ -17,6 +18,7 @@ interface Props {
 
 const CommentItem = ({ user, comment }: Props) => {
   const userId = user?.uid ?? '';
+  const { enqueueSnackbar } = useSnackbar();
   const { commentRef, likeCount: likeCnt } = comment;
   const [alreadyLiked, setAlreadyLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
@@ -39,30 +41,41 @@ const CommentItem = ({ user, comment }: Props) => {
 
   const handleAddLike = async () => {
     if (!user) {
-      alert('공감 하려면 로그인이 필요합니다.');
+      enqueueSnackbar('공감 하려면 로그인이 필요합니다.', { variant: 'error' });
       return;
     }
     if (isAddingLike || isDeletingLike) return;
     try {
       await addLikeMutate();
+      enqueueSnackbar('공감이 추가되었습니다.', {
+        variant: 'success',
+      });
       setAlreadyLiked(true);
       setLikeCount((prev) => prev + 1);
     } catch (error) {
-      alert(error);
+      enqueueSnackbar('공감 등록에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
   const handleDeleteLike = async () => {
     if (!user) {
-      alert('공감 하려면 로그인이 필요합니다.');
+      enqueueSnackbar('공감을 취소하려면 로그인이 필요합니다.', {
+        variant: 'error',
+      });
       return;
     }
     if (isAddingLike || isDeletingLike) return;
     try {
       await deleteLikeMutate();
+      enqueueSnackbar('공감이 취소되었습니다.', { variant: 'success' });
+
       setAlreadyLiked(false);
       setLikeCount((prev) => prev - 1);
     } catch (error) {
-      alert(error);
+      enqueueSnackbar('공감 취소에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
 

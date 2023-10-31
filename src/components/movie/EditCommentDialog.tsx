@@ -15,6 +15,7 @@ import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutati
 import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 import MyComment from '../../types/MyComment';
 import MovieDetail from '../../types/MovieDetail';
+import { useSnackbar } from 'notistack';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -31,6 +32,7 @@ const EditCommentDialog = ({
   const isUpdateMode = !!myComment;
   const prevContent = myComment?.content ?? '';
   const commentRef = myComment?.commentRef;
+  const { enqueueSnackbar } = useSnackbar();
   const [commentContent, setCommentContent] = useState(prevContent);
   const [commentLength, setCommentLength] = useState(prevContent.length);
   const { data: rating } = useMyRatingQuery({
@@ -58,7 +60,9 @@ const EditCommentDialog = ({
 
   const handlePostComment = async () => {
     if (commentContent.trim().length === 0) {
-      alert('내용을 입력해주세요.');
+      enqueueSnackbar('내용을 입력해주세요.', {
+        variant: 'error',
+      });
       return;
     }
     try {
@@ -66,20 +70,29 @@ const EditCommentDialog = ({
         content: commentContent,
         rating: rating ?? 0,
       });
+      enqueueSnackbar('코멘트가 작성되었습니다.', {
+        variant: 'success',
+      });
       handleEditCommentDialogClose();
       queryClient.invalidateQueries(['myComment', movieId]);
     } catch (error) {
-      alert(error);
+      enqueueSnackbar('코멘트 작성에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
 
   const handleUpdateComment = async () => {
     if (prevContent === commentContent) {
-      alert('변경된 내용이 없습니다.');
+      enqueueSnackbar('내용이 변경되지 않았습니다.', {
+        variant: 'error',
+      });
       return;
     }
     if (commentContent.trim().length === 0) {
-      alert('내용을 입력해주세요.');
+      enqueueSnackbar('내용을 입력해주세요.', {
+        variant: 'error',
+      });
       return;
     }
     try {
@@ -87,7 +100,9 @@ const EditCommentDialog = ({
       handleEditCommentDialogClose();
       queryClient.invalidateQueries(['myComment', movieId]);
     } catch (error) {
-      alert(error);
+      enqueueSnackbar('코멘트 수정에 실패하였습니다.', {
+        variant: 'error',
+      });
     }
   };
 
