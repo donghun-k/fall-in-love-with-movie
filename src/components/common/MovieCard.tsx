@@ -16,7 +16,7 @@ const MovieCard = ({ movie }: Props) => {
         size: 'w185',
       })
     : null;
-  const releaseYear = release_date.split('-')[0];
+  const releaseYear = release_date?.split('-')[0] ?? null;
   return (
     <Paper
       sx={{
