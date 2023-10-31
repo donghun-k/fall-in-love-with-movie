@@ -17,10 +17,12 @@ const BackdropSection = ({ movieDetail }: Props) => {
     production_countries,
   } = movieDetail;
 
-  const backdropSrc = generateBackdropImgSrc({
-    path: backdrop_path,
-    size: 'w1280',
-  });
+  const backdropSrc = backdrop_path
+    ? generateBackdropImgSrc({
+        path: backdrop_path,
+        size: 'w1280',
+      })
+    : null;
   const releaseYear = release_date.split('-')[0];
   const country = production_countries
     .map((country) => country.name)
@@ -41,7 +43,7 @@ const BackdropSection = ({ movieDetail }: Props) => {
 };
 
 interface ViewProps {
-  backdropSrc: string;
+  backdropSrc: string | null;
   title: string;
   original_title: string;
   releaseYear: string;
@@ -76,7 +78,7 @@ const BackdropSectionView = ({
         },
       }}
     >
-      <img src={backdropSrc} alt={title} />
+      {backdropSrc && <img src={backdropSrc} alt={title} />}
       <Box
         sx={{
           position: 'absolute',

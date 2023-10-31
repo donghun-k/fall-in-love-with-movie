@@ -2,6 +2,7 @@ import { Box, Paper, Tooltip, Typography } from '@mui/material';
 import Movie from '../../types/Movie';
 import { Link } from 'react-router-dom';
 import { generatePosterImgSrc } from '../../utils/movieImgSrc';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 interface Props {
   movie: Movie;
@@ -9,10 +10,12 @@ interface Props {
 
 const MovieCard = ({ movie }: Props) => {
   const { title, release_date, poster_path } = movie;
-  const imgSrc = generatePosterImgSrc({
-    path: poster_path || '',
-    size: 'w185',
-  });
+  const imgSrc = poster_path
+    ? generatePosterImgSrc({
+        path: poster_path || '',
+        size: 'w185',
+      })
+    : null;
   const releaseYear = release_date.split('-')[0];
   return (
     <Paper
@@ -27,20 +30,51 @@ const MovieCard = ({ movie }: Props) => {
         overflow: 'hidden',
       }}
     >
-      <Link to={`/movie/${movie.id}`}>
+      <Link
+        style={{
+          textDecoration: 'none',
+        }}
+        to={`/movie/${movie.id}`}
+      >
         <Box
           sx={{
             width: '100%',
             aspectRatio: 2 / 3,
-            transition: 'all .3s ease-in-out',
             '& img': {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
             },
+            overflow: 'hidden',
           }}
         >
-          <img src={imgSrc} alt="title" />
+          {imgSrc ? (
+            <img src={imgSrc} alt="title" />
+          ) : (
+            <Box
+              sx={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'background.paper',
+                color: 'text.secondary',
+                transition: 'transform .3s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                },
+              }}
+            >
+              <ImageNotSupportedIcon
+                sx={{
+                  fontSize: { xs: '2rem', sm: '3rem' },
+                }}
+              />
+              <Typography>No Image</Typography>
+            </Box>
+          )}
         </Box>
       </Link>
       <Box

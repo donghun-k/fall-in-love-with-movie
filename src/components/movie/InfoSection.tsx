@@ -3,6 +3,7 @@ import { generatePosterImgSrc } from '../../utils/movieImgSrc';
 import { Box, Divider, Typography } from '@mui/material';
 import RatingBox from './RatingBox';
 import RatingInfoBox from './RatingInfoBox';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -11,10 +12,12 @@ interface Props {
 const InfoSection = ({ movieDetail }: Props) => {
   const { poster_path } = movieDetail;
 
-  const posterSrc = generatePosterImgSrc({
-    path: poster_path,
-    size: 'w342',
-  });
+  const posterSrc = poster_path
+    ? generatePosterImgSrc({
+        path: poster_path,
+        size: 'w342',
+      })
+    : null;
 
   const props = {
     movieDetail,
@@ -26,7 +29,7 @@ const InfoSection = ({ movieDetail }: Props) => {
 
 interface ViewProps {
   movieDetail: MovieDetail;
-  posterSrc: string;
+  posterSrc: string | null;
 }
 
 const InfoSectionView = ({ movieDetail, posterSrc }: ViewProps) => {
@@ -58,7 +61,29 @@ const InfoSectionView = ({ movieDetail, posterSrc }: ViewProps) => {
           },
         }}
       >
-        <img src={posterSrc} alt={title} />
+        {posterSrc ? (
+          <img src={posterSrc} alt={title} />
+        ) : (
+          <Box
+            sx={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'background.paper',
+              color: 'text.secondary',
+            }}
+          >
+            <ImageNotSupportedIcon
+              sx={{
+                fontSize: { xs: '2rem', sm: '3rem' },
+              }}
+            />
+            <Typography>No Image</Typography>
+          </Box>
+        )}
       </Box>
       {/* RIGHT */}
       <Box

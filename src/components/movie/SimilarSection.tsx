@@ -13,6 +13,7 @@ const SimilarSection = ({ movieId }: Props) => {
   const props = {
     similarMovies,
   };
+  if (similarMovies?.length === 0) return null;
   return <SimilarSectionView {...props} />;
 };
 
