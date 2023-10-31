@@ -2,6 +2,37 @@ import { PaletteMode } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 const getDesignTokens = (mode: PaletteMode) => ({
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: `
+        * {
+          transition: background-color 0.5s ease;
+          word-break: keep-all;
+        }
+        *::-webkit-scrollbar {
+          width: 10px;
+        }
+        *::-webkit-scrollbar-thumb {
+          background: #666;
+          border-radius: 20px;
+        }        
+        *::-webkit-scrollbar-track {
+          background: #ddd;
+          border-radius: 20px;
+        }
+        body {
+          overflow-x: hidden;
+        }
+        img {
+          filter: grayscale(100%);
+          transition: all .5s ease-in-out;
+          :hover {
+            filter: grayscale(0%);
+          }
+        }
+      `,
+    },
+  },
   typography: {
     fontFamily: 'Noto Sans KR',
   },

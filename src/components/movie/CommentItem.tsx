@@ -172,13 +172,6 @@ const CommentItemView = ({
               sx={{
                 width: '40px',
                 height: '40px',
-                '& img': {
-                  filter: 'grayscale(100%)',
-                  transition: 'filter 0.5s ease',
-                  '&:hover': {
-                    filter: 'grayscale(0%)',
-                  },
-                },
               }}
             />
             <Box>

@@ -55,11 +55,6 @@ const InfoSectionView = ({ movieDetail, posterSrc }: ViewProps) => {
           '& img': {
             width: '100%',
             height: '100%',
-            filter: 'grayscale(100%)',
-            transition: 'filter .5s ease-in-out',
-            '&:hover': {
-              filter: 'grayscale(0%)',
-            },
           },
         }}
       >

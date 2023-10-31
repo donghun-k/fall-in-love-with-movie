@@ -77,19 +77,25 @@ const SearchPageView = ({
           sx={{
             padding: { xs: '10px 20px', sm: '10px 10px' },
             color: 'text.secondary',
-            fontSize: { xs: '1.2rem', sm: '1.5rem' },
+            fontSize: { xs: '.9rem', sm: '1.5rem' },
             '& .query': {
               color: 'text.primary',
-              fontSize: { xs: '1.5rem', sm: '2rem' },
+              fontSize: { xs: '1.1rem', sm: '2rem' },
             },
             '& .total': {
               color: 'text.primary',
-              fontSize: { xs: '1.2rem', sm: '1.5rem' },
+              fontSize: { xs: '1rem', sm: '1.5rem' },
             },
           }}
         >
-          <span className="query">"{query}"</span>의 검색 결과{' '}
-          <span className="total">{total_results}</span>건
+          <span className="query">
+            "
+            {query.length > 8
+              ? [...query].splice(0, 8).join('') + '...'
+              : query}
+            "
+          </span>
+          의 검색 결과 <span className="total">{total_results}</span>건
         </Typography>
         <Divider />
       </Box>

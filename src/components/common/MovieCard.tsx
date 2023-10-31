@@ -37,11 +37,6 @@ const MovieCard = ({ movie }: Props) => {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              filter: 'grayscale(100%)',
-              transition: 'all .5s ease-in-out',
-              '&:hover': {
-                filter: 'grayscale(0%)',
-              },
             },
           }}
         >
