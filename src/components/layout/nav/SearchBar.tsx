@@ -59,6 +59,7 @@ const SearchBarView = ({
         placeholder="영화 제목을 입력하세요."
       />
       <IconButton
+        aria-label="search"
         type="submit"
         sx={{
           p: '10px',

@@ -25,6 +25,9 @@ interface ViewProps {
 const PaletteModeSwitchView = ({ mode, handleSwitchChange }: ViewProps) => {
   return (
     <Switch
+      inputProps={{
+        'aria-label': 'Toggle dark mode',
+      }}
       sx={{
         '&.MuiSwitch-root': {
           padding: '8px 0',

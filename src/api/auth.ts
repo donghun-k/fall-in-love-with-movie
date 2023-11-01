@@ -4,9 +4,10 @@ import {
   GoogleAuthProvider,
   NextFn,
   User,
+  browserPopupRedirectResolver,
   deleteUser,
   getAuth,
-  signInWithPopup,
+  signInWithRedirect,
   signOut as signOutFirebase,
 } from 'firebase/auth';
 import app from '../configs/firebase';
@@ -22,7 +23,7 @@ const AUTH_PROVIDER: Record<AuthType, AuthProvider> = {
 
 export const signIn = async (authType: AuthType) => {
   const provider = AUTH_PROVIDER[authType];
-  await signInWithPopup(auth, provider);
+  await signInWithRedirect(auth, provider, browserPopupRedirectResolver);
 };
 
 export const signOut = async () => {
