@@ -69,7 +69,7 @@ export const postComment = async ({
     createdAt: Date.now(),
     updatedAt: Date.now(),
     isUpdated: false,
-    rating,
+    rating: rating === 0 ? null : rating,
     likes: [],
     likeCount: 0,
     commentRef: newDocRef,
@@ -191,12 +191,16 @@ export const getComments = async ({
   let commentsQuery;
 
   if (!lastDocRef) {
-    commentsQuery = query(
-      commentsRef,
-      where('movieId', '==', movieId),
-      sortBy,
-      limit(5)
-    );
+    commentsQuery =
+      sortOption === 'highRated' || sortOption === 'lowRated'
+        ? query(
+            commentsRef,
+            where('movieId', '==', movieId),
+            sortBy,
+            where('rating', '!=', null),
+            limit(5)
+          )
+        : query(commentsRef, where('movieId', '==', movieId), sortBy, limit(5));
   } else {
     const lastDoc = await getDoc(lastDocRef);
     commentsQuery = query(

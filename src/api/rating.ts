@@ -83,7 +83,7 @@ export const postRating = async ({
     if (!commentSnapshot.empty) {
       const commentDocRef = commentDocs[0].ref;
       transaction.update(commentDocRef, {
-        rating,
+        rating: rating === 0 ? null : rating,
       });
       console.log('코멘트의 별점이 정상적으로 수정되었습니다.');
     }
