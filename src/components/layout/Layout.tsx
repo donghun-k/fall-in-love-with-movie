@@ -62,41 +62,43 @@ const LayoutView = ({
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <NavBar
-        togglePaletteMode={togglePaletteMode}
-        handleSearchDialogOpen={handleSearchDialogOpen}
-      />
-      <Grid
-        container
-        sx={{
-          background: 'background.default',
-          width: '100vw',
-          minHeight: {
-            xs: 'calc(100vh - 160px)',
-            sm: 'calc(100vh - 80px)',
-          },
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        autoHideDuration={3000}
+        style={{
+          background: theme.palette.background.paper,
+          color: theme.palette.text.primary,
         }}
       >
-        <Grid item xs={0} md={1} lg={2} />
-        <SnackbarProvider
-          anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-          autoHideDuration={3000}
-          style={{
-            background: theme.palette.background.paper,
-            color: theme.palette.text.primary,
+        <NavBar
+          togglePaletteMode={togglePaletteMode}
+          handleSearchDialogOpen={handleSearchDialogOpen}
+        />
+        <Grid
+          container
+          sx={{
+            background: 'background.default',
+            width: '100vw',
+            minHeight: {
+              xs: 'calc(100vh - 160px)',
+              sm: 'calc(100vh - 80px)',
+            },
           }}
         >
+          <Grid item xs={0} md={1} lg={2} />
+
           <Grid item xs={12} md={10} lg={8} position="relative">
             {children}
           </Grid>
-        </SnackbarProvider>
-        <Grid item xs={0} md={1} lg={2} />
-      </Grid>
-      <BottomNavBar handleSearchDialogOpen={handleSearchDialogOpen} />
-      <SearchDialog
-        open={openSearchBox}
-        handleSearchDialogClose={handleSearchDialogClose}
-      />
+
+          <Grid item xs={0} md={1} lg={2} />
+        </Grid>
+        <BottomNavBar handleSearchDialogOpen={handleSearchDialogOpen} />
+        <SearchDialog
+          open={openSearchBox}
+          handleSearchDialogClose={handleSearchDialogClose}
+        />
+      </SnackbarProvider>
     </ThemeProvider>
   );
 };

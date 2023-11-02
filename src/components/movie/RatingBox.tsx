@@ -88,7 +88,7 @@ const RatingBox = ({ movieDetail }: Props) => {
 
 interface ViewProps {
   handleRatingChange: (event: SyntheticEvent, value: number | null) => void;
-  rating: number;
+  rating: number | null;
   user: User | null;
 }
 
@@ -110,7 +110,7 @@ const RatingBoxView = ({ user, rating, handleRatingChange }: ViewProps) => {
           <Box>
             <Rating
               max={10}
-              value={rating}
+              value={rating ?? 0}
               onChange={handleRatingChange}
               sx={{
                 '&.MuiRating-root': {

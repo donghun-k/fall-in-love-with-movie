@@ -8,7 +8,9 @@ const PublicRoute = () => {
   const { user, isCheckingAuth } = useAuthContext();
   useEffect(() => {
     if (isCheckingAuth) return;
-    if (user) navigate('/');
+    if (user) {
+      navigate(-1);
+    }
   }, [user, navigate, isCheckingAuth]);
 
   if (isCheckingAuth) return <LoadingPage />;

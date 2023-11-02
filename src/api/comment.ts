@@ -77,8 +77,6 @@ export const postComment = async ({
 
   await setDoc(newDocRef, comment);
 
-  // const docRef = await addDoc(commentsRef, comment);
-
   console.log('코멘트가 정상적으로 작성되었습니다. ', newDocRef.id);
 };
 
@@ -90,7 +88,7 @@ interface GetMyCommentParams {
 export const getMyComment = async ({ movieId }: GetMyCommentParams) => {
   const user = getAuth(app).currentUser;
   if (!user) {
-    throw new Error('로그인 상태가 아닙니다.');
+    return null;
   }
   const { uid: userId } = user;
   const commentQuery = query(
@@ -100,7 +98,6 @@ export const getMyComment = async ({ movieId }: GetMyCommentParams) => {
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
-    console.log('내가 작성한 코멘트가 없습니다.');
     return null;
   }
   const commentDoc = commentSnapshot.docs[0];

@@ -1,14 +1,13 @@
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../api/auth';
 import GoogleIcon from '@mui/icons-material/Google';
+import { enqueueSnackbar } from 'notistack';
 
 const GoogleSignInButton = () => {
-  const navigate = useNavigate();
   const handleSignIn = async () => {
     try {
       await signIn('google');
-      navigate(-1);
+      enqueueSnackbar('로그인 되었습니다.', { variant: 'success' });
     } catch (error) {
       console.error(error);
     }

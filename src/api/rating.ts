@@ -99,7 +99,7 @@ interface GetMyRatingParams {
 export const getMyRating = async ({ movieId }: GetMyRatingParams) => {
   const user = getAuth().currentUser;
   if (!user) {
-    throw new Error('로그인 상태가 아닙니다.');
+    return null;
   }
   const { uid: userId } = user;
 

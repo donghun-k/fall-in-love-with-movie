@@ -14,6 +14,7 @@ const SignOutButton = () => {
       queryClient.removeQueries(['myRating']);
       queryClient.removeQueries(['myRatings']);
       queryClient.removeQueries(['myComments']);
+      queryClient.invalidateQueries(['comments']);
 
       enqueueSnackbar('로그아웃 되었습니다.', {
         variant: 'success',

@@ -7,7 +7,7 @@ import {
   browserPopupRedirectResolver,
   deleteUser,
   getAuth,
-  signInWithRedirect,
+  signInWithPopup,
   signOut as signOutFirebase,
 } from 'firebase/auth';
 import app from '../configs/firebase';
@@ -23,7 +23,7 @@ const AUTH_PROVIDER: Record<AuthType, AuthProvider> = {
 
 export const signIn = async (authType: AuthType) => {
   const provider = AUTH_PROVIDER[authType];
-  await signInWithRedirect(auth, provider, browserPopupRedirectResolver);
+  await signInWithPopup(auth, provider, browserPopupRedirectResolver);
 };
 
 export const signOut = async () => {
