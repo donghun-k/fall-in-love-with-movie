@@ -1,15 +1,17 @@
 import {
   DocumentReference,
   QueryOrderByConstraint,
-  addDoc,
+  // addDoc,
   collection,
   deleteDoc,
+  doc,
   getDoc,
   getDocs,
   getFirestore,
   limit,
   orderBy,
   query,
+  setDoc,
   startAfter,
   updateDoc,
   where,
@@ -17,6 +19,7 @@ import {
 import Comment from '../types/Comment';
 import app from '../configs/firebase';
 import { getAuth } from 'firebase/auth';
+import { v4 as uuid } from 'uuid';
 
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');
@@ -35,7 +38,7 @@ export const postComment = async ({
   rating,
 }: PostCommentParams) => {
   const user = getAuth(app).currentUser;
-  if (!user) {
+  if (!user || !user.displayName || !user.photoURL) {
     throw new Error('로그인 상태가 아닙니다.');
   }
   const {
@@ -43,7 +46,20 @@ export const postComment = async ({
     displayName: username,
     photoURL: userProfileImage,
   } = user;
-  const comment = {
+
+  const commentQuery = query(
+    commentsRef,
+    where('movieId', '==', movieId),
+    where('authorId', '==', userId)
+  );
+  const commentSnapshot = await getDocs(commentQuery);
+  if (!commentSnapshot.empty) {
+    throw new Error('코멘트가 이미 존재합니다.');
+  }
+  const refId = uuid();
+  const newDocRef = doc(db, 'comments', refId);
+
+  const comment: Comment = {
     movieId,
     movieTitle,
     authorId: userId,
@@ -56,18 +72,14 @@ export const postComment = async ({
     rating,
     likes: [],
     likeCount: 0,
+    commentRef: newDocRef,
   };
-  const commentQuery = query(
-    commentsRef,
-    where('movieId', '==', movieId),
-    where('authorId', '==', userId)
-  );
-  const commentSnapshot = await getDocs(commentQuery);
-  if (!commentSnapshot.empty) {
-    throw new Error('코멘트가 이미 존재합니다.');
-  }
-  const docRef = await addDoc(commentsRef, comment);
-  console.log('Comment written with ID: ', docRef.id);
+
+  await setDoc(newDocRef, comment);
+
+  // const docRef = await addDoc(commentsRef, comment);
+
+  console.log('코멘트가 정상적으로 작성되었습니다. ', newDocRef.id);
 };
 
 // GET MY COMMENT
@@ -213,7 +225,8 @@ export const getComments = async ({
 export const getMyComments = async () => {
   const user = getAuth(app).currentUser;
   if (!user) {
-    throw new Error('로그인 상태가 아닙니다.');
+    console.log('로그인 상태가 아닙니다.');
+    return;
   }
   const { uid: userId } = user;
   const commentsQuery = query(commentsRef, where('authorId', '==', userId));
