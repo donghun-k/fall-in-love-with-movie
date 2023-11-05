@@ -1,4 +1,5 @@
 # 🎥 FILM - Fall In Love with Movie
+![noname](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/bccd41af-dac3-44ed-9ab3-d3465baa1fac)
 
 <h3 align="center">🎬 영화 별점 평가 및 코멘트 서비스 🎬</h3>
 <h5 align="center">배포 링크: <a href="https://fall-in-love-with-movie.site">FILM - Fall In Love with Movie</a></h5>
@@ -16,7 +17,7 @@
 
 
 ## 🏛️ Architecture
-![image](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/89f2a2b4-41f0-401c-941c-25e581e18151)
+![Untitled-2023-10-16-1846](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/30453d40-b222-4a6c-a300-041a26f5d886)
 
 
 ## ✨ Features
