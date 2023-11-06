@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/home/HomePage';
 // import SignInPage from '../pages/signin/SignInPage';
@@ -67,6 +67,10 @@ const router = createBrowserRouter([
             element: <MyPage />,
           },
         ],
+      },
+      {
+        path: '*',
+        element: <Navigate to="/" />,
       },
     ],
   },
