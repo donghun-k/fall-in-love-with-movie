@@ -70,7 +70,7 @@ const TitleSectionView = ({ mode, user }: ViewProps) => {
           },
         }}
       >
-        영화 정보 조회 및 별점 평가 서비스
+        영화 별점 평가 및 코멘트 서비스
       </Typography>
       {!user && (
         <Link to="/signin">

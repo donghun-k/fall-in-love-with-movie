@@ -29,13 +29,16 @@ const MovieDetailPage = () => {
       navigate('/');
       return;
     }
-    if (!movieDetail) {
+  }, [movieIdNumber, navigate]);
+
+  useEffect(() => {
+    if (!isLoading && !movieDetail) {
       enqueueSnackbar('영화 정보를 불러오는데 실패했습니다.', {
         variant: 'error',
       });
       navigate('/');
     }
-  }, [movieIdNumber, movieDetail, navigate]);
+  }, [isLoading, movieDetail, navigate]);
 
   if (isLoading) return <LoadingPage />;
   if (!movieDetail) return null;
