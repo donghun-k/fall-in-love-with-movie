@@ -1,12 +1,6 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/home/HomePage';
-// import SignInPage from '../pages/signin/SignInPage';
-// import SearchPage from '../pages/search/SearchPage';
-// import MovieDetailPage from '../pages/movie/MovieDetailPage';
-// import MyPage from '../pages/mypage/MyPage';
-// import PrivateRoute from '../pages/PrivateRoute';
-// import PublicRoute from '../pages/PublicRoute';
 import { Suspense, lazy } from 'react';
 import LoadingPage from '../components/common/LoadingPage';
 
@@ -20,7 +14,11 @@ const PublicRoute = lazy(() => import('../pages/PublicRoute'));
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <Suspense fallback={<LoadingPage />}>
+        <App />
+      </Suspense>
+    ),
     children: [
       {
         path: '/',
@@ -28,26 +26,14 @@ const router = createBrowserRouter([
       },
       {
         path: '/search',
-        element: (
-          <Suspense fallback={<LoadingPage />}>
-            <SearchPage />
-          </Suspense>
-        ),
+        element: <SearchPage />,
       },
       {
         path: '/movie/:movieId',
-        element: (
-          <Suspense fallback={<LoadingPage />}>
-            <MovieDetailPage />
-          </Suspense>
-        ),
+        element: <MovieDetailPage />,
       },
       {
-        element: (
-          <Suspense fallback={<LoadingPage />}>
-            <PublicRoute />
-          </Suspense>
-        ),
+        element: <PublicRoute />,
         children: [
           {
             path: '/signin',
@@ -56,11 +42,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        element: (
-          <Suspense fallback={<LoadingPage />}>
-            <PrivateRoute />
-          </Suspense>
-        ),
+        element: <PrivateRoute />,
         children: [
           {
             path: '/mypage',
