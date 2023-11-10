@@ -17,7 +17,35 @@
 
 
 ## 🏛️ Architecture
-![Untitled-2023-10-16-1846](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/30453d40-b222-4a6c-a300-041a26f5d886)
+![Architecture](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/7ebc7364-b0fa-4145-9cad-182c5694d6fd)
 
 
 ## ✨ Features
+### ✅ 로그인
+|Google 로그인|Github 로그인|
+|:---:|:---:|
+|![signin-google](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/e845057b-b56b-4024-ba91-f9e93eda96ef)|![signin-github](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/aee8ba0c-cc6a-4039-bc5f-83c4ca11ef30)|
+### 🔎 검색
+|검색|검색 결과 더 보기|
+|:---:|:---:|
+|![search](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/516b519e-e0b6-4731-a25b-d464dd882904)|![search-view-more](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/5814479c-1781-4dfc-8403-af8b930fe71f)|
+### ⭐ 별점 평가
+|별점 등록|별점 등록 취소|
+|:---:|:---:|
+|![rating](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/fdc0f775-b747-4567-a2d6-aaa7f6e71f61)|![rating-cancel](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/1ec5e8f9-a7aa-4a57-a9cc-77f9962317da)|
+### ✏️ 내 코멘트
+|코멘트 작성|코멘트 수정 및 삭제|
+|:---:|:---:|
+|![comment-post](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/9db676b3-09cf-429b-9b26-08c5b66d93c4)|![comment-edit-delete](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/c7d5a73b-5a2b-4454-9df7-201b26be1026)|
+### ✏️ 코멘트 리스트
+|공감|정렬|
+|:---:|:---:|
+|![comments-like](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/29eef57f-2ecd-4b0d-9c59-59cbe44d7983)|![comments-sort](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/de86fcc1-1f4d-4664-89bb-1d53ba5176d6)|
+### 👤 마이 페이지
+|내 활동|계정 삭제|
+|:---:|:---:|
+|![mypage-activities](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/0e274669-3ba5-4fea-9779-65a6394328aa)|![mypage-delete-account](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/f1c12ca6-c8dc-4918-a67a-8c8d7ce17826)|
+### 💄 UI
+|다크/라이트 모드|반응형 디자인|
+|:---:|:---:|
+|![dark-light-mode](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/cba19f4f-95e7-4806-b1e0-b832bec0a7ca)|![responsive](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/584c8251-0f59-4604-8119-4025e2154ec1)|
