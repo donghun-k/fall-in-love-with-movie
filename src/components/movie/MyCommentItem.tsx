@@ -31,6 +31,8 @@ const MyCommentItem = ({
   const handleDeleteComment = async () => {
     try {
       await deleteCommentMutate();
+      queryClient.resetQueries(['myComments']);
+      queryClient.resetQueries(['myRatings']);
       enqueueSnackbar('댓글이 삭제되었습니다.', {
         variant: 'success',
       });

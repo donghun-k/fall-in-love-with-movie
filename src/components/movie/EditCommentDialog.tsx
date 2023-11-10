@@ -74,6 +74,8 @@ const EditCommentDialog = ({
         variant: 'success',
       });
       handleEditCommentDialogClose();
+      queryClient.resetQueries(['myComments']);
+      queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myComment', movieId]);
     } catch (error) {
       enqueueSnackbar('코멘트 작성에 실패하였습니다.', {
@@ -98,6 +100,8 @@ const EditCommentDialog = ({
     try {
       await updateCommentMutate({ content: commentContent });
       handleEditCommentDialogClose();
+      queryClient.resetQueries(['myComments']);
+      queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myComment', movieId]);
     } catch (error) {
       enqueueSnackbar('코멘트 수정에 실패하였습니다.', {

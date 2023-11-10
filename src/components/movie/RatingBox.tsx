@@ -49,6 +49,8 @@ const RatingBox = ({ movieDetail }: Props) => {
       enqueueSnackbar('별점이 변경되었습니다.', {
         variant: 'success',
       });
+      queryClient.resetQueries(['myComments']);
+      queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myRating', movieId]);
       queryClient.invalidateQueries(['myComment', movieId]);
       queryClient.invalidateQueries(['ratingStatistics', movieId]);
