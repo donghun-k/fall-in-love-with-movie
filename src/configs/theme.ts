@@ -30,6 +30,9 @@ const getDesignTokens = (mode: PaletteMode) => ({
             filter: grayscale(0%);
           }
         }
+        a {
+          text-decoration: none;
+        }
       `,
     },
   },
