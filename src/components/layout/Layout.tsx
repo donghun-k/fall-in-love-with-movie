@@ -1,17 +1,19 @@
 import {
   CssBaseline,
   Grid,
+  IconButton,
   PaletteMode,
   Theme,
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import { SnackbarProvider } from 'notistack';
+import { SnackbarKey, SnackbarProvider, useSnackbar } from 'notistack';
 import { ReactNode, useCallback, useMemo, useState } from 'react';
 import getDesignTokens from '../../configs/theme';
 import BottomNavBar from './bottom-nav/BottomNavBar';
 import SearchDialog from './common/SearchDialog';
 import NavBar from './nav/NavBar';
+import IconClose from '@mui/icons-material/Close';
 
 interface Props {
   children: ReactNode;
@@ -65,6 +67,9 @@ const LayoutView = ({
       <SnackbarProvider
         anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
         autoHideDuration={3000}
+        action={(snackbarKey) => (
+          <SnackbarCloseButton snackbarKey={snackbarKey} />
+        )}
         style={{
           background: theme.palette.background.paper,
           color: theme.palette.text.primary,
@@ -100,6 +105,16 @@ const LayoutView = ({
         />
       </SnackbarProvider>
     </ThemeProvider>
+  );
+};
+
+const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
+  const { closeSnackbar } = useSnackbar();
+
+  return (
+    <IconButton size="small" onClick={() => closeSnackbar(snackbarKey)}>
+      <IconClose />
+    </IconButton>
   );
 };
 
