@@ -20,12 +20,6 @@ const MovieCard = ({ movie }: Props) => {
   return (
     <Paper
       sx={{
-        width: {
-          xs: 'calc(50% - 10px)',
-          sm: 'calc(33.3333% - 13.5px)',
-          md: 'calc(25% - 15px)',
-          lg: 'calc(20% - 16px)',
-        },
         minWidth: '140px',
         overflow: 'hidden',
       }}

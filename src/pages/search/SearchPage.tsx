@@ -68,7 +68,12 @@ const SearchPageView = ({
       <Helmet>
         <title>"{query}" 검색 결과 - FILM</title>
       </Helmet>
-      <Box component="main">
+      <Box
+        component="main"
+        sx={{
+          padding: { xs: '0px 30px', md: '0' },
+        }}
+      >
         <Box
           position="sticky"
           sx={{
@@ -106,10 +111,14 @@ const SearchPageView = ({
         </Box>
         <Box
           sx={{
-            display: 'flex',
-            flexWrap: 'wrap',
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: 'repeat(2, 1fr)',
+              sm: 'repeat(3, 1fr)',
+              md: 'repeat(4, 1fr)',
+              lg: 'repeat(5, 1fr)',
+            },
             gap: '20px',
-            padding: { xs: '10px 20px', md: '10px 10px' },
           }}
         >
           {movieList.map((movie) => (
