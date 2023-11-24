@@ -1,4 +1,4 @@
-import MovieDetail from '../../types/MovieDetail';
+import MovieDetail from '../../models/MovieDetail';
 import { generatePosterImgSrc } from '../../utils/movieImgSrc';
 import { Box, Divider, Typography } from '@mui/material';
 import RatingBox from './RatingBox';

@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import useAuthContext from '../hooks/useAuthContext';
-import LoadingPage from '../components/common/LoadingPage';
+import LoadingPage from '../components/ui/LoadingPage';
 import { useEffect } from 'react';
 
 const PublicRoute = () => {

@@ -10,7 +10,7 @@ import {
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import SortIcon from '@mui/icons-material/Sort';
 import CreateIcon from '@mui/icons-material/Create';
-import MovieDetail from '../../types/MovieDetail';
+import MovieDetail from '../../models/MovieDetail';
 import { useState, MouseEvent, useEffect } from 'react';
 import CommentItem from './CommentItem';
 import EditCommentDialog from './EditCommentDialog';
@@ -21,7 +21,7 @@ import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
 import { useQueryClient } from '@tanstack/react-query';
-import Comment from '../../types/Comment';
+import Comment from '../../models/Comment';
 
 interface Props {
   movieDetail: MovieDetail;

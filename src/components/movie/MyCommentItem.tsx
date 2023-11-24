@@ -5,7 +5,7 @@ import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { convertTimestampToDateString } from '../../utils/date';
-import MyComment from '../../types/MyComment';
+import MyComment from '../../models/MyComment';
 import { useSnackbar } from 'notistack';
 
 interface Props {

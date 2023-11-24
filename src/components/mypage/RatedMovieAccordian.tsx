@@ -15,7 +15,7 @@ import {
   Typography,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import Rating from '../../types/Rating';
+import Rating from '../../models/Rating';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';

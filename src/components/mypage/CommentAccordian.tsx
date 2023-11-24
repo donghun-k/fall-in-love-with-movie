@@ -14,7 +14,7 @@ import {
 
 import { MouseEvent, ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Comment from '../../types/Comment';
+import Comment from '../../models/Comment';
 import CommentListItem from './CommentListItem';
 
 interface Props {

@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import Comment from '../../types/Comment';
+import Comment from '../../models/Comment';
 import { MouseEvent } from 'react';
 import { convertTimestampToDateString } from '../../utils/date';
 

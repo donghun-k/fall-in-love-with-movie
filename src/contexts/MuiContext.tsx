@@ -1,5 +1,68 @@
+import {
+  CssBaseline,
+  IconButton,
+  ThemeProvider,
+  createTheme,
+} from '@mui/material';
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useMemo,
+  useState,
+} from 'react';
 import { PaletteMode } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useSnackbar, SnackbarKey, SnackbarProvider } from 'notistack';
+import CloseIcon from '@mui/icons-material/Close';
+
+interface MuiContextValue {
+  togglePaletteMode: () => void;
+}
+
+export const MuiContext = createContext<MuiContextValue>({
+  togglePaletteMode: () => {},
+});
+
+const MuiContextProvider = ({ children }: { children: ReactNode }) => {
+  const [mode, setMode] = useState<PaletteMode>('dark');
+  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
+  const togglePaletteMode = useCallback(() => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  }, []);
+  return (
+    <MuiContext.Provider value={{ togglePaletteMode }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <SnackbarProvider
+          anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+          autoHideDuration={3000}
+          action={(snackbarKey) => (
+            <SnackbarCloseButton snackbarKey={snackbarKey} />
+          )}
+          style={{
+            background: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+          }}
+        >
+          {children}
+        </SnackbarProvider>
+      </ThemeProvider>
+    </MuiContext.Provider>
+  );
+};
+
+const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
+  const { closeSnackbar } = useSnackbar();
+
+  return (
+    <IconButton size="small" onClick={() => closeSnackbar(snackbarKey)}>
+      <CloseIcon />
+    </IconButton>
+  );
+};
+
+export default MuiContextProvider;
 
 const getDesignTokens = (mode: PaletteMode) => ({
   components: {
@@ -80,5 +143,3 @@ const getDesignTokens = (mode: PaletteMode) => ({
         }),
   },
 });
-
-export default getDesignTokens;

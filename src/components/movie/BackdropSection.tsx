@@ -1,5 +1,5 @@
 import { Box, Grid, Typography } from '@mui/material';
-import MovieDetail from '../../types/MovieDetail';
+import MovieDetail from '../../models/MovieDetail';
 import { generateBackdropImgSrc } from '../../utils/movieImgSrc';
 
 interface Props {

@@ -1,5 +1,5 @@
-import Movie from '../types/Movie';
-import MovieDetail from '../types/MovieDetail';
+import Movie from '../models/Movie';
+import MovieDetail from '../models/MovieDetail';
 
 const { VITE_TMDB_ACCESS_TOKEN } = import.meta.env;
 

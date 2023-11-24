@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
-import Movie from '../../types/Movie';
-import MovieCard from '../common/MovieCard';
+import Movie from '../../models/Movie';
+import MovieCard from '../ui/MovieCard';
 import TheatersIcon from '@mui/icons-material/Theaters';
 import useSimilarMoviesQuery from '../../hooks/movie/useSimilarMoviesQuery';
 

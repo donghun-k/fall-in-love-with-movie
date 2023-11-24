@@ -8,10 +8,10 @@ import {
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import useSearchInfiniteQuery from '../../hooks/search/useSearchInfiniteQuery';
-import Movie from '../../types/Movie';
-import MovieCard from '../../components/common/MovieCard';
+import Movie from '../../models/Movie';
+import MovieCard from '../../components/ui/MovieCard';
 import { useMemo } from 'react';
-import LoadingPage from '../../components/common/LoadingPage';
+import LoadingPage from '../../components/ui/LoadingPage';
 import { Helmet } from 'react-helmet-async';
 
 const SearchPage = () => {

@@ -1,8 +1,12 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 import App from '../App';
 import HomePage from '../pages/home/HomePage';
 import { Suspense, lazy } from 'react';
-import LoadingPage from '../components/common/LoadingPage';
+import LoadingPage from '../components/ui/LoadingPage';
 
 const SignInPage = lazy(() => import('../pages/signin/SignInPage'));
 const SearchPage = lazy(() => import('../pages/search/SearchPage'));
@@ -58,4 +62,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-export default router;
+const RouterContextProvider = () => <RouterProvider router={router} />;
+
+export default RouterContextProvider;

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
-import MovieDetail from '../../types/MovieDetail';
+import MovieDetail from '../../models/MovieDetail';
 import { useSnackbar } from 'notistack';
 
 interface Props {

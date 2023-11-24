@@ -10,7 +10,7 @@ import {
   signInWithPopup,
   signOut as signOutFirebase,
 } from 'firebase/auth';
-import app from '../configs/firebase';
+import app from './firebase';
 
 const auth = getAuth(app);
 

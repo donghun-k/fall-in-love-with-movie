@@ -6,7 +6,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material';
-import Rating from '../../types/Rating';
+import Rating from '../../models/Rating';
 import { useEffect, useState } from 'react';
 import { GENRE_IDS, getGenreNameById } from '../../utils/genre';
 

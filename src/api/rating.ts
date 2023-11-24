@@ -1,4 +1,4 @@
-import app from '../configs/firebase';
+import app from './firebase';
 import {
   addDoc,
   collection,
@@ -8,7 +8,7 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore';
-import Rating from '../types/Rating';
+import Rating from '../models/Rating';
 import { getAuth } from 'firebase/auth';
 
 const db = getFirestore(app);

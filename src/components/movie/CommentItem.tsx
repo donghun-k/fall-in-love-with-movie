@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import StarIcon from '@mui/icons-material/Star';
-import Comment from '../../types/Comment';
+import Comment from '../../models/Comment';
 import { User } from 'firebase/auth';
 import { convertTimestampToDateString } from '../../utils/date';
 import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';

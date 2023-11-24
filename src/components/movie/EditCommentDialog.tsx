@@ -9,12 +9,12 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import usePostCommentMutation from '../../hooks/comment/usePostCommentMutation';
-import LoadingBackdrop from '../common/LoadingBackdrop';
+import LoadingBackdrop from '../ui/LoadingBackdrop';
 import { useQueryClient } from '@tanstack/react-query';
 import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
 import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
-import MyComment from '../../types/MyComment';
-import MovieDetail from '../../types/MovieDetail';
+import MyComment from '../../models/MyComment';
+import MovieDetail from '../../models/MovieDetail';
 import { useSnackbar } from 'notistack';
 
 interface Props {

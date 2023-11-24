@@ -6,9 +6,9 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import useSearch from '../../../hooks/search/useSearch';
+import useSearch from '../../hooks/search/useSearch';
 import { ChangeEventHandler, FormEventHandler, useEffect } from 'react';
-import useMediaQueries from '../../../hooks/useMediaQueries';
+import useMediaQueries from '../../hooks/useMediaQueries';
 
 interface Props {
   open: boolean;

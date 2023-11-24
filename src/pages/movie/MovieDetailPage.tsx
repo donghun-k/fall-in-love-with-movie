@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
 import BackdropSection from '../../components/movie/BackdropSection';
-import MovieDetail from '../../types/MovieDetail';
+import MovieDetail from '../../models/MovieDetail';
 import InfoSection from '../../components/movie/InfoSection';
 import CommentSection from '../../components/movie/CommentSection';
 import SimilarSection from '../../components/movie/SimilarSection';
 import { useNavigate, useParams } from 'react-router-dom';
 import useMovieDetailQuery from '../../hooks/movie/useMovieDetailQuery';
-import LoadingPage from '../../components/common/LoadingPage';
+import LoadingPage from '../../components/ui/LoadingPage';
 import { Helmet } from 'react-helmet-async';
 import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';

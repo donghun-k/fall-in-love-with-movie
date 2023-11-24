@@ -9,15 +9,17 @@ import { User } from 'firebase/auth';
 import SignOutButton from './SignOutButton';
 import MyPageButton from './MyPageButton';
 import SearchButton from './SearchButton';
+import { useContext } from 'react';
+import { MuiContext } from '../../../contexts/MuiContext';
 
 interface Props {
-  togglePaletteMode: () => void;
   handleSearchDialogOpen: () => void;
 }
 
-const NavBar = ({ togglePaletteMode, handleSearchDialogOpen }: Props) => {
+const NavBar = ({ handleSearchDialogOpen }: Props) => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();
   const { user, isCheckingAuth } = useAuthContext();
+  const { togglePaletteMode } = useContext(MuiContext);
 
   const props = {
     user,

@@ -16,8 +16,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import Comment from '../types/Comment';
-import app from '../configs/firebase';
+import Comment from '../models/Comment';
+import app from './firebase';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuid } from 'uuid';
 
