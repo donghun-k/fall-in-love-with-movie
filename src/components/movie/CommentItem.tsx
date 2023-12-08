@@ -8,20 +8,22 @@ import { convertTimestampToDateString } from '../../utils/date';
 import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';
 import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
-import { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
+import { DocumentReference } from 'firebase/firestore';
 
 interface Props {
   user: User | null;
   comment: Comment;
+  onLikeMutate: (
+    commentRef: DocumentReference,
+    option: 'add' | 'cancel'
+  ) => Promise<() => void>;
 }
 
-const CommentItem = ({ user, comment }: Props) => {
+const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
   const userId = user?.uid ?? '';
   const { enqueueSnackbar } = useSnackbar();
-  const { commentRef, likeCount: likeCnt } = comment;
-  const [alreadyLiked, setAlreadyLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
+  const { commentRef, likeCount } = comment;
   const { mutateAsync: addLikeMutate, isLoading: isAddingLike } =
     useAddLikeMutation({
       commentRef,
@@ -32,12 +34,7 @@ const CommentItem = ({ user, comment }: Props) => {
     });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
-  useEffect(() => {
-    setAlreadyLiked(comment.likes.includes(userId));
-  }, [comment.likes, userId]);
-  useEffect(() => {
-    setLikeCount(likeCnt);
-  }, [likeCnt]);
+  const alreadyLiked = comment.likes.includes(userId);
 
   const handleAddLike = async () => {
     if (!user) {
@@ -45,17 +42,17 @@ const CommentItem = ({ user, comment }: Props) => {
       return;
     }
     if (isAddingLike || isDeletingLike) return;
+
+    const undo = await onLikeMutate(commentRef, 'add');
+
     try {
       await addLikeMutate();
-      enqueueSnackbar('공감이 추가되었습니다.', {
-        variant: 'success',
-      });
-      setAlreadyLiked(true);
-      setLikeCount((prev) => prev + 1);
+      enqueueSnackbar('공감이 등록되었습니다.', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar('공감 등록에 실패하였습니다.', {
         variant: 'error',
       });
+      undo();
     }
   };
   const handleDeleteLike = async () => {
@@ -66,16 +63,17 @@ const CommentItem = ({ user, comment }: Props) => {
       return;
     }
     if (isAddingLike || isDeletingLike) return;
+
+    const undo = await onLikeMutate(commentRef, 'cancel');
+
     try {
       await deleteLikeMutate();
       enqueueSnackbar('공감이 취소되었습니다.', { variant: 'success' });
-
-      setAlreadyLiked(false);
-      setLikeCount((prev) => prev - 1);
     } catch (error) {
       enqueueSnackbar('공감 취소에 실패하였습니다.', {
         variant: 'error',
       });
+      undo();
     }
   };
 
