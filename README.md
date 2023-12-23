@@ -13,7 +13,7 @@
 |Database|Deployment|Bundler|
 |:---:|:---:|:---:|
 |![firebase](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/abb25f5d-8862-4619-be81-d3953ce6bfe1)|![s3](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/92af66a6-826b-4844-8cf4-bf13eaef153f)&nbsp;&nbsp;&nbsp;&nbsp;![cloud-front](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/90079b28-e258-4adf-986c-aeaa88aa1654)|![vite](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/3b5a9c6f-246b-41d6-9764-e8e0a81fc280)|
-|Firebase Cloud Firestore|AWS S3 + CloundFront|Vite|
+|Firebase Cloud Firestore|AWS S3 + CloudFront|Vite|
 
 
 ## 🏛️ Architecture
