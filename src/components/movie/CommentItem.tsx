@@ -5,11 +5,10 @@ import StarIcon from '@mui/icons-material/Star';
 import Comment from '../../models/Comment';
 import { User } from 'firebase/auth';
 import { convertTimestampToDateString } from '../../utils/date';
-import useAddLikeMutation from '../../hooks/like/useAddLikeMutation';
-import useDeleteLikeMutation from '../../hooks/like/useDeleteMutation';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import { useSnackbar } from 'notistack';
 import { DocumentReference } from 'firebase/firestore';
+import useUpdateLikeMutation from '../../hooks/like/useUpdateLikeMutation';
 
 interface Props {
   user: User | null;
@@ -24,12 +23,8 @@ const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
   const userId = user?.uid ?? '';
   const { enqueueSnackbar } = useSnackbar();
   const { commentRef, likeCount } = comment;
-  const { mutateAsync: addLikeMutate, isLoading: isAddingLike } =
-    useAddLikeMutation({
-      commentRef,
-    });
-  const { mutateAsync: deleteLikeMutate, isLoading: isDeletingLike } =
-    useDeleteLikeMutation({
+  const { mutateAsync: updateLikeMutate, isLoading: isUpdatingLike } =
+    useUpdateLikeMutation({
       commentRef,
     });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
@@ -41,12 +36,12 @@ const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
       enqueueSnackbar('공감 하려면 로그인이 필요합니다.', { variant: 'error' });
       return;
     }
-    if (isAddingLike || isDeletingLike) return;
+    if (isUpdatingLike) return;
 
     const undo = await onLikeMutate(commentRef, 'add');
 
     try {
-      await addLikeMutate();
+      await updateLikeMutate('add');
       enqueueSnackbar('공감이 등록되었습니다.', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar('공감 등록에 실패하였습니다.', {
@@ -62,12 +57,12 @@ const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
       });
       return;
     }
-    if (isAddingLike || isDeletingLike) return;
+    if (isUpdatingLike) return;
 
     const undo = await onLikeMutate(commentRef, 'cancel');
 
     try {
-      await deleteLikeMutate();
+      await updateLikeMutate('cancel');
       enqueueSnackbar('공감이 취소되었습니다.', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar('공감 취소에 실패하였습니다.', {

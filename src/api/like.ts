@@ -32,11 +32,11 @@ export const addLike = async ({ commentRef }: AddLikeParams) => {
 };
 
 // DELETE LIKE
-interface DeleteLikeParams {
+interface cancelLikeParams {
   commentRef: DocumentReference;
 }
 
-export const deleteLike = async ({ commentRef }: DeleteLikeParams) => {
+export const cancelLike = async ({ commentRef }: cancelLikeParams) => {
   const user = getAuth().currentUser;
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
