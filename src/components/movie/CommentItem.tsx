@@ -8,23 +8,24 @@ import { convertTimestampToDateString } from '../../utils/date';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import { useSnackbar } from 'notistack';
 import { DocumentReference } from 'firebase/firestore';
-import useUpdateLikeMutation from '../../hooks/like/useUpdateLikeMutation';
+import useUpdateLikesMutation from '../../hooks/likes/useUpdateLikesMutation';
 
 interface Props {
   user: User | null;
   comment: Comment;
-  onLikeMutate: (
+  updateLikesOptimistically: (
     commentRef: DocumentReference,
-    option: 'add' | 'cancel'
+    option: 'add' | 'cancel',
+    user: User
   ) => Promise<() => void>;
 }
 
-const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
+const CommentItem = ({ user, comment, updateLikesOptimistically }: Props) => {
   const userId = user?.uid ?? '';
   const { enqueueSnackbar } = useSnackbar();
   const { commentRef, likeCount } = comment;
-  const { mutateAsync: updateLikeMutate, isLoading: isUpdatingLike } =
-    useUpdateLikeMutation({
+  const { mutateAsync: updateLikesMutate, isLoading: isUpdatingLikes } =
+    useUpdateLikesMutation({
       commentRef,
     });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
@@ -36,39 +37,43 @@ const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
       enqueueSnackbar('공감 하려면 로그인이 필요합니다.', { variant: 'error' });
       return;
     }
-    if (isUpdatingLike) return;
+    if (isUpdatingLikes) return;
 
-    const undo = await onLikeMutate(commentRef, 'add');
+    const rollback = await updateLikesOptimistically(commentRef, 'add', user);
 
     try {
-      await updateLikeMutate('add');
+      await updateLikesMutate('add');
       enqueueSnackbar('공감이 등록되었습니다.', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar('공감 등록에 실패하였습니다.', {
         variant: 'error',
       });
-      undo();
+      rollback();
     }
   };
-  const handleDeleteLike = async () => {
+  const handleCancelLikes = async () => {
     if (!user) {
       enqueueSnackbar('공감을 취소하려면 로그인이 필요합니다.', {
         variant: 'error',
       });
       return;
     }
-    if (isUpdatingLike) return;
+    if (isUpdatingLikes) return;
 
-    const undo = await onLikeMutate(commentRef, 'cancel');
+    const rollback = await updateLikesOptimistically(
+      commentRef,
+      'cancel',
+      user
+    );
 
     try {
-      await updateLikeMutate('cancel');
+      await updateLikesMutate('cancel');
       enqueueSnackbar('공감이 취소되었습니다.', { variant: 'success' });
     } catch (error) {
       enqueueSnackbar('공감 취소에 실패하였습니다.', {
         variant: 'error',
       });
-      undo();
+      rollback();
     }
   };
 
@@ -78,7 +83,7 @@ const CommentItem = ({ user, comment, onLikeMutate }: Props) => {
     expand,
     handleExpand,
     handleAddLike,
-    handleDeleteLike,
+    handleCancelLikes,
     isOverflow,
     contentRef,
     alreadyLiked,
@@ -93,7 +98,7 @@ interface ViewProps {
   expand: boolean;
   handleExpand: () => void;
   handleAddLike: () => void;
-  handleDeleteLike: () => void;
+  handleCancelLikes: () => void;
   isOverflow: boolean;
   contentRef: React.RefObject<HTMLDivElement>;
   alreadyLiked: boolean;
@@ -106,7 +111,7 @@ const CommentItemView = ({
   expand,
   handleExpand,
   handleAddLike,
-  handleDeleteLike,
+  handleCancelLikes,
   isOverflow,
   contentRef,
   alreadyLiked,
@@ -250,7 +255,7 @@ const CommentItemView = ({
         >
           <Button
             startIcon={alreadyLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            onClick={alreadyLiked ? handleDeleteLike : handleAddLike}
+            onClick={alreadyLiked ? handleCancelLikes : handleAddLike}
             sx={{
               padding: '0 5px',
               minWidth: '50px',

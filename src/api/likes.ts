@@ -7,12 +7,12 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
-// POST LIKE
-interface AddLikeParams {
+// POST LIKES
+interface AddLikesParams {
   commentRef: DocumentReference;
 }
 
-export const addLike = async ({ commentRef }: AddLikeParams) => {
+export const addLikes = async ({ commentRef }: AddLikesParams) => {
   const user = getAuth().currentUser;
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
@@ -26,17 +26,17 @@ export const addLike = async ({ commentRef }: AddLikeParams) => {
 
   await updateDoc(commentDoc.ref, {
     likes: arrayUnion(userId),
-    likeCount: commentDoc.data().likes.length + 1,
+    likesCount: commentDoc.data().likes.length + 1,
   });
   console.log('정상적으로 공감이 등록되었습니다.');
 };
 
-// DELETE LIKE
-interface cancelLikeParams {
+// DELETE LIKES
+interface cancelLikesParams {
   commentRef: DocumentReference;
 }
 
-export const cancelLike = async ({ commentRef }: cancelLikeParams) => {
+export const cancelLikes = async ({ commentRef }: cancelLikesParams) => {
   const user = getAuth().currentUser;
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
@@ -50,7 +50,7 @@ export const cancelLike = async ({ commentRef }: cancelLikeParams) => {
 
   await updateDoc(commentDoc.ref, {
     likes: arrayRemove(userId),
-    likeCount: commentDoc.data().likes.length - 1,
+    likesCount: commentDoc.data().likes.length - 1,
   });
   console.log('정상적으로 공감이 삭제되었습니다.');
 };

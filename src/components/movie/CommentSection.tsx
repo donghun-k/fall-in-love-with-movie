@@ -20,7 +20,7 @@ import { SortOptionType } from '../../api/comment';
 import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
-import { InfiniteData, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import Comment from '../../models/Comment';
 import { DocumentReference } from 'firebase/firestore';
 
@@ -45,6 +45,7 @@ const CommentSection = ({ movieDetail }: Props) => {
     hasNextPage,
     isLoading: isCommentsLoading,
     isFetching: isCommentsFetching,
+    updateLikesOptimistically,
   } = useCommentsInfiniteQuery({
     movieId,
     sortOption,
@@ -74,52 +75,6 @@ const CommentSection = ({ movieDetail }: Props) => {
   const handleEditCommentDialogClose = () => {
     setIsEditCommentDialogOpened(false);
   };
-  const onLikeMutate = async (
-    commentRef: DocumentReference,
-    option: 'add' | 'cancel'
-  ) => {
-    await queryClient.cancelQueries(['comments', movieId, sortOption]);
-    const previousData = queryClient.getQueryData<InfiniteData<Comment[]>>([
-      'comments',
-      movieId,
-      sortOption,
-    ]);
-
-    queryClient.setQueryData<InfiniteData<Comment[]>>(
-      ['comments', movieId, sortOption],
-      (old) => {
-        if (!old) return;
-        const newData = old.pages.map((page) => {
-          return page.map((comment) => {
-            if (comment.commentRef.id !== commentRef.id) return comment;
-            if (option === 'add') {
-              return {
-                ...comment,
-                likes: [...comment.likes, user?.uid ?? ''],
-                likeCount: comment.likeCount + 1,
-              };
-            } else {
-              return {
-                ...comment,
-                likes: comment.likes.filter((uid) => uid !== user?.uid),
-                likeCount: comment.likeCount - 1,
-              };
-            }
-          });
-        });
-        return {
-          ...old,
-          pages: newData,
-        };
-      }
-    );
-
-    const undo = () => {
-      queryClient.setQueryData(['comments', movieId, sortOption], previousData);
-    };
-
-    return undo;
-  };
 
   const props = {
     isEditCommentDialogOpened,
@@ -139,7 +94,7 @@ const CommentSection = ({ movieDetail }: Props) => {
     isCommentsLoading,
     isCommentsFetching,
     movieDetail,
-    onLikeMutate,
+    updateLikesOptimistically,
   };
   return <CommentSectionView {...props} />;
 };
@@ -162,9 +117,10 @@ interface ViewProps {
   isCommentsLoading: boolean;
   isCommentsFetching: boolean;
   movieDetail: MovieDetail;
-  onLikeMutate: (
+  updateLikesOptimistically: (
     commentRef: DocumentReference,
-    addOrCancel: 'add' | 'cancel'
+    type: 'add' | 'cancel',
+    user: User
   ) => Promise<() => void>;
 }
 
@@ -186,7 +142,7 @@ const CommentSectionView = ({
   isCommentsLoading,
   isCommentsFetching,
   movieDetail,
-  onLikeMutate,
+  updateLikesOptimistically,
 }: ViewProps) => {
   return (
     <Box
@@ -291,7 +247,7 @@ const CommentSectionView = ({
                 key={i}
                 user={user}
                 comment={comment}
-                onLikeMutate={onLikeMutate}
+                updateLikesOptimistically={updateLikesOptimistically}
               />
             );
           })}
