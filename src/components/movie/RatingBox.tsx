@@ -6,7 +6,6 @@ import {
   Typography,
 } from '@mui/material';
 import { SyntheticEvent } from 'react';
-import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
@@ -14,6 +13,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
 import MovieDetail from '../../models/MovieDetail';
 import { useSnackbar } from 'notistack';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -23,7 +24,9 @@ const RatingBox = ({ movieDetail }: Props) => {
   const { id: movieId, title: movieTitle, genres } = movieDetail;
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
-  const { user, isCheckingAuth } = useAuthContext();
+  const { user, isCheckingAuth } = useSelector(
+    (state: RootState) => state.auth
+  );
   const movieGenreIds = genres.map((genre) => genre.id);
 
   const {

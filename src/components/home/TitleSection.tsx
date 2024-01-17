@@ -3,16 +3,20 @@ import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
 import usePalletteMode from '../../hooks/usePaletteMode';
 import LOGO_IMAGES from '../../utils/logo';
-import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 const TitleSection = () => {
   const mode = usePalletteMode();
-  const { user } = useAuthContext();
+  const { user, isCheckingAuth } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const props = {
     mode,
     user,
+    isCheckingAuth,
   };
 
   return <TitleSectionView {...props} />;
@@ -21,9 +25,10 @@ const TitleSection = () => {
 interface ViewProps {
   mode: PaletteMode;
   user: User | null;
+  isCheckingAuth: boolean;
 }
 
-const TitleSectionView = ({ mode, user }: ViewProps) => {
+const TitleSectionView = ({ mode, user, isCheckingAuth }: ViewProps) => {
   return (
     <Box
       component="section"
@@ -72,7 +77,7 @@ const TitleSectionView = ({ mode, user }: ViewProps) => {
       >
         영화 별점 평가 및 코멘트 서비스
       </Typography>
-      {!user && (
+      {!isCheckingAuth && !user && (
         <Link to="/signin">
           <Button
             variant="contained"

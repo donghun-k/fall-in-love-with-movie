@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyRating } from '../../api/rating';
-import useAuthContext from '../useAuthContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 interface Params {
   movieId: number;
 }
 
 const useMyRatingQuery = ({ movieId }: Params) => {
-  const { user } = useAuthContext();
+  const { user } = useSelector((state: RootState) => state.auth);
   return useQuery(
     ['myRating', movieId, user?.uid],
     () => {

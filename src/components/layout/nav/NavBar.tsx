@@ -4,13 +4,14 @@ import SearchBar from './SearchBar';
 import SignInButton from './SignInButton';
 import LogoButton from './LogoButton';
 import PaletteModeSwitch from './PaletteModeSwitch';
-import useAuthContext from '../../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import SignOutButton from './SignOutButton';
 import MyPageButton from './MyPageButton';
 import SearchButton from './SearchButton';
 import { useContext } from 'react';
 import { MuiContext } from '../../../contexts/MuiContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
 
 interface Props {
   handleSearchDialogOpen: () => void;
@@ -18,15 +19,17 @@ interface Props {
 
 const NavBar = ({ handleSearchDialogOpen }: Props) => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();
-  const { user, isCheckingAuth } = useAuthContext();
+  const { user, isCheckingAuth } = useSelector(
+    (state: RootState) => state.auth
+  );
   const { togglePaletteMode } = useContext(MuiContext);
 
   const props = {
     user,
+    isCheckingAuth,
     isSmDown,
     isSmUp,
     isMdDown,
-    isCheckingAuth,
     togglePaletteMode,
     handleSearchDialogOpen,
   };
@@ -36,20 +39,20 @@ const NavBar = ({ handleSearchDialogOpen }: Props) => {
 
 interface ViewProps {
   user: User | null;
+  isCheckingAuth: boolean;
   isSmDown: boolean;
   isSmUp: boolean;
   isMdDown: boolean;
-  isCheckingAuth: boolean;
   togglePaletteMode: () => void;
   handleSearchDialogOpen: () => void;
 }
 
 const NavBarView = ({
   user,
+  isCheckingAuth,
   isSmDown,
   isSmUp,
   isMdDown,
-  isCheckingAuth,
   togglePaletteMode,
   handleSearchDialogOpen,
 }: ViewProps) => {

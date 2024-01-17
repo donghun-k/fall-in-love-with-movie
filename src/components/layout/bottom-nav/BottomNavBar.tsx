@@ -5,10 +5,11 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
-import useAuthContext from '../../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { signOut } from '../../../api/auth';
 import { useSnackbar } from 'notistack';
+import { RootState } from '../../../app/store';
+import { useSelector } from 'react-redux';
 
 interface Props {
   handleSearchDialogOpen: () => void;
@@ -17,7 +18,9 @@ interface Props {
 const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const { user, isCheckingAuth } = useAuthContext();
+  const { user, isCheckingAuth } = useSelector(
+    (state: RootState) => state.auth
+  );
 
   const handleHomeBtnClick = () => {
     navigate('/');

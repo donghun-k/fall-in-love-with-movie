@@ -14,7 +14,6 @@ import MovieDetail from '../../models/MovieDetail';
 import { useState, MouseEvent, useEffect } from 'react';
 import CommentItem from './CommentItem';
 import EditCommentDialog from './EditCommentDialog';
-import useAuthContext from '../../hooks/useAuthContext';
 import { User } from 'firebase/auth';
 import { SortOptionType } from '../../api/comment';
 import MyCommentItem from './MyCommentItem';
@@ -23,6 +22,8 @@ import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
 import { useQueryClient } from '@tanstack/react-query';
 import Comment from '../../models/Comment';
 import { DocumentReference } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 interface Props {
   movieDetail: MovieDetail;
@@ -31,7 +32,7 @@ interface Props {
 const CommentSection = ({ movieDetail }: Props) => {
   const { id: movieId } = movieDetail;
   const queryClient = useQueryClient();
-  const { user } = useAuthContext();
+  const { user } = useSelector((state: RootState) => state.auth);
   const [isEditCommentDialogOpened, setIsEditCommentDialogOpened] =
     useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

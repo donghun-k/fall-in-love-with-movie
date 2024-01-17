@@ -1,22 +1,31 @@
 import { Outlet } from 'react-router-dom';
-import { AuthContextProvider } from './contexts/AuthContext';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HelmetProvider } from 'react-helmet-async';
 import Layout from './Layout';
 import TanstackQueryContextProvider from './contexts/TanstackQueryContext';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { onUserStateChange } from './api/auth';
+import { setUser, setIsCheckingAuth } from './features/auth/authSlice';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    onUserStateChange((user) => {
+      dispatch(setUser(user));
+      dispatch(setIsCheckingAuth(false));
+    });
+  }, [dispatch]);
+
   return (
-    <AuthContextProvider>
-      <TanstackQueryContextProvider>
-        <HelmetProvider>
-          <Layout>
-            <Outlet />
-          </Layout>
-        </HelmetProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-      </TanstackQueryContextProvider>
-    </AuthContextProvider>
+    <TanstackQueryContextProvider>
+      <HelmetProvider>
+        <Layout>
+          <Outlet />
+        </Layout>
+      </HelmetProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </TanstackQueryContextProvider>
   );
 }
 

@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyComment } from '../../api/comment';
-import useAuthContext from '../useAuthContext';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
 
 interface Params {
   movieId: number;
 }
 
 const useMyCommentQuery = ({ movieId }: Params) => {
-  const { user } = useAuthContext();
+  const { user } = useSelector((state: RootState) => state.auth);
   return useQuery(
     ['myComment', movieId, user?.uid],
     () => {
