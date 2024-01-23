@@ -18,7 +18,8 @@
 <br/>
 
 ## 🏛️ Architecture
-![Architecture](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/6a403bf7-79e0-4cf5-b0ff-a9e7c6dfcfb0)
+![Architecture](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/29608908-de84-4096-be89-08eabf0a6e57)
+
 
 <br/>
 
