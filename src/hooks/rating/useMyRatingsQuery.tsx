@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyRatings } from '../../api/rating';
+import { getMyRatings } from '../../services/rating';
 
 const useMyRatingsQuery = () => {
   return useQuery(

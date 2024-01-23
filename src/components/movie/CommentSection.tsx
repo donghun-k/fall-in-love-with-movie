@@ -15,7 +15,7 @@ import { useState, MouseEvent, useEffect } from 'react';
 import CommentItem from './CommentItem';
 import EditCommentDialog from './EditCommentDialog';
 import { User } from 'firebase/auth';
-import { SortOptionType } from '../../api/comment';
+import { SortOptionType } from '../../services/comment';
 import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';

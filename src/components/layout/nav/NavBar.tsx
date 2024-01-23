@@ -8,8 +8,6 @@ import { User } from 'firebase/auth';
 import SignOutButton from './SignOutButton';
 import MyPageButton from './MyPageButton';
 import SearchButton from './SearchButton';
-import { useContext } from 'react';
-import { MuiContext } from '../../../contexts/MuiContext';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 
@@ -22,7 +20,6 @@ const NavBar = ({ handleSearchDialogOpen }: Props) => {
   const { user, isCheckingAuth } = useSelector(
     (state: RootState) => state.auth
   );
-  const { togglePaletteMode } = useContext(MuiContext);
 
   const props = {
     user,
@@ -30,7 +27,6 @@ const NavBar = ({ handleSearchDialogOpen }: Props) => {
     isSmDown,
     isSmUp,
     isMdDown,
-    togglePaletteMode,
     handleSearchDialogOpen,
   };
 
@@ -43,7 +39,6 @@ interface ViewProps {
   isSmDown: boolean;
   isSmUp: boolean;
   isMdDown: boolean;
-  togglePaletteMode: () => void;
   handleSearchDialogOpen: () => void;
 }
 
@@ -53,7 +48,6 @@ const NavBarView = ({
   isSmDown,
   isSmUp,
   isMdDown,
-  togglePaletteMode,
   handleSearchDialogOpen,
 }: ViewProps) => {
   return (
@@ -105,7 +99,7 @@ const NavBarView = ({
                   {user === null ? <SignInButton /> : <SignOutButton />}
                 </>
               )}
-              <PaletteModeSwitch togglePaletteMode={togglePaletteMode} />
+              <PaletteModeSwitch />
             </Box>
           </Toolbar>
         </Grid>

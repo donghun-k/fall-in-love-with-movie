@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getComment } from '../../api/comment';
+import { getComment } from '../../services/comment';
 import { DocumentReference } from 'firebase/firestore';
 
 interface Params {

@@ -4,51 +4,38 @@ import {
   ThemeProvider,
   createTheme,
 } from '@mui/material';
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useMemo,
-  useState,
-} from 'react';
+import { ReactNode, useMemo } from 'react';
 import { PaletteMode } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useSnackbar, SnackbarKey, SnackbarProvider } from 'notistack';
 import CloseIcon from '@mui/icons-material/Close';
-
-interface MuiContextValue {
-  togglePaletteMode: () => void;
-}
-
-export const MuiContext = createContext<MuiContextValue>({
-  togglePaletteMode: () => {},
-});
+import { useSelector } from 'react-redux';
+import { RootState } from '../app/store';
 
 const MuiContextProvider = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<PaletteMode>('dark');
-  const theme = useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
-  const togglePaletteMode = useCallback(() => {
-    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-  }, []);
+  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
+  const theme = useMemo(
+    () => createTheme(getDesignTokens(paletteMode)),
+    [paletteMode]
+  );
+
   return (
-    <MuiContext.Provider value={{ togglePaletteMode }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <SnackbarProvider
-          anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
-          autoHideDuration={3000}
-          action={(snackbarKey) => (
-            <SnackbarCloseButton snackbarKey={snackbarKey} />
-          )}
-          style={{
-            background: theme.palette.background.paper,
-            color: theme.palette.text.primary,
-          }}
-        >
-          {children}
-        </SnackbarProvider>
-      </ThemeProvider>
-    </MuiContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: 'center', vertical: 'top' }}
+        autoHideDuration={3000}
+        action={(snackbarKey) => (
+          <SnackbarCloseButton snackbarKey={snackbarKey} />
+        )}
+        style={{
+          background: theme.palette.background.paper,
+          color: theme.palette.text.primary,
+        }}
+      >
+        {children}
+      </SnackbarProvider>
+    </ThemeProvider>
   );
 };
 

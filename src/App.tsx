@@ -5,7 +5,7 @@ import Layout from './Layout';
 import TanstackQueryContextProvider from './contexts/TanstackQueryContext';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { onUserStateChange } from './api/auth';
+import { onUserStateChange } from './services/auth';
 import { setUser, setIsCheckingAuth } from './features/auth/authSlice';
 
 function App() {

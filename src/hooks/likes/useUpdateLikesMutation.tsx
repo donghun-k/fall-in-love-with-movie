@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { addLikes, cancelLikes } from '../../api/likes';
+import { addLikes, cancelLikes } from '../../services/likes';
 import { DocumentReference } from 'firebase/firestore';
 
 interface Params {

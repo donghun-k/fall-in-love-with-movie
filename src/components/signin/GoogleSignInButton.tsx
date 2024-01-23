@@ -1,5 +1,5 @@
 import { Button } from '@mui/material';
-import { signIn } from '../../api/auth';
+import { signIn } from '../../services/auth';
 import GoogleIcon from '@mui/icons-material/Google';
 import { enqueueSnackbar } from 'notistack';
 

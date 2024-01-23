@@ -1,5 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { searchMovie } from '../../api/movie';
+import { searchMovie } from '../../services/movie';
 
 interface Params {
   query: string;

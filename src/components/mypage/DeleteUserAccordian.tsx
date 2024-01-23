@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { ChangeEvent, useState } from 'react';
-import { deleteAccount, signOut } from '../../api/auth';
+import { deleteAccount, signOut } from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 

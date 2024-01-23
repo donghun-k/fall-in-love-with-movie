@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { deleteComment } from '../../api/comment';
+import { deleteComment } from '../../services/comment';
 import { DocumentReference } from 'firebase/firestore';
 
 interface Params {

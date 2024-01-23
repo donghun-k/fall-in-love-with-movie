@@ -1,6 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { signOut } from '../../../api/auth';
+import { signOut } from '../../../services/auth';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 

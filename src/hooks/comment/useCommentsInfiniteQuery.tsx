@@ -3,7 +3,7 @@ import {
   useInfiniteQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { SortOptionType, getComments } from '../../api/comment';
+import { SortOptionType, getComments } from '../../services/comment';
 import { DocumentReference } from 'firebase/firestore';
 import Comment from '../../models/Comment';
 import { User } from 'firebase/auth';

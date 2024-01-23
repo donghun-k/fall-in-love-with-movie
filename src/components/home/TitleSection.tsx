@@ -1,20 +1,19 @@
 import { Box, Button, PaletteMode, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
-import usePalletteMode from '../../hooks/usePaletteMode';
 import LOGO_IMAGES from '../../utils/logo';
 import { User } from 'firebase/auth';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 
 const TitleSection = () => {
-  const mode = usePalletteMode();
+  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
   const { user, isCheckingAuth } = useSelector(
     (state: RootState) => state.auth
   );
 
   const props = {
-    mode,
+    paletteMode,
     user,
     isCheckingAuth,
   };
@@ -23,12 +22,12 @@ const TitleSection = () => {
 };
 
 interface ViewProps {
-  mode: PaletteMode;
+  paletteMode: PaletteMode;
   user: User | null;
   isCheckingAuth: boolean;
 }
 
-const TitleSectionView = ({ mode, user, isCheckingAuth }: ViewProps) => {
+const TitleSectionView = ({ paletteMode, user, isCheckingAuth }: ViewProps) => {
   return (
     <Box
       component="section"
@@ -47,7 +46,7 @@ const TitleSectionView = ({ mode, user, isCheckingAuth }: ViewProps) => {
         sx={{
           width: { xs: '150px', md: '200px' },
           height: { xs: '120px', md: '160px' },
-          backgroundImage: `url(${LOGO_IMAGES[mode].logoIcon})`,
+          backgroundImage: `url(${LOGO_IMAGES[paletteMode].logoIcon})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}

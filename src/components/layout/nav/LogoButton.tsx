@@ -1,23 +1,24 @@
 import { Button, PaletteMode } from '@mui/material';
 import { Link } from 'react-router-dom';
 import LOGO_IMAGES from '../../../utils/logo';
-import usePalletteMode from '../../../hooks/usePaletteMode';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
 
 const LogoButton = () => {
-  const mode = usePalletteMode();
+  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
 
   const props = {
-    mode,
+    paletteMode,
   };
 
   return <LogoButtonView {...props} />;
 };
 
 interface ViewProps {
-  mode: PaletteMode;
+  paletteMode: PaletteMode;
 }
 
-const LogoButtonView = ({ mode }: ViewProps) => {
+const LogoButtonView = ({ paletteMode }: ViewProps) => {
   return (
     <Link to="/">
       <Button
@@ -28,7 +29,7 @@ const LogoButtonView = ({ mode }: ViewProps) => {
         }}
       >
         <img
-          src={LOGO_IMAGES[mode].logo}
+          src={LOGO_IMAGES[paletteMode].logo}
           alt="logo"
           width="100%"
           height="100%"

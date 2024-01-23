@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { postComment } from '../../api/comment';
+import { postComment } from '../../services/comment';
 
 interface Params {
   movieId: number;

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getSimilarMovies } from '../../api/movie';
+import { getSimilarMovies } from '../../services/movie';
 
 interface Params {
   movieId: number;
