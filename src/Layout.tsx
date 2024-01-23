@@ -1,5 +1,5 @@
 import { Grid } from '@mui/material';
-import { ReactNode, useState } from 'react';
+import { ReactNode } from 'react';
 import BottomNavBar from './components/layout/bottom-nav/BottomNavBar';
 import SearchDialog from './components/layout/SearchDialog';
 import NavBar from './components/layout/nav/NavBar';
@@ -10,38 +10,20 @@ interface Props {
 }
 
 const Layout = ({ children }: Props) => {
-  const [openSearchBox, setOpenSearchBox] = useState(false);
-  const handleSearchDialogOpen = () => {
-    setOpenSearchBox(true);
-  };
-  const handleSearchDialogClose = () => {
-    setOpenSearchBox(false);
-  };
   const props = {
     children,
-    handleSearchDialogOpen,
-    handleSearchDialogClose,
-    openSearchBox,
   };
   return <LayoutView {...props} />;
 };
 
 interface ViewProps {
   children: ReactNode;
-  handleSearchDialogOpen: () => void;
-  handleSearchDialogClose: () => void;
-  openSearchBox: boolean;
 }
 
-const LayoutView = ({
-  children,
-  handleSearchDialogOpen,
-  handleSearchDialogClose,
-  openSearchBox,
-}: ViewProps) => {
+const LayoutView = ({ children }: ViewProps) => {
   return (
     <MuiContextProvider>
-      <NavBar handleSearchDialogOpen={handleSearchDialogOpen} />
+      <NavBar />
       <Grid
         container
         sx={{
@@ -61,11 +43,8 @@ const LayoutView = ({
 
         <Grid item xs={0} md={1} lg={2} />
       </Grid>
-      <BottomNavBar handleSearchDialogOpen={handleSearchDialogOpen} />
-      <SearchDialog
-        open={openSearchBox}
-        handleSearchDialogClose={handleSearchDialogClose}
-      />
+      <BottomNavBar />
+      <SearchDialog />
     </MuiContextProvider>
   );
 };

@@ -7,31 +7,40 @@ import {
   TextField,
 } from '@mui/material';
 import useSearch from '../../hooks/search/useSearch';
-import { ChangeEventHandler, FormEventHandler, useEffect } from 'react';
+import {
+  ChangeEventHandler,
+  FormEventHandler,
+  useCallback,
+  useEffect,
+} from 'react';
 import useMediaQueries from '../../hooks/useMediaQueries';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../app/store';
+import { closeSearchDialog } from '../../features/searchDialog/searchDialogSlice';
 
-interface Props {
-  open: boolean;
-  handleSearchDialogClose: () => void;
-}
-
-const SearchDialog = ({ open, handleSearchDialogClose }: Props) => {
+const SearchDialog = () => {
+  const dispatch = useDispatch();
   const { searchInput, handleInputChange, handleSearch } = useSearch();
   const { isMdUp } = useMediaQueries();
+  const { openDialog } = useSelector((state: RootState) => state.searchDialog);
+
+  const handleCloseSearchDialog = useCallback(() => {
+    dispatch(closeSearchDialog());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (isMdUp) handleSearchDialogClose();
-  }, [isMdUp, handleSearchDialogClose]);
+    if (isMdUp) handleCloseSearchDialog();
+  }, [isMdUp, handleCloseSearchDialog]);
 
   const handleSearchBtnClick: FormEventHandler<HTMLElement> = (e) => {
     e.preventDefault();
-    handleSearchDialogClose();
+    handleCloseSearchDialog();
     handleSearch();
   };
 
   const props = {
-    open,
-    handleSearchDialogClose,
+    openDialog,
+    handleCloseSearchDialog,
     searchInput,
     handleSearchBtnClick,
     handleInputChange,
@@ -40,16 +49,16 @@ const SearchDialog = ({ open, handleSearchDialogClose }: Props) => {
 };
 
 interface ViewProps {
-  open: boolean;
-  handleSearchDialogClose: () => void;
+  openDialog: boolean;
+  handleCloseSearchDialog: () => void;
   searchInput: string;
   handleSearchBtnClick: FormEventHandler<HTMLElement>;
   handleInputChange: ChangeEventHandler<HTMLInputElement>;
 }
 
 const SearchDialogView = ({
-  open,
-  handleSearchDialogClose,
+  openDialog,
+  handleCloseSearchDialog,
   searchInput,
   handleSearchBtnClick,
   handleInputChange,
@@ -58,7 +67,7 @@ const SearchDialogView = ({
     <Dialog
       component="form"
       onSubmit={handleSearchBtnClick}
-      open={open}
+      open={openDialog}
       fullWidth={true}
     >
       <DialogTitle
@@ -86,7 +95,7 @@ const SearchDialogView = ({
         <Button type="submit" variant="contained">
           검색
         </Button>
-        <Button variant="contained" onClick={handleSearchDialogClose}>
+        <Button variant="contained" onClick={handleCloseSearchDialog}>
           취소
         </Button>
       </DialogActions>

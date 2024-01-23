@@ -1,14 +1,19 @@
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch } from 'react-redux';
+import { openSearchDialog } from '../../../features/searchDialog/searchDialogSlice';
 
-interface Props {
-  handleSearchDialogOpen: () => void;
-}
+const SearchButton = () => {
+  const dispatch = useDispatch();
 
-const SearchButton = ({ handleSearchDialogOpen }: Props) => {
-  const props = {
-    handleBtnClick: handleSearchDialogOpen,
+  const handleBtnClick = () => {
+    dispatch(openSearchDialog());
   };
+
+  const props = {
+    handleBtnClick,
+  };
+
   return <SearchButtonView {...props} />;
 };
 

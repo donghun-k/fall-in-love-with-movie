@@ -11,11 +11,7 @@ import SearchButton from './SearchButton';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 
-interface Props {
-  handleSearchDialogOpen: () => void;
-}
-
-const NavBar = ({ handleSearchDialogOpen }: Props) => {
+const NavBar = () => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();
   const { user, isCheckingAuth } = useSelector(
     (state: RootState) => state.auth
@@ -27,7 +23,6 @@ const NavBar = ({ handleSearchDialogOpen }: Props) => {
     isSmDown,
     isSmUp,
     isMdDown,
-    handleSearchDialogOpen,
   };
 
   return <NavBarView {...props} />;
@@ -39,7 +34,6 @@ interface ViewProps {
   isSmDown: boolean;
   isSmUp: boolean;
   isMdDown: boolean;
-  handleSearchDialogOpen: () => void;
 }
 
 const NavBarView = ({
@@ -48,7 +42,6 @@ const NavBarView = ({
   isSmDown,
   isSmUp,
   isMdDown,
-  handleSearchDialogOpen,
 }: ViewProps) => {
   return (
     <Box
@@ -85,14 +78,7 @@ const NavBarView = ({
                 gap: '10px',
               }}
             >
-              {isSmUp &&
-                (isMdDown ? (
-                  <SearchButton
-                    handleSearchDialogOpen={handleSearchDialogOpen}
-                  />
-                ) : (
-                  <SearchBar />
-                ))}
+              {isSmUp && (isMdDown ? <SearchButton /> : <SearchBar />)}
               {!isCheckingAuth && !isSmDown && (
                 <>
                   {user && <MyPageButton />}

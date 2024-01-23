@@ -9,13 +9,11 @@ import { User } from 'firebase/auth';
 import { signOut } from '../../../services/auth';
 import { useSnackbar } from 'notistack';
 import { RootState } from '../../../app/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { openSearchDialog } from '../../../features/searchDialog/searchDialogSlice';
 
-interface Props {
-  handleSearchDialogOpen: () => void;
-}
-
-const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
+const BottomNavBar = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { user, isCheckingAuth } = useSelector(
@@ -29,7 +27,7 @@ const BottomNavBar = ({ handleSearchDialogOpen }: Props) => {
     navigate('/mypage');
   };
   const handleSearchBtnClick = () => {
-    handleSearchDialogOpen();
+    dispatch(openSearchDialog());
   };
   const handleSignInBtnClick = () => {
     navigate('/signin');
