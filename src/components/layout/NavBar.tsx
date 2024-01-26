@@ -1,5 +1,5 @@
 import { Box, Grid, Toolbar } from '@mui/material';
-import useMediaQueries from '../../../hooks/useMediaQueries';
+import useMediaQueries from '../../hooks/useMediaQueries';
 import SearchBar from './SearchBar';
 import SignInButton from './SignInButton';
 import LogoButton from './LogoButton';
@@ -9,7 +9,7 @@ import SignOutButton from './SignOutButton';
 import MyPageButton from './MyPageButton';
 import SearchButton from './SearchButton';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app';
+import { RootState } from '../../store';
 
 const NavBar = () => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();

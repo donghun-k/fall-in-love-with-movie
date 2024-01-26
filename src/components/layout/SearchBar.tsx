@@ -1,6 +1,6 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import useSearch from '../../../hooks/search/useSearch';
+import useSearch from '../../hooks/search/useSearch';
 import { ChangeEventHandler, FormEventHandler } from 'react';
 
 const SearchBar = () => {

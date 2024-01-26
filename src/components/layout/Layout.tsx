@@ -1,26 +1,13 @@
 import { Grid } from '@mui/material';
-import { ReactNode } from 'react';
-import BottomNavBar from './components/layout/bottom-nav/BottomNavBar';
-import SearchDialog from './components/layout/SearchDialog';
-import NavBar from './components/layout/nav/NavBar';
-import MuiContextProvider from './contexts/MuiContext';
+import BottomNavBar from './BottomNavBar';
+import SearchDialog from './SearchDialog';
+import NavBar from './NavBar';
+import MuiContextProvider from '../../contexts/MuiContext';
+import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
+import LoadingPage from '../ui/LoadingPage';
 
-interface Props {
-  children: ReactNode;
-}
-
-const Layout = ({ children }: Props) => {
-  const props = {
-    children,
-  };
-  return <LayoutView {...props} />;
-};
-
-interface ViewProps {
-  children: ReactNode;
-}
-
-const LayoutView = ({ children }: ViewProps) => {
+const Layout = () => {
   return (
     <MuiContextProvider>
       <NavBar />
@@ -37,7 +24,9 @@ const LayoutView = ({ children }: ViewProps) => {
       >
         <Grid item xs={0} md={1} lg={2} />
         <Grid item xs={12} md={10} lg={8} position="relative">
-          {children}
+          <Suspense fallback={<LoadingPage />}>
+            <Outlet />
+          </Suspense>
         </Grid>
         <Grid item xs={0} md={1} lg={2} />
       </Grid>

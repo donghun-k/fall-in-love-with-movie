@@ -1,12 +1,10 @@
-import { Outlet } from 'react-router-dom';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { HelmetProvider } from 'react-helmet-async';
-import Layout from './Layout';
-import TanstackQueryContextProvider from './contexts/TanstackQueryContext';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { onUserStateChange } from './services/auth';
 import { setUser, setIsCheckingAuth } from './store/authSlice';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import routes from './routes';
 
 function App() {
   const dispatch = useDispatch();
@@ -17,16 +15,14 @@ function App() {
     });
   }, [dispatch]);
 
-  return (
-    <TanstackQueryContextProvider>
-      <HelmetProvider>
-        <Layout>
-          <Outlet />
-        </Layout>
-      </HelmetProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </TanstackQueryContextProvider>
-  );
+  const router = createBrowserRouter([
+    {
+      element: <Layout />,
+      children: routes,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
 }
 
 export default App;
