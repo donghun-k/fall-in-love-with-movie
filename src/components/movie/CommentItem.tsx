@@ -10,8 +10,7 @@ import Comment from '../../models/Comment';
 import { convertTimestampToDateString } from '../../utils/date';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import useUpdateLikesMutation from '../../hooks/likes/useUpdateLikesMutation';
-
-interface Props {
+interface CommentItemProps {
   user: User | null;
   comment: Comment;
   updateLikesOptimistically: (
@@ -21,17 +20,30 @@ interface Props {
   ) => Promise<() => void>;
 }
 
-const CommentItem = ({ user, comment, updateLikesOptimistically }: Props) => {
+const CommentItem = ({
+  user,
+  comment,
+  updateLikesOptimistically,
+}: CommentItemProps) => {
   const userId = user?.uid ?? '';
   const { enqueueSnackbar } = useSnackbar();
-  const { commentRef, likeCount } = comment;
+  const {
+    commentRef,
+    likeCount,
+    likes,
+    authorId,
+    username,
+    userProfileImage,
+    content,
+    createdAt,
+    isUpdated,
+    rating,
+  } = comment;
   const { mutateAsync: updateLikesMutate, isLoading: isUpdatingLikes } =
-    useUpdateLikesMutation({
-      commentRef,
-    });
+    useUpdateLikesMutation({ commentRef });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
-  const alreadyLiked = comment.likes.includes(userId);
+  const alreadyLiked = likes.includes(userId);
 
   const handleAddLike = async () => {
     if (!user) {
@@ -46,12 +58,11 @@ const CommentItem = ({ user, comment, updateLikesOptimistically }: Props) => {
       await updateLikesMutate('add');
       enqueueSnackbar('공감이 등록되었습니다.', { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar('공감 등록에 실패하였습니다.', {
-        variant: 'error',
-      });
+      enqueueSnackbar('공감 등록에 실패하였습니다.', { variant: 'error' });
       rollback();
     }
   };
+
   const handleCancelLikes = async () => {
     if (!user) {
       enqueueSnackbar('공감을 취소하려면 로그인이 필요합니다.', {
@@ -71,64 +82,14 @@ const CommentItem = ({ user, comment, updateLikesOptimistically }: Props) => {
       await updateLikesMutate('cancel');
       enqueueSnackbar('공감이 취소되었습니다.', { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar('공감 취소에 실패하였습니다.', {
-        variant: 'error',
-      });
+      enqueueSnackbar('공감 취소에 실패하였습니다.', { variant: 'error' });
       rollback();
     }
   };
 
-  const props = {
-    user,
-    comment,
-    expand,
-    handleExpand,
-    handleAddLike,
-    handleCancelLikes,
-    isOverflow,
-    contentRef,
-    alreadyLiked,
-    likeCount,
-  };
-  return <CommentItemView {...props} />;
-};
-
-interface ViewProps {
-  user: User | null;
-  comment: Comment | undefined;
-  expand: boolean;
-  handleExpand: () => void;
-  handleAddLike: () => void;
-  handleCancelLikes: () => void;
-  isOverflow: boolean;
-  contentRef: React.RefObject<HTMLDivElement>;
-  alreadyLiked: boolean;
-  likeCount: number;
-}
-
-const CommentItemView = ({
-  user,
-  comment,
-  expand,
-  handleExpand,
-  handleAddLike,
-  handleCancelLikes,
-  isOverflow,
-  contentRef,
-  alreadyLiked,
-  likeCount,
-}: ViewProps) => {
   if (!comment) return null;
-  const {
-    authorId,
-    username,
-    userProfileImage,
-    content,
-    createdAt,
-    isUpdated,
-    rating,
-  } = comment;
   if (user && authorId === user.uid) return null;
+
   return (
     <Box
       sx={{
@@ -197,7 +158,7 @@ const CommentItemView = ({
             </Box>
           </Box>
           {Boolean(rating) && (
-            <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
+            <Chip icon={<StarIcon />} label={rating} size="small" />
           )}
         </Box>
         <Divider
@@ -213,7 +174,7 @@ const CommentItemView = ({
             fontSize: { xs: '0.8rem', sm: '1rem' },
             lineHeight: '20px',
             height: 'fit-content',
-            maxHeight: `${expand ? 'none' : '60px'}`,
+            maxHeight: expand ? 'none' : '60px',
             color: 'text.secondary',
             overflow: 'hidden',
             paddingRight: '5px',

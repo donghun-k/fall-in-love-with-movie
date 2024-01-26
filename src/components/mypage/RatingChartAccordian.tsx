@@ -4,7 +4,6 @@ import {
   AccordionSummary,
   Box,
   Divider,
-  Theme,
   Typography,
   useTheme,
 } from '@mui/material';
@@ -51,7 +50,6 @@ const chartOptions = {
     },
   },
 };
-
 interface Props {
   myRatings: Rating[];
 }
@@ -77,28 +75,7 @@ const RatingChartAccordian = ({ myRatings }: Props) => {
     setRatingData(ratingData);
     setAverageRating(averageRating);
   }, [myRatings]);
-  const props = {
-    theme,
-    ratingData,
-    averageRating,
-    totalRatingCount,
-  };
-  return <RatingChartAccordianView {...props} />;
-};
 
-interface ViewProps {
-  ratingData: number[];
-  averageRating: number;
-  totalRatingCount: number;
-  theme: Theme;
-}
-
-const RatingChartAccordianView = ({
-  ratingData,
-  averageRating,
-  totalRatingCount,
-  theme,
-}: ViewProps) => {
   return (
     <Accordion
       sx={{

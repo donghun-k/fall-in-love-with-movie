@@ -12,21 +12,20 @@ import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutati
 interface Props {
   movieId: number;
   myComment: MyComment;
-  handleEditCommentDialogOpen: () => void;
+  handleOpenEditCommentDialog: () => void;
 }
 
 const MyCommentItem = ({
   movieId,
   myComment,
-  handleEditCommentDialogOpen,
+  handleOpenEditCommentDialog,
 }: Props) => {
   const commentRef = myComment.commentRef;
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
-  const { mutateAsync: deleteCommentMutate, isLoading: isDeletingComment } =
-    useDeleteCommentMutation({
-      commentRef,
-    });
+  const { mutateAsync: deleteCommentMutate } = useDeleteCommentMutation({
+    commentRef,
+  });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
   const handleDeleteComment = async () => {
@@ -45,40 +44,6 @@ const MyCommentItem = ({
     }
   };
 
-  const props = {
-    myComment,
-    expand,
-    isOverflow,
-    contentRef,
-    handleExpand,
-    handleEditCommentDialogOpen,
-    handleDeleteComment,
-    isDeletingComment,
-  };
-
-  return <MyCommentItemView {...props} />;
-};
-
-interface ViewProps {
-  myComment: MyComment;
-  expand: boolean;
-  isOverflow: boolean;
-  contentRef: React.RefObject<HTMLDivElement>;
-  handleExpand: () => void;
-  handleEditCommentDialogOpen: () => void;
-  handleDeleteComment: () => void;
-  isDeletingComment: boolean;
-}
-
-const MyCommentItemView = ({
-  myComment,
-  expand,
-  isOverflow,
-  contentRef,
-  handleExpand,
-  handleEditCommentDialogOpen,
-  handleDeleteComment,
-}: ViewProps) => {
   const {
     username,
     userProfileImage,
@@ -235,7 +200,7 @@ const MyCommentItemView = ({
             }}
           >
             <Button
-              onClick={handleEditCommentDialogOpen}
+              onClick={handleOpenEditCommentDialog}
               sx={{
                 minWidth: 'fit-content',
                 padding: '0 5px',

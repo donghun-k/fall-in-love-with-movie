@@ -11,18 +11,6 @@ const SearchButton = () => {
     dispatch(openSearchDialog());
   };
 
-  const props = {
-    handleBtnClick,
-  };
-
-  return <SearchButtonView {...props} />;
-};
-
-interface ViewProps {
-  handleBtnClick: () => void;
-}
-
-const SearchButtonView = ({ handleBtnClick }: ViewProps) => {
   return (
     <Button
       onClick={handleBtnClick}

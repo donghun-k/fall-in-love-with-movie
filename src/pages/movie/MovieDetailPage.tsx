@@ -5,7 +5,6 @@ import { enqueueSnackbar } from 'notistack';
 import { useEffect } from 'react';
 
 import BackdropSection from '../../components/movie/BackdropSection';
-import MovieDetail from '../../models/MovieDetail';
 import InfoSection from '../../components/movie/InfoSection';
 import CommentSection from '../../components/movie/CommentSection';
 import SimilarSection from '../../components/movie/SimilarSection';
@@ -43,20 +42,7 @@ const MovieDetailPage = () => {
 
   if (isLoading) return <LoadingPage />;
   if (!movieDetail) return null;
-  console.log(movieDetail);
 
-  const props = {
-    movieDetail,
-  };
-
-  return <MovieDetailPageView {...props} />;
-};
-
-interface ViewProps {
-  movieDetail: MovieDetail;
-}
-
-const MovieDetailPageView = ({ movieDetail }: ViewProps) => {
   return (
     <>
       <Helmet>

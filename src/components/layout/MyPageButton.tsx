@@ -3,11 +3,6 @@ import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const MyPageButton = () => {
-  const props = {};
-  return <MyPageButtonView {...props} />;
-};
-
-const MyPageButtonView = () => {
   return (
     <Link to="/mypage">
       <Button

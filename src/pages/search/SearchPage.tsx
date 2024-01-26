@@ -11,7 +11,6 @@ import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import useSearchInfiniteQuery from '../../hooks/search/useSearchInfiniteQuery';
-import Movie from '../../models/Movie';
 import MovieCard from '../../components/ui/MovieCard';
 import LoadingPage from '../../components/ui/LoadingPage';
 
@@ -27,16 +26,11 @@ const SearchPage = () => {
     [data]
   );
 
-  const { total_results } = data?.pages[0] || { total_results: 0 };
-
-  const props = {
-    query,
-    isFetching,
-    hasNextPage: hasNextPage || false,
-    total_results,
-    movieList,
-    fetchNextPage,
+  const handleViewMore = () => {
+    fetchNextPage();
   };
+
+  const { total_results: totalResult } = data?.pages[0] || { total_results: 0 };
 
   if (query.trim() === '') {
     navigate('/', { replace: true });
@@ -44,26 +38,7 @@ const SearchPage = () => {
   }
 
   if (isLoading) return <LoadingPage />;
-  return <SearchPageView {...props} />;
-};
 
-interface ViewProps {
-  query: string;
-  isFetching: boolean;
-  hasNextPage: boolean;
-  total_results: number;
-  movieList: Movie[];
-  fetchNextPage: () => void;
-}
-
-const SearchPageView = ({
-  query,
-  isFetching,
-  hasNextPage,
-  total_results,
-  movieList,
-  fetchNextPage,
-}: ViewProps) => {
   return (
     <>
       <Helmet>
@@ -106,7 +81,7 @@ const SearchPageView = ({
                 : query}
               "
             </span>
-            의 검색 결과 <span className="total">{total_results}</span>건
+            의 검색 결과 <span className="total">{totalResult}</span>건
           </Typography>
           <Divider />
         </Box>
@@ -155,7 +130,7 @@ const SearchPageView = ({
           {isFetching && <CircularProgress />}
           {!isFetching && hasNextPage && (
             <>
-              <Button fullWidth size="large" onClick={fetchNextPage}>
+              <Button fullWidth size="large" onClick={handleViewMore}>
                 더 보기
               </Button>
             </>

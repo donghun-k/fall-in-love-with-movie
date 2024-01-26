@@ -14,20 +14,9 @@ const GoogleSignInButton = () => {
     }
   };
 
-  const props = {
-    onSignInBtnClick: handleSignIn,
-  };
-  return <GoogleSignInButtonView {...props} />;
-};
-
-interface ViewProps {
-  onSignInBtnClick: () => void;
-}
-
-const GoogleSignInButtonView = ({ onSignInBtnClick }: ViewProps) => {
   return (
     <Button
-      onClick={onSignInBtnClick}
+      onClick={handleSignIn}
       variant="outlined"
       size="large"
       startIcon={<GoogleIcon />}

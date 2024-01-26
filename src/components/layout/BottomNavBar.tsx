@@ -1,17 +1,17 @@
-import { BottomNavigation, BottomNavigationAction } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
-import LoginIcon from '@mui/icons-material/Login';
-import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { useNavigate } from 'react-router-dom';
-import { User } from 'firebase/auth';
-import { useSnackbar } from 'notistack';
-import { useDispatch, useSelector } from 'react-redux';
+import LogoutIcon from '@mui/icons-material/Logout';
+import LoginIcon from '@mui/icons-material/Login';
 
-import { signOut } from '../../services/auth';
 import { openSearchDialog } from '../../store/searchDialogSlice';
 import { RootState } from '../../store';
+import { signOut } from '../../services/auth';
 
 const BottomNavBar = () => {
   const dispatch = useDispatch();
@@ -21,63 +21,23 @@ const BottomNavBar = () => {
     (state: RootState) => state.auth
   );
 
-  const handleHomeBtnClick = () => {
-    navigate('/');
+  const handleNavigate = (path: string) => {
+    navigate(path);
   };
-  const handleMyPageBtnClick = () => {
-    navigate('/mypage');
-  };
-  const handleSearchBtnClick = () => {
+
+  const handleSearch = () => {
     dispatch(openSearchDialog());
   };
-  const handleSignInBtnClick = () => {
-    navigate('/signin');
-  };
-  const handleSignOutBtnClick = async () => {
+
+  const handleSignOut = async () => {
     try {
       await signOut();
-      enqueueSnackbar('로그아웃 되었습니다.', {
-        variant: 'success',
-      });
+      enqueueSnackbar('로그아웃 되었습니다.', { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar('로그아웃에 실패하였습니다.', {
-        variant: 'error',
-      });
+      enqueueSnackbar('로그아웃에 실패하였습니다.', { variant: 'error' });
     }
   };
 
-  const props = {
-    user,
-    isCheckingAuth,
-    handleHomeBtnClick,
-    handleMyPageBtnClick,
-    handleSearchBtnClick,
-    handleSignInBtnClick,
-    handleSignOutBtnClick,
-  };
-
-  return <BottomNavBarView {...props} />;
-};
-
-interface ViewProps {
-  user: User | null;
-  isCheckingAuth: boolean;
-  handleHomeBtnClick: () => void;
-  handleMyPageBtnClick: () => void;
-  handleSearchBtnClick: () => void;
-  handleSignInBtnClick: () => void;
-  handleSignOutBtnClick: () => void;
-}
-
-const BottomNavBarView = ({
-  user,
-  isCheckingAuth,
-  handleHomeBtnClick,
-  handleMyPageBtnClick,
-  handleSearchBtnClick,
-  handleSignInBtnClick,
-  handleSignOutBtnClick,
-}: ViewProps) => {
   return (
     <BottomNavigation
       showLabels
@@ -94,32 +54,32 @@ const BottomNavBarView = ({
       }}
     >
       <BottomNavigationAction
-        onClick={handleHomeBtnClick}
+        onClick={() => handleNavigate('/')}
         icon={<HomeIcon />}
         label="홈"
       />
       <BottomNavigationAction
-        onClick={handleSearchBtnClick}
+        onClick={handleSearch}
         icon={<SearchIcon />}
         label="검색"
       />
       {!isCheckingAuth && user && (
         <BottomNavigationAction
-          onClick={handleMyPageBtnClick}
+          onClick={() => handleNavigate('/mypage')}
           icon={<AccountCircleIcon />}
           label="내 정보"
         />
       )}
       {!isCheckingAuth && user && (
         <BottomNavigationAction
-          onClick={handleSignOutBtnClick}
+          onClick={handleSignOut}
           icon={<LogoutIcon />}
           label="로그아웃"
         />
       )}
       {!isCheckingAuth && !user && (
         <BottomNavigationAction
-          onClick={handleSignInBtnClick}
+          onClick={() => handleNavigate('/signin')}
           icon={<LoginIcon />}
           label="로그인"
         />

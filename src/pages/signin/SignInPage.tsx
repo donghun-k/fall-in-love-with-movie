@@ -5,13 +5,6 @@ import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
 
 const SignInPage = () => {
-  const props = {};
-  return <SignInPageView {...props} />;
-};
-
-// interface Props {}
-
-const SignInPageView = () => {
   return (
     <>
       <Helmet>

@@ -1,4 +1,4 @@
-import { Button, PaletteMode } from '@mui/material';
+import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -8,18 +8,6 @@ import { RootState } from '../../store';
 const LogoButton = () => {
   const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
 
-  const props = {
-    paletteMode,
-  };
-
-  return <LogoButtonView {...props} />;
-};
-
-interface ViewProps {
-  paletteMode: PaletteMode;
-}
-
-const LogoButtonView = ({ paletteMode }: ViewProps) => {
   return (
     <Link to="/">
       <Button
@@ -30,7 +18,7 @@ const LogoButtonView = ({ paletteMode }: ViewProps) => {
         }}
       >
         <img
-          src={LOGO_IMAGES[paletteMode].logo}
+          src={LOGO_IMAGES[paletteMode].logo} // LOGO_IMAGES는 해당 로고 이미지들이 정의된 객체입니다.
           alt="logo"
           width="100%"
           height="100%"

@@ -21,13 +21,13 @@ import MovieDetail from '../../models/MovieDetail';
 interface Props {
   movieDetail: MovieDetail;
   myComment?: MyComment;
-  handleEditCommentDialogClose: () => void;
+  handleCloseEditCommentDialog: () => void;
 }
 
 const EditCommentDialog = ({
   movieDetail,
   myComment,
-  handleEditCommentDialogClose,
+  handleCloseEditCommentDialog,
 }: Props) => {
   const { id: movieId, title: movieTitle } = movieDetail;
   const isUpdateMode = !!myComment;
@@ -74,7 +74,7 @@ const EditCommentDialog = ({
       enqueueSnackbar('코멘트가 작성되었습니다.', {
         variant: 'success',
       });
-      handleEditCommentDialogClose();
+      handleCloseEditCommentDialog();
       queryClient.resetQueries(['myComments']);
       queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myComment', movieId]);
@@ -100,7 +100,7 @@ const EditCommentDialog = ({
     }
     try {
       await updateCommentMutate({ content: commentContent });
-      handleEditCommentDialogClose();
+      handleCloseEditCommentDialog();
       queryClient.resetQueries(['myComments']);
       queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myComment', movieId]);
@@ -111,43 +111,6 @@ const EditCommentDialog = ({
     }
   };
 
-  const props = {
-    isUpdateMode,
-    commentContent,
-    commentLength,
-    isPostingComment,
-    isUpdatingComment,
-    handleCommentContentChange,
-    handlePostComment,
-    handleUpdateComment,
-    handleEditCommentDialogClose,
-  };
-  return <EditCommentDialogView {...props} />;
-};
-
-interface ViewProps {
-  isUpdateMode: boolean;
-  commentContent: string;
-  commentLength: number;
-  isPostingComment: boolean;
-  isUpdatingComment: boolean;
-  handleCommentContentChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handlePostComment: () => void;
-  handleUpdateComment: () => void;
-  handleEditCommentDialogClose: () => void;
-}
-
-const EditCommentDialogView = ({
-  isUpdateMode,
-  commentContent,
-  commentLength,
-  isPostingComment,
-  isUpdatingComment,
-  handleCommentContentChange,
-  handlePostComment,
-  handleUpdateComment,
-  handleEditCommentDialogClose,
-}: ViewProps) => {
   if (isPostingComment || isUpdatingComment) return <LoadingBackdrop />;
   return (
     <Dialog open={true} fullWidth={true}>
@@ -188,7 +151,7 @@ const EditCommentDialogView = ({
           </Button>
         )}
 
-        <Button variant="contained" onClick={handleEditCommentDialogClose}>
+        <Button variant="contained" onClick={handleCloseEditCommentDialog}>
           취소
         </Button>
       </DialogActions>

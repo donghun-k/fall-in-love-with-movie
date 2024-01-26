@@ -8,6 +8,7 @@ import { signOut } from '../../services/auth';
 const SignOutButton = () => {
   const queryClient = useQueryClient();
   const { enqueueSnackbar } = useSnackbar();
+
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -17,45 +18,21 @@ const SignOutButton = () => {
       queryClient.removeQueries(['myComments']);
       queryClient.invalidateQueries(['comments']);
 
-      enqueueSnackbar('로그아웃 되었습니다.', {
-        variant: 'success',
-      });
+      enqueueSnackbar('로그아웃 되었습니다.', { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar('로그아웃에 실패하였습니다.', {
-        variant: 'error',
-      });
+      enqueueSnackbar('로그아웃에 실패하였습니다.', { variant: 'error' });
     }
   };
 
-  const props = {
-    onSignOutBtnClick: handleSignOut,
-  };
-
-  return <SignOutButtonView {...props} />;
-};
-
-interface ViewProps {
-  onSignOutBtnClick: () => void;
-}
-
-const SignOutButtonView = ({ onSignOutBtnClick }: ViewProps) => {
   return (
-    <Button
-      sx={{
-        height: '50px',
-      }}
-      onClick={onSignOutBtnClick}
-      variant="text"
-    >
+    <Button sx={{ height: '50px' }} onClick={handleSignOut} variant="text">
       <LogoutIcon fontSize="large" />
       <Typography
         variant="subtitle2"
         pt={0.5}
         ml={0.5}
         fontWeight={600}
-        sx={{
-          display: { xs: 'none', md: 'block' },
-        }}
+        sx={{ display: { xs: 'none', md: 'block' } }}
       >
         로그아웃
       </Typography>

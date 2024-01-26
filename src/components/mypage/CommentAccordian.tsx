@@ -52,7 +52,7 @@ const CommentAccordian = ({ myComments }: Props) => {
     setPage(page);
   };
 
-  const handleToMovieDetailPage = (e: MouseEvent<HTMLElement>) => {
+  const handleNavigate = (e: MouseEvent<HTMLElement>) => {
     const movieId = e.currentTarget.dataset.movieId;
     if (!movieId) return;
     navigate(`/movie/${movieId}`);
@@ -62,34 +62,6 @@ const CommentAccordian = ({ myComments }: Props) => {
     setSortOption(e.target.value as SortOption);
   };
 
-  const props = {
-    sortedComments,
-    page,
-    sortOption,
-    handleSetPage,
-    handleToMovieDetailPage,
-    handleSetSortOption,
-  };
-  return <CommentAccordianView {...props} />;
-};
-
-interface ViewProps {
-  sortedComments: Comment[];
-  page: number;
-  sortOption: SortOption;
-  handleSetPage: (_: ChangeEvent<unknown>, page: number) => void;
-  handleToMovieDetailPage: (e: MouseEvent<HTMLElement>) => void;
-  handleSetSortOption: (e: SelectChangeEvent) => void;
-}
-
-const CommentAccordianView = ({
-  sortedComments,
-  page,
-  sortOption,
-  handleSetPage,
-  handleToMovieDetailPage,
-  handleSetSortOption,
-}: ViewProps) => {
   return (
     <Accordion
       sx={{
@@ -145,7 +117,7 @@ const CommentAccordianView = ({
             <CommentListItem
               key={comment.movieId}
               comment={comment}
-              handleListItemClick={handleToMovieDetailPage}
+              handleListItemClick={handleNavigate}
             />
           ))}
           {sortedComments.length === 0 && (

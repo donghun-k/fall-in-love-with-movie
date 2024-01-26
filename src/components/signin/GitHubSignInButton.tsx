@@ -14,20 +14,9 @@ const GitHubSignInButton = () => {
     }
   };
 
-  const props = {
-    onSignInBtnClick: handleSignIn,
-  };
-  return <GitHubSignInButtonView {...props} />;
-};
-
-interface ViewProps {
-  onSignInBtnClick: () => void;
-}
-
-const GitHubSignInButtonView = ({ onSignInBtnClick }: ViewProps) => {
   return (
     <Button
-      onClick={onSignInBtnClick}
+      onClick={handleSignIn}
       variant="outlined"
       size="large"
       startIcon={<GitHubIcon />}

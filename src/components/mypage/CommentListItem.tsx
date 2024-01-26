@@ -18,19 +18,6 @@ interface Props {
 }
 
 const CommentListItem = ({ comment, handleListItemClick }: Props) => {
-  const props = {
-    comment,
-    handleListItemClick,
-  };
-  return <CommentListItemView {...props} />;
-};
-
-interface ViewProps {
-  comment: Comment;
-  handleListItemClick: (e: MouseEvent<HTMLElement>) => void;
-}
-
-const CommentListItemView = ({ comment, handleListItemClick }: ViewProps) => {
   return (
     <ListItem disablePadding key={comment.movieId}>
       <ListItemButton

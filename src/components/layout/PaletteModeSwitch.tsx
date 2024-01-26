@@ -1,4 +1,4 @@
-import { PaletteMode, Switch } from '@mui/material';
+import { Switch } from '@mui/material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,27 +14,10 @@ const PaletteModeSwitch = () => {
     dispatch(togglePaletteMode());
   };
 
-  const props = {
-    paletteMode,
-    handleSwitchChange,
-  };
-
-  return <PaletteModeSwitchView {...props} />;
-};
-
-interface ViewProps {
-  paletteMode: PaletteMode;
-  handleSwitchChange: () => void;
-}
-
-const PaletteModeSwitchView = ({
-  paletteMode,
-  handleSwitchChange,
-}: ViewProps) => {
   return (
     <Switch
       inputProps={{
-        'aria-label': ' dark mode',
+        'aria-label': 'dark mode',
       }}
       sx={{
         '&.MuiSwitch-root': {

@@ -1,7 +1,6 @@
-import { Box, Button, PaletteMode, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
-import { User } from 'firebase/auth';
 import { useSelector } from 'react-redux';
 
 import LOGO_IMAGES from '../../utils/logo';
@@ -13,22 +12,6 @@ const TitleSection = () => {
     (state: RootState) => state.auth
   );
 
-  const props = {
-    paletteMode,
-    user,
-    isCheckingAuth,
-  };
-
-  return <TitleSectionView {...props} />;
-};
-
-interface ViewProps {
-  paletteMode: PaletteMode;
-  user: User | null;
-  isCheckingAuth: boolean;
-}
-
-const TitleSectionView = ({ paletteMode, user, isCheckingAuth }: ViewProps) => {
   return (
     <Box
       component="section"
@@ -43,7 +26,6 @@ const TitleSectionView = ({ paletteMode, user, isCheckingAuth }: ViewProps) => {
       }}
     >
       <Box
-        component="div"
         sx={{
           width: { xs: '150px', md: '200px' },
           height: { xs: '120px', md: '160px' },
@@ -51,7 +33,7 @@ const TitleSectionView = ({ paletteMode, user, isCheckingAuth }: ViewProps) => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
-      ></Box>
+      />
       <Typography
         sx={{
           fontSize: { xs: '20px', md: '30px' },

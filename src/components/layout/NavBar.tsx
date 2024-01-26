@@ -1,5 +1,4 @@
 import { Box, Grid, Toolbar } from '@mui/material';
-import { User } from 'firebase/auth';
 import { useSelector } from 'react-redux';
 
 import useMediaQueries from '../../hooks/useMediaQueries';
@@ -18,32 +17,6 @@ const NavBar = () => {
     (state: RootState) => state.auth
   );
 
-  const props = {
-    user,
-    isCheckingAuth,
-    isSmDown,
-    isSmUp,
-    isMdDown,
-  };
-
-  return <NavBarView {...props} />;
-};
-
-interface ViewProps {
-  user: User | null;
-  isCheckingAuth: boolean;
-  isSmDown: boolean;
-  isSmUp: boolean;
-  isMdDown: boolean;
-}
-
-const NavBarView = ({
-  user,
-  isCheckingAuth,
-  isSmDown,
-  isSmUp,
-  isMdDown,
-}: ViewProps) => {
   return (
     <Box
       component="nav"
@@ -79,7 +52,8 @@ const NavBarView = ({
                 gap: '10px',
               }}
             >
-              {isSmUp && (isMdDown ? <SearchButton /> : <SearchBar />)}
+              {isSmUp && isMdDown && <SearchButton />}
+              {isSmUp && !isMdDown && <SearchBar />}
               {!isCheckingAuth && !isSmDown && (
                 <>
                   {user && <MyPageButton />}

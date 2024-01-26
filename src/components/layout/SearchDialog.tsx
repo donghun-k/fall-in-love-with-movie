@@ -6,12 +6,7 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import {
-  ChangeEventHandler,
-  FormEventHandler,
-  useCallback,
-  useEffect,
-} from 'react';
+import { FormEventHandler, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import useSearch from '../../hooks/search/useSearch';
@@ -39,31 +34,6 @@ const SearchDialog = () => {
     handleSearch();
   };
 
-  const props = {
-    openDialog,
-    handleCloseSearchDialog,
-    searchInput,
-    handleSearchBtnClick,
-    handleInputChange,
-  };
-  return <SearchDialogView {...props} />;
-};
-
-interface ViewProps {
-  openDialog: boolean;
-  handleCloseSearchDialog: () => void;
-  searchInput: string;
-  handleSearchBtnClick: FormEventHandler<HTMLElement>;
-  handleInputChange: ChangeEventHandler<HTMLInputElement>;
-}
-
-const SearchDialogView = ({
-  openDialog,
-  handleCloseSearchDialog,
-  searchInput,
-  handleSearchBtnClick,
-  handleInputChange,
-}: ViewProps) => {
   return (
     <Dialog
       component="form"
@@ -71,12 +41,7 @@ const SearchDialogView = ({
       open={openDialog}
       fullWidth={true}
     >
-      <DialogTitle
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
         검색
       </DialogTitle>
       <DialogContent>
@@ -87,12 +52,7 @@ const SearchDialogView = ({
           onChange={handleInputChange}
         />
       </DialogContent>
-      <DialogActions
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
         <Button type="submit" variant="contained">
           검색
         </Button>

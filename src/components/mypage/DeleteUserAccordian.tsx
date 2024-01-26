@@ -41,28 +41,6 @@ const DeleteUserAccordian = () => {
     }
   };
 
-  const props = {
-    inputText,
-    isButtonActive,
-    handleDeleteUser,
-    handleInputTextChange,
-  };
-  return <DeleteUserAccordianView {...props} />;
-};
-
-interface ViewProps {
-  inputText: string;
-  isButtonActive: boolean;
-  handleDeleteUser: () => void;
-  handleInputTextChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
-
-const DeleteUserAccordianView = ({
-  inputText,
-  isButtonActive,
-  handleDeleteUser,
-  handleInputTextChange,
-}: ViewProps) => {
   return (
     <Accordion
       sx={{

@@ -1,5 +1,4 @@
 import { Box } from '@mui/material';
-import { User } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { Helmet } from 'react-helmet-async';
@@ -12,8 +11,6 @@ import PreferredGenreAccordian from '../../components/mypage/PreferredGenreAccor
 import DeleteUserAccordian from '../../components/mypage/DeleteUserAccordian';
 import ProfileBox from '../../components/mypage/ProfileBox';
 import useMyRatingsQuery from '../../hooks/rating/useMyRatingsQuery';
-import Rating from '../../models/Rating';
-import Comment from '../../models/Comment';
 import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
 import LoadingPage from '../../components/ui/LoadingPage';
 import { RootState } from '../../store';
@@ -40,21 +37,6 @@ const MyPage = () => {
     return null;
   }
 
-  const props = {
-    user,
-    myRatings,
-    myComments,
-  };
-  return <MyPageView {...props} />;
-};
-
-interface ViewProps {
-  user: User;
-  myRatings: Rating[];
-  myComments: Comment[];
-}
-
-const MyPageView = ({ user, myRatings, myComments }: ViewProps) => {
   return (
     <>
       <Helmet>

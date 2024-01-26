@@ -4,10 +4,6 @@ import { Helmet } from 'react-helmet-async';
 import TitleSection from '../../components/home/TitleSection';
 
 const HomePage = () => {
-  return <HomePageView />;
-};
-
-const HomePageView = () => {
   return (
     <>
       <Helmet>

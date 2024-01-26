@@ -6,16 +6,8 @@ interface Props {
 }
 
 const ProfileBox = ({ user }: Props) => {
-  const props = { user };
-  return <ProfileBoxView {...props} />;
-};
-
-interface ViewProps {
-  user: User;
-}
-
-const ProfileBoxView = ({ user }: ViewProps) => {
   const { displayName, photoURL } = user;
+
   return (
     <Box
       sx={{

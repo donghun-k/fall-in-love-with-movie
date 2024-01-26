@@ -29,7 +29,7 @@ type SortOption = '최신순' | '등록순' | '가나다순';
 
 const RatedMovieAccordian = ({ myRatings }: Props) => {
   const navigate = useNavigate();
-  const [ratingValueToShow, setRatingValueToShow] = useState(0);
+  const [ratingValue, setRatingValue] = useState(0);
   const [sortOption, setSortOption] = useState<SortOption>('가나다순');
   const [sortedRatings, setSortedRatings] = useState<Rating[]>([]);
   const [page, setPage] = useState(1);
@@ -50,20 +50,20 @@ const RatedMovieAccordian = ({ myRatings }: Props) => {
       });
     }
 
-    if (ratingValueToShow !== 0) {
+    if (ratingValue !== 0) {
       sortedRatings = sortedRatings.filter((rating) => {
-        return rating.rating === ratingValueToShow;
+        return rating.rating === ratingValue;
       });
     }
 
     setSortedRatings(sortedRatings);
-  }, [myRatings, sortOption, ratingValueToShow]);
+  }, [myRatings, sortOption, ratingValue]);
 
   const handleSetPage = (_: ChangeEvent<unknown>, page: number) => {
     setPage(page);
   };
 
-  const handleToMovieDetailPage = (e: MouseEvent<HTMLElement>) => {
+  const handleNavigate = (e: MouseEvent<HTMLElement>) => {
     const movieId = e.currentTarget.dataset.movieId;
     if (!movieId) return;
     navigate(`/movie/${movieId}`);
@@ -73,44 +73,10 @@ const RatedMovieAccordian = ({ myRatings }: Props) => {
     setSortOption(e.target.value as SortOption);
   };
 
-  const handleSetRatingValueToShow = (e: SelectChangeEvent) => {
-    setRatingValueToShow(Number(e.target.value));
+  const handleSetRatingValue = (e: SelectChangeEvent) => {
+    setRatingValue(Number(e.target.value));
   };
 
-  const props = {
-    sortOption,
-    handleSetSortOption,
-    sortedRatings,
-    page,
-    handleSetPage,
-    handleToMovieDetailPage,
-    ratingValueToShow,
-    handleSetRatingValueToShow,
-  };
-  return <RatedMovieAccordianView {...props} />;
-};
-
-interface ViewProps {
-  sortOption: SortOption;
-  handleSetSortOption: (e: SelectChangeEvent) => void;
-  sortedRatings: Rating[];
-  page: number;
-  handleSetPage: (e: ChangeEvent<unknown>, page: number) => void;
-  handleToMovieDetailPage: (e: MouseEvent<HTMLElement>) => void;
-  ratingValueToShow: number;
-  handleSetRatingValueToShow: (e: SelectChangeEvent) => void;
-}
-
-const RatedMovieAccordianView = ({
-  sortOption,
-  handleSetSortOption,
-  sortedRatings,
-  page,
-  handleSetPage,
-  handleToMovieDetailPage,
-  ratingValueToShow,
-  handleSetRatingValueToShow,
-}: ViewProps) => {
   return (
     <Accordion
       sx={{
@@ -156,8 +122,8 @@ const RatedMovieAccordianView = ({
             <MenuItem value="등록순">등록순</MenuItem>
           </Select>
           <Select
-            value={String(ratingValueToShow)}
-            onChange={handleSetRatingValueToShow}
+            value={String(ratingValue)}
+            onChange={handleSetRatingValue}
             sx={{
               width: { xs: '80px', sm: '100px' },
               fontSize: { xs: '0.8rem', sm: '1rem' },
@@ -220,7 +186,7 @@ const RatedMovieAccordianView = ({
           {sortedRatings.slice((page - 1) * 5, page * 5).map((rating) => (
             <ListItem disablePadding key={rating.movieId}>
               <ListItemButton
-                onClick={handleToMovieDetailPage}
+                onClick={handleNavigate}
                 data-movie-id={rating.movieId}
                 sx={{
                   display: 'flex',

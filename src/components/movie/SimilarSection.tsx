@@ -1,7 +1,6 @@
 import { Box, Typography } from '@mui/material';
 import TheatersIcon from '@mui/icons-material/Theaters';
 
-import Movie from '../../models/Movie';
 import MovieCard from '../ui/MovieCard';
 import useSimilarMoviesQuery from '../../hooks/movie/useSimilarMoviesQuery';
 
@@ -11,18 +10,9 @@ interface Props {
 
 const SimilarSection = ({ movieId }: Props) => {
   const { data: similarMovies } = useSimilarMoviesQuery({ movieId });
-  const props = {
-    similarMovies,
-  };
+
   if (similarMovies?.length === 0) return null;
-  return <SimilarSectionView {...props} />;
-};
 
-interface ViewProps {
-  similarMovies?: Movie[];
-}
-
-const SimilarSectionView = ({ similarMovies }: ViewProps) => {
   if (!similarMovies) return null;
   return (
     <Box

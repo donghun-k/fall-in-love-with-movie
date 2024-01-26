@@ -1,6 +1,6 @@
 import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import { ChangeEventHandler, FormEventHandler } from 'react';
+import { FormEventHandler } from 'react';
 
 import useSearch from '../../hooks/search/useSearch';
 
@@ -11,25 +11,7 @@ const SearchBar = () => {
     e.preventDefault();
     handleSearch();
   };
-  const props = {
-    searchInput,
-    handleSubmit,
-    handleInputChange,
-  };
-  return <SearchBarView {...props} />;
-};
 
-interface ViewProps {
-  searchInput: string;
-  handleSubmit: FormEventHandler<HTMLFormElement>;
-  handleInputChange: ChangeEventHandler<HTMLInputElement>;
-}
-
-const SearchBarView = ({
-  searchInput,
-  handleSubmit,
-  handleInputChange,
-}: ViewProps) => {
   return (
     <Paper
       component="form"

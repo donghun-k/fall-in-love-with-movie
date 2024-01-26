@@ -1,10 +1,4 @@
-import {
-  Box,
-  CircularProgress,
-  Theme,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, CircularProgress, Typography, useTheme } from '@mui/material';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -49,11 +43,11 @@ const chartOptions = {
   },
 };
 
-interface RatingInfoBoxProps {
+interface Props {
   movieId: number;
 }
 
-const RatingInfoBox = ({ movieId }: RatingInfoBoxProps) => {
+const RatingInfoBox = ({ movieId }: Props) => {
   const theme = useTheme();
   const { data, isLoading } = useRatingStatisticsQuery({
     movieId,
@@ -64,31 +58,6 @@ const RatingInfoBox = ({ movieId }: RatingInfoBoxProps) => {
     averageRating: 0,
   };
 
-  const props = {
-    theme,
-    ratingData,
-    totalRatingCount,
-    averageRating,
-    isLoading,
-  };
-  return <RatingInfoBoxView {...props} />;
-};
-
-interface ViewProps {
-  theme: Theme;
-  ratingData: number[];
-  totalRatingCount: number;
-  averageRating: number;
-  isLoading: boolean;
-}
-
-const RatingInfoBoxView = ({
-  theme,
-  ratingData,
-  totalRatingCount,
-  averageRating,
-  isLoading,
-}: ViewProps) => {
   return (
     <Box
       sx={{

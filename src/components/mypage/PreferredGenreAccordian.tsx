@@ -45,21 +45,6 @@ const PreferredGenreAccordian = ({ myRatings }: Props) => {
     setGenreData(genreData);
   }, [myRatings]);
 
-  const props = {
-    genreData,
-  };
-  return <PreferredGenreAccordianView {...props} />;
-};
-
-interface ViewProps {
-  genreData: {
-    genreName: string;
-    averageRating: number;
-    count: number;
-  }[];
-}
-
-const PreferredGenreAccordianView = ({ genreData }: ViewProps) => {
   return (
     <Accordion
       sx={{

@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom';
 import LoginIcon from '@mui/icons-material/Login';
 
 const SignInButton = () => {
-  return <SignInButtonView />;
-};
-
-const SignInButtonView = () => {
   return (
     <Link to="/signin">
       <Button

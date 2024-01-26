@@ -11,9 +11,7 @@ import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import SortIcon from '@mui/icons-material/Sort';
 import CreateIcon from '@mui/icons-material/Create';
 import { useState, MouseEvent, useEffect } from 'react';
-import { User } from 'firebase/auth';
 import { useQueryClient } from '@tanstack/react-query';
-import { DocumentReference } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
 
 import MovieDetail from '../../models/MovieDetail';
@@ -23,7 +21,6 @@ import { SortOptionType } from '../../services/comment';
 import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
-import Comment from '../../models/Comment';
 import { RootState } from '../../store';
 interface Props {
   movieDetail: MovieDetail;
@@ -33,8 +30,7 @@ const CommentSection = ({ movieDetail }: Props) => {
   const { id: movieId } = movieDetail;
   const queryClient = useQueryClient();
   const { user } = useSelector((state: RootState) => state.auth);
-  const [isEditCommentDialogOpened, setIsEditCommentDialogOpened] =
-    useState(false);
+  const [openCommentDialog, setOpenCommentDialog] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState<SortOptionType>('latest');
   const { data: myComment } = useMyCommentQuery({
@@ -58,93 +54,29 @@ const CommentSection = ({ movieDetail }: Props) => {
     queryClient.resetQueries(['comments', movieId]);
   }, [queryClient, movieId]);
 
+  const handleViewMoreComments = () => {
+    fetchNextPage();
+  };
+
   const handleSetSortOption = (event: MouseEvent<HTMLLIElement>) => {
     const value = event.currentTarget.dataset.value as SortOptionType;
     console.log(value);
     setSortOption(value);
     setAnchorEl(null);
   };
-  const handleSortMenuBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleOpenSortMenu = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleSortMenuClose = () => {
+  const handleCloseSortMenu = () => {
     setAnchorEl(null);
   };
-  const handleEditCommentDialogOpen = () => {
-    setIsEditCommentDialogOpened(true);
+  const handleOpenEditCommentDialog = () => {
+    setOpenCommentDialog(true);
   };
-  const handleEditCommentDialogClose = () => {
-    setIsEditCommentDialogOpened(false);
+  const handleCloseEditCommentDialog = () => {
+    setOpenCommentDialog(false);
   };
 
-  const props = {
-    isEditCommentDialogOpened,
-    anchorEl,
-    openSortMenu,
-    handleSetSortOption,
-    handleSortMenuBtnClick,
-    handleSortMenuClose,
-    handleEditCommentDialogOpen,
-    handleEditCommentDialogClose,
-    movieId,
-    user,
-    myComment,
-    comments,
-    hasNextPage,
-    fetchNextPage,
-    isCommentsLoading,
-    isCommentsFetching,
-    movieDetail,
-    updateLikesOptimistically,
-  };
-  return <CommentSectionView {...props} />;
-};
-
-interface ViewProps {
-  isEditCommentDialogOpened: boolean;
-  anchorEl: null | HTMLElement;
-  openSortMenu: boolean;
-  handleSetSortOption: (event: MouseEvent<HTMLLIElement>) => void;
-  handleSortMenuBtnClick: (event: MouseEvent<HTMLButtonElement>) => void;
-  handleSortMenuClose: () => void;
-  handleEditCommentDialogOpen: () => void;
-  handleEditCommentDialogClose: () => void;
-  movieId: number;
-  user: User | null;
-  myComment: Comment | undefined | null;
-  comments: Comment[] | undefined;
-  hasNextPage: boolean | undefined;
-  fetchNextPage: () => void;
-  isCommentsLoading: boolean;
-  isCommentsFetching: boolean;
-  movieDetail: MovieDetail;
-  updateLikesOptimistically: (
-    commentRef: DocumentReference,
-    type: 'add' | 'cancel',
-    user: User
-  ) => Promise<() => void>;
-}
-
-const CommentSectionView = ({
-  isEditCommentDialogOpened,
-  anchorEl,
-  openSortMenu,
-  handleSetSortOption,
-  handleSortMenuBtnClick,
-  handleSortMenuClose,
-  handleEditCommentDialogOpen,
-  handleEditCommentDialogClose,
-  movieId,
-  user,
-  myComment,
-  comments,
-  hasNextPage,
-  fetchNextPage,
-  isCommentsLoading,
-  isCommentsFetching,
-  movieDetail,
-  updateLikesOptimistically,
-}: ViewProps) => {
   return (
     <Box
       component="section"
@@ -187,14 +119,14 @@ const CommentSectionView = ({
           <Button
             startIcon={<SortIcon />}
             size="large"
-            onClick={handleSortMenuBtnClick}
+            onClick={handleOpenSortMenu}
           >
             정렬 기준
           </Button>
           <Menu
             anchorEl={anchorEl}
             open={openSortMenu}
-            onClose={handleSortMenuClose}
+            onClose={handleCloseSortMenu}
           >
             <MenuItem data-value="latest" onClick={handleSetSortOption}>
               최신순
@@ -215,7 +147,7 @@ const CommentSectionView = ({
         </Box>
         {user && !myComment && (
           <Button
-            onClick={handleEditCommentDialogOpen}
+            onClick={handleOpenEditCommentDialog}
             startIcon={<CreateIcon />}
             variant="contained"
             size="small"
@@ -238,7 +170,7 @@ const CommentSectionView = ({
           <MyCommentItem
             myComment={myComment}
             movieId={movieId}
-            handleEditCommentDialogOpen={handleEditCommentDialogOpen}
+            handleOpenEditCommentDialog={handleOpenEditCommentDialog}
           />
         )}
         {comments &&
@@ -266,7 +198,7 @@ const CommentSectionView = ({
         )}
         {!isCommentsLoading && !isCommentsFetching && hasNextPage && (
           <Button
-            onClick={fetchNextPage}
+            onClick={handleViewMoreComments}
             sx={{
               width: '100%',
               padding: '10px 0',
@@ -286,11 +218,11 @@ const CommentSectionView = ({
           </Typography>
         )}
       </Box>
-      {isEditCommentDialogOpened && (
+      {openCommentDialog && (
         <EditCommentDialog
           movieDetail={movieDetail}
           myComment={myComment ?? undefined}
-          handleEditCommentDialogClose={handleEditCommentDialogClose}
+          handleCloseEditCommentDialog={handleCloseEditCommentDialog}
         />
       )}
     </Box>

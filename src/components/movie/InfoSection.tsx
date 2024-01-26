@@ -20,20 +20,6 @@ const InfoSection = ({ movieDetail }: Props) => {
       })
     : null;
 
-  const props = {
-    movieDetail,
-    posterSrc,
-  };
-
-  return <InfoSectionView {...props} />;
-};
-
-interface ViewProps {
-  movieDetail: MovieDetail;
-  posterSrc: string | null;
-}
-
-const InfoSectionView = ({ movieDetail, posterSrc }: ViewProps) => {
   const { title, overview, id: movieId } = movieDetail;
   return (
     <Box

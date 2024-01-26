@@ -2,12 +2,11 @@ import { Box, Grid, Typography } from '@mui/material';
 
 import MovieDetail from '../../models/MovieDetail';
 import { generateBackdropImgSrc } from '../../utils/movieImgSrc';
-
-interface Props {
+interface BackdropSectionProps {
   movieDetail: MovieDetail;
 }
 
-const BackdropSection = ({ movieDetail }: Props) => {
+const BackdropSection = ({ movieDetail }: BackdropSectionProps) => {
   const {
     backdrop_path,
     title,
@@ -19,10 +18,7 @@ const BackdropSection = ({ movieDetail }: Props) => {
   } = movieDetail;
 
   const backdropSrc = backdrop_path
-    ? generateBackdropImgSrc({
-        path: backdrop_path,
-        size: 'w1280',
-      })
+    ? generateBackdropImgSrc({ path: backdrop_path, size: 'w1280' })
     : null;
   const releaseYear = release_date.split('-')[0];
   const country = production_countries
@@ -30,38 +26,6 @@ const BackdropSection = ({ movieDetail }: Props) => {
     .join(', ');
   const genresString = genres.map((genre) => genre.name).join(', ');
 
-  const props = {
-    title,
-    original_title,
-    releaseYear,
-    runtime,
-    genresString,
-    country,
-    backdropSrc,
-  };
-
-  return <BackdropSectionView {...props} />;
-};
-
-interface ViewProps {
-  backdropSrc: string | null;
-  title: string;
-  original_title: string;
-  releaseYear: string;
-  runtime: number;
-  genresString: string;
-  country: string;
-}
-
-const BackdropSectionView = ({
-  backdropSrc,
-  title,
-  original_title,
-  releaseYear,
-  runtime,
-  genresString,
-  country,
-}: ViewProps) => {
   return (
     <Box
       component="section"
@@ -107,41 +71,29 @@ const BackdropSectionView = ({
           xs={12}
           md={10}
           lg={8}
-          sx={{
-            padding: { xs: '10px 10px', md: '10px 0' },
-          }}
+          sx={{ padding: { xs: '10px 10px', md: '10px 0' } }}
         >
           <Typography
-            sx={{
-              fontSize: { xs: '28px', sm: '36px' },
-            }}
+            sx={{ fontSize: { xs: '28px', sm: '36px' } }}
             color="white"
           >
             {title}
           </Typography>
           <Typography
             color="lightgray"
-            sx={{
-              fontSize: { xs: '16px', sm: '20px' },
-              marginBottom: '5px',
-            }}
+            sx={{ fontSize: { xs: '16px', sm: '20px' }, marginBottom: '5px' }}
           >
             {original_title}
           </Typography>
           <Typography
             color="lightgray"
-            sx={{
-              fontSize: { xs: '12px', sm: '14px' },
-              marginBottom: '8px',
-            }}
+            sx={{ fontSize: { xs: '12px', sm: '14px' }, marginBottom: '8px' }}
           >
             {releaseYear} · {runtime}분 · {country}
           </Typography>
           <Typography
             color="lightgray"
-            sx={{
-              fontSize: { xs: '12px', sm: '14px' },
-            }}
+            sx={{ fontSize: { xs: '12px', sm: '14px' } }}
           >
             {genresString}
           </Typography>

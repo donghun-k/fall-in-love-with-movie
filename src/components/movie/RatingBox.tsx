@@ -6,7 +6,6 @@ import {
   Typography,
 } from '@mui/material';
 import { SyntheticEvent } from 'react';
-import { User } from 'firebase/auth';
 import { Link } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
@@ -43,7 +42,7 @@ const RatingBox = ({ movieDetail }: Props) => {
       movieGenreIds,
     });
 
-  const handleRatingChange = async (
+  const handleUpdateRating = async (
     _: SyntheticEvent,
     value: number | null
   ) => {
@@ -83,21 +82,6 @@ const RatingBox = ({ movieDetail }: Props) => {
     );
   }
 
-  const props = {
-    handleRatingChange,
-    rating,
-    user,
-  };
-  return <RatingBoxView {...props} />;
-};
-
-interface ViewProps {
-  handleRatingChange: (event: SyntheticEvent, value: number | null) => void;
-  rating: number | null;
-  user: User | null;
-}
-
-const RatingBoxView = ({ user, rating, handleRatingChange }: ViewProps) => {
   return (
     <Box
       sx={{
@@ -116,7 +100,7 @@ const RatingBoxView = ({ user, rating, handleRatingChange }: ViewProps) => {
             <Rating
               max={10}
               value={rating ?? 0}
-              onChange={handleRatingChange}
+              onChange={handleUpdateRating}
               sx={{
                 '&.MuiRating-root': {
                   fontSize: { xs: '2rem', sm: '1.5rem', md: '2rem' },
