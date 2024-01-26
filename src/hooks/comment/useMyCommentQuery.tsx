@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMyComment } from '../../services/comment';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../app';
 
 interface Params {
   movieId: number;

@@ -2,7 +2,7 @@ import { Button, PaletteMode } from '@mui/material';
 import { Link } from 'react-router-dom';
 import LOGO_IMAGES from '../../../utils/logo';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
+import { RootState } from '../../../app';
 
 const LogoButton = () => {
   const { paletteMode } = useSelector((state: RootState) => state.paletteMode);

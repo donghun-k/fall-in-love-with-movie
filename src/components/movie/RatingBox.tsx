@@ -14,7 +14,7 @@ import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
 import MovieDetail from '../../models/MovieDetail';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../app';
 
 interface Props {
   movieDetail: MovieDetail;

@@ -6,7 +6,7 @@ import TanstackQueryContextProvider from './contexts/TanstackQueryContext';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { onUserStateChange } from './services/auth';
-import { setUser, setIsCheckingAuth } from './features/auth/authSlice';
+import { setUser, setIsCheckingAuth } from './store/authSlice';
 
 function App() {
   const dispatch = useDispatch();

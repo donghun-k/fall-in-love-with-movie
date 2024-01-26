@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authSlice } from '../features/auth/authSlice';
-import { paletteModeSlice } from '../features/paletteMode/paletteModeSlice';
-import { searchDialogSlice } from '../features/searchDialog/searchDialogSlice';
+import { authSlice } from './authSlice';
+import { paletteModeSlice } from './paletteModeSlice';
+import { searchDialogSlice } from './searchDialogSlice';
 
 export const store = configureStore({
   reducer: {

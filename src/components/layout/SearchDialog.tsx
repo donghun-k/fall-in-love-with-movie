@@ -15,8 +15,8 @@ import {
 } from 'react';
 import useMediaQueries from '../../hooks/useMediaQueries';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
-import { closeSearchDialog } from '../../features/searchDialog/searchDialogSlice';
+import { RootState } from '../../store';
+import { closeSearchDialog } from '../../store/searchDialogSlice';
 
 const SearchDialog = () => {
   const dispatch = useDispatch();

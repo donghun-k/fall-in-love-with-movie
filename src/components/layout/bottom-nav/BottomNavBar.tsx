@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { User } from 'firebase/auth';
 import { signOut } from '../../../services/auth';
 import { useSnackbar } from 'notistack';
-import { RootState } from '../../../app/store';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { openSearchDialog } from '../../../features/searchDialog/searchDialogSlice';
+import { openSearchDialog } from '../../../store/searchDialogSlice';
+import { RootState } from '../../../store';
 
 const BottomNavBar = () => {
   const dispatch = useDispatch();

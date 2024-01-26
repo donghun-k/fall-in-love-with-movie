@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import LOGO_IMAGES from '../../utils/logo';
 import { User } from 'firebase/auth';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../app';
 
 const TitleSection = () => {
   const { paletteMode } = useSelector((state: RootState) => state.paletteMode);

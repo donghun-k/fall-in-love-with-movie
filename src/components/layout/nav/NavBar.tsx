@@ -9,7 +9,7 @@ import SignOutButton from './SignOutButton';
 import MyPageButton from './MyPageButton';
 import SearchButton from './SearchButton';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
+import { RootState } from '../../../app';
 
 const NavBar = () => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();

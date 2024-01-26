@@ -23,7 +23,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import Comment from '../../models/Comment';
 import { DocumentReference } from 'firebase/firestore';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../app';
 
 interface Props {
   movieDetail: MovieDetail;

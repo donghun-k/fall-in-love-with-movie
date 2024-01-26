@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app/store';
+import { RootState } from '../../app';
 
 const MyPage = () => {
   const { enqueueSnackbar } = useSnackbar();

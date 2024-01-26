@@ -1,6 +1,6 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { RootState } from '../app/store';
+import { RootState } from '../store';
 import { useSelector } from 'react-redux';
 import LoadingPage from '../components/ui/LoadingPage';
 
