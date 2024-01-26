@@ -16,20 +16,20 @@ const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
 const commentsRef = collection(db, 'comments');
 
-// POST MY RATING
-interface PostRatingParams {
+// UPDATE MY RATING
+interface UpdateRatingParams {
   movieId: number;
   movieTitle: string;
   movieGenreIds: number[];
   rating: number;
 }
 
-export const postRating = async ({
+export const updateRating = async ({
   movieId,
   movieTitle,
   movieGenreIds,
   rating,
-}: PostRatingParams) => {
+}: UpdateRatingParams) => {
   const user = getAuth().currentUser;
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');

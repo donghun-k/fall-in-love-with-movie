@@ -12,7 +12,7 @@ import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
 import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
-import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
+import useUpdateRatingMutation from '../../hooks/rating/useUpdateRatingMutation';
 import MovieDetail from '../../models/MovieDetail';
 import { RootState } from '../../store';
 interface Props {
@@ -35,8 +35,8 @@ const RatingBox = ({ movieDetail }: Props) => {
   } = useMyRatingQuery({
     movieId,
   });
-  const { mutateAsync: postRating, isLoading: isPostingRating } =
-    usePostRatingMutation({
+  const { mutateAsync: updateRating, isLoading: isPostingRating } =
+    useUpdateRatingMutation({
       movieId,
       movieTitle,
       movieGenreIds,
@@ -47,7 +47,7 @@ const RatingBox = ({ movieDetail }: Props) => {
     value: number | null
   ) => {
     try {
-      await postRating(value ?? 0);
+      await updateRating(value ?? 0);
       enqueueSnackbar('별점이 변경되었습니다.', {
         variant: 'success',
       });

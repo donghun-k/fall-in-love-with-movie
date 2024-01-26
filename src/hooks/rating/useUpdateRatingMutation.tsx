@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { postRating } from '../../services/rating';
+import { updateRating } from '../../services/rating';
 
 interface Params {
   movieId: number;
@@ -8,14 +8,14 @@ interface Params {
   movieGenreIds: number[];
 }
 
-const usePostRatingMutation = ({
+const useUodateRatingMutation = ({
   movieId,
   movieTitle,
   movieGenreIds,
 }: Params) => {
   return useMutation((rating: number) => {
-    return postRating({ movieId, movieTitle, movieGenreIds, rating });
+    return updateRating({ movieId, movieTitle, movieGenreIds, rating });
   });
 };
 
-export default usePostRatingMutation;
+export default useUodateRatingMutation;
