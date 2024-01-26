@@ -1,6 +1,7 @@
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch } from 'react-redux';
+
 import { openSearchDialog } from '../../store/searchDialogSlice';
 
 const SearchButton = () => {

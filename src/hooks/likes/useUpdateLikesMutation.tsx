@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { addLikes, cancelLikes } from '../../services/likes';
 import { DocumentReference } from 'firebase/firestore';
+
+import { addLikes, cancelLikes } from '../../services/likes';
 
 interface Params {
   commentRef: DocumentReference;

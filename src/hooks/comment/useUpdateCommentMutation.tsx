@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import { updateComment } from '../../services/comment';
 import { DocumentReference } from 'firebase/firestore';
+
+import { updateComment } from '../../services/comment';
 
 interface Params {
   commentRef: DocumentReference;

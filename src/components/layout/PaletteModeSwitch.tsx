@@ -2,6 +2,7 @@ import { PaletteMode, Switch } from '@mui/material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { RootState } from '../../store';
 import { togglePaletteMode } from '../../store/paletteModeSlice';
 

@@ -1,10 +1,11 @@
 import { Grid } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
+
 import BottomNavBar from './BottomNavBar';
 import SearchDialog from './SearchDialog';
 import NavBar from './NavBar';
 import MuiContextProvider from '../../contexts/MuiContext';
-import { Outlet } from 'react-router-dom';
-import { Suspense } from 'react';
 import LoadingPage from '../ui/LoadingPage';
 
 const Layout = () => {

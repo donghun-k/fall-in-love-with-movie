@@ -1,4 +1,3 @@
-import app from './firebase';
 import {
   addDoc,
   collection,
@@ -8,8 +7,10 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore';
-import Rating from '../models/Rating';
 import { getAuth } from 'firebase/auth';
+
+import app from './firebase';
+import Rating from '../models/Rating';
 
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');

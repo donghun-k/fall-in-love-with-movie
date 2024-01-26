@@ -1,7 +1,8 @@
 import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { RootState } from '../store';
 import { useSelector } from 'react-redux';
+
+import { RootState } from '../store';
 import LoadingPage from '../components/ui/LoadingPage';
 
 const PrivateRoute = () => {

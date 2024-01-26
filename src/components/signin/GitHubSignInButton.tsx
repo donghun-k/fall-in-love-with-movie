@@ -1,7 +1,8 @@
 import { Button } from '@mui/material';
-import { signIn } from '../../services/auth';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { enqueueSnackbar } from 'notistack';
+
+import { signIn } from '../../services/auth';
 
 const GitHubSignInButton = () => {
   const handleSignIn = async () => {

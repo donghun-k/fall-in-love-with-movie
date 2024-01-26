@@ -2,12 +2,13 @@ import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import StarIcon from '@mui/icons-material/Star';
-import Comment from '../../models/Comment';
 import { User } from 'firebase/auth';
-import { convertTimestampToDateString } from '../../utils/date';
-import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import { useSnackbar } from 'notistack';
 import { DocumentReference } from 'firebase/firestore';
+
+import Comment from '../../models/Comment';
+import { convertTimestampToDateString } from '../../utils/date';
+import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import useUpdateLikesMutation from '../../hooks/likes/useUpdateLikesMutation';
 
 interface Props {

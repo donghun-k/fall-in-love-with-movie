@@ -9,9 +9,10 @@ import {
 } from '@mui/material';
 import WarningIcon from '@mui/icons-material/Warning';
 import { ChangeEvent, useState } from 'react';
-import { deleteAccount, signOut } from '../../services/auth';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
+
+import { deleteAccount, signOut } from '../../services/auth';
 
 const DeleteUserAccordian = () => {
   const { enqueueSnackbar } = useSnackbar();

@@ -1,7 +1,6 @@
 import {
   DocumentReference,
   QueryOrderByConstraint,
-  // addDoc,
   collection,
   deleteDoc,
   doc,
@@ -16,10 +15,11 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import Comment from '../models/Comment';
-import app from './firebase';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuid } from 'uuid';
+
+import Comment from '../models/Comment';
+import app from './firebase';
 
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');

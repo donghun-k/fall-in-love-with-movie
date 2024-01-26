@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMyRating } from '../../services/rating';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app';
 
+import { getMyRating } from '../../services/rating';
+import { RootState } from '../../store';
 interface Params {
   movieId: number;
 }

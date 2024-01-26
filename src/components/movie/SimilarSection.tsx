@@ -1,7 +1,8 @@
 import { Box, Typography } from '@mui/material';
+import TheatersIcon from '@mui/icons-material/Theaters';
+
 import Movie from '../../models/Movie';
 import MovieCard from '../ui/MovieCard';
-import TheatersIcon from '@mui/icons-material/Theaters';
 import useSimilarMoviesQuery from '../../hooks/movie/useSimilarMoviesQuery';
 
 interface Props {

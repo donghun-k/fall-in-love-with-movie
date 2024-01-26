@@ -1,8 +1,9 @@
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+
 import { onUserStateChange } from './services/auth';
 import { setUser, setIsCheckingAuth } from './store/authSlice';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import routes from './routes';
 

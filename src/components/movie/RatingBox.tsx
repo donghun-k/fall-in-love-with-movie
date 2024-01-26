@@ -8,14 +8,14 @@ import {
 import { SyntheticEvent } from 'react';
 import { User } from 'firebase/auth';
 import { Link } from 'react-router-dom';
-import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 import { useQueryClient } from '@tanstack/react-query';
-import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
-import MovieDetail from '../../models/MovieDetail';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app';
 
+import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
+import usePostRatingMutation from '../../hooks/rating/usePostRatingMutation';
+import MovieDetail from '../../models/MovieDetail';
+import { RootState } from '../../store';
 interface Props {
   movieDetail: MovieDetail;
 }

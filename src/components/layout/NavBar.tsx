@@ -1,14 +1,15 @@
 import { Box, Grid, Toolbar } from '@mui/material';
+import { User } from 'firebase/auth';
+import { useSelector } from 'react-redux';
+
 import useMediaQueries from '../../hooks/useMediaQueries';
 import SearchBar from './SearchBar';
 import SignInButton from './SignInButton';
 import LogoButton from './LogoButton';
 import PaletteModeSwitch from './PaletteModeSwitch';
-import { User } from 'firebase/auth';
 import SignOutButton from './SignOutButton';
 import MyPageButton from './MyPageButton';
 import SearchButton from './SearchButton';
-import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 
 const NavBar = () => {

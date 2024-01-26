@@ -1,12 +1,13 @@
-import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
-import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import { useQueryClient } from '@tanstack/react-query';
 import { Avatar, Box, Button, Chip, Divider, Typography } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import { useSnackbar } from 'notistack';
+
 import { convertTimestampToDateString } from '../../utils/date';
 import MyComment from '../../models/MyComment';
-import { useSnackbar } from 'notistack';
+import useCommentExpand from '../../hooks/comment/useCommentExpand';
+import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutation';
 
 interface Props {
   movieId: number;

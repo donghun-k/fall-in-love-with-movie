@@ -6,10 +6,10 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
 import { User } from 'firebase/auth';
-import { signOut } from '../../services/auth';
 import { useSnackbar } from 'notistack';
-
 import { useDispatch, useSelector } from 'react-redux';
+
+import { signOut } from '../../services/auth';
 import { openSearchDialog } from '../../store/searchDialogSlice';
 import { RootState } from '../../store';
 

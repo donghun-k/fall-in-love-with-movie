@@ -1,7 +1,8 @@
 import { Box, Divider, Typography } from '@mui/material';
+import { Helmet } from 'react-helmet-async';
+
 import GoogleSignInButton from '../../components/signin/GoogleSignInButton';
 import GitHubSignInButton from '../../components/signin/GitHubSignInButton';
-import { Helmet } from 'react-helmet-async';
 
 const SignInPage = () => {
   const props = {};

@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+
 import { postRating } from '../../services/rating';
 
 interface Params {

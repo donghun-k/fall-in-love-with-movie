@@ -19,6 +19,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useEffect, useState } from 'react';
+
 import Rating from '../../models/Rating';
 
 ChartJS.register(

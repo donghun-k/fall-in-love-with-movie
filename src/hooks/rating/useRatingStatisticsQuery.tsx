@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getRatingsStatistics } from '../../services/rating';
 
 interface Params {

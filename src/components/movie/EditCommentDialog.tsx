@@ -8,14 +8,15 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useSnackbar } from 'notistack';
+
 import usePostCommentMutation from '../../hooks/comment/usePostCommentMutation';
 import LoadingBackdrop from '../ui/LoadingBackdrop';
-import { useQueryClient } from '@tanstack/react-query';
 import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
 import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
 import MyComment from '../../models/MyComment';
 import MovieDetail from '../../models/MovieDetail';
-import { useSnackbar } from 'notistack';
 
 interface Props {
   movieDetail: MovieDetail;

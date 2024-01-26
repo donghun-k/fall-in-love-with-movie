@@ -15,6 +15,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+
 import useRatingStatisticsQuery from '../../hooks/rating/useRatingStatisticsQuery';
 
 ChartJS.register(

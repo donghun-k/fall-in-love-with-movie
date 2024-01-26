@@ -6,15 +6,16 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import useSearch from '../../hooks/search/useSearch';
 import {
   ChangeEventHandler,
   FormEventHandler,
   useCallback,
   useEffect,
 } from 'react';
-import useMediaQueries from '../../hooks/useMediaQueries';
 import { useDispatch, useSelector } from 'react-redux';
+
+import useSearch from '../../hooks/search/useSearch';
+import useMediaQueries from '../../hooks/useMediaQueries';
 import { RootState } from '../../store';
 import { closeSearchDialog } from '../../store/searchDialogSlice';
 

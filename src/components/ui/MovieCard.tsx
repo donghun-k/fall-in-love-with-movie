@@ -1,8 +1,9 @@
 import { Box, Paper, Tooltip, Typography } from '@mui/material';
-import Movie from '../../models/Movie';
 import { Link } from 'react-router-dom';
-import { generatePosterImgSrc } from '../../utils/movieImgSrc';
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
+
+import Movie from '../../models/Movie';
+import { generatePosterImgSrc } from '../../utils/movieImgSrc';
 
 interface Props {
   movie: Movie;

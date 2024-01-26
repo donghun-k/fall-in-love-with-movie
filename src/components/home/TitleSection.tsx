@@ -1,10 +1,11 @@
 import { Box, Button, PaletteMode, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 import { Link } from 'react-router-dom';
-import LOGO_IMAGES from '../../utils/logo';
 import { User } from 'firebase/auth';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../app';
+
+import LOGO_IMAGES from '../../utils/logo';
+import { RootState } from '../../store';
 
 const TitleSection = () => {
   const { paletteMode } = useSelector((state: RootState) => state.paletteMode);

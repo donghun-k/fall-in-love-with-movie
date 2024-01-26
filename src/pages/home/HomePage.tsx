@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
-import TitleSection from '../../components/home/TitleSection';
 import { Helmet } from 'react-helmet-async';
+
+import TitleSection from '../../components/home/TitleSection';
 
 const HomePage = () => {
   return <HomePageView />;

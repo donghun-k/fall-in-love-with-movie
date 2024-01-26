@@ -1,9 +1,10 @@
+import { Box, Divider, Typography } from '@mui/material';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
+
 import MovieDetail from '../../models/MovieDetail';
 import { generatePosterImgSrc } from '../../utils/movieImgSrc';
-import { Box, Divider, Typography } from '@mui/material';
 import RatingBox from './RatingBox';
 import RatingInfoBox from './RatingInfoBox';
-import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 
 interface Props {
   movieDetail: MovieDetail;

@@ -1,21 +1,22 @@
 import { Box } from '@mui/material';
+import { User } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+import { Helmet } from 'react-helmet-async';
+import { useSelector } from 'react-redux';
+
 import RatingChartAccordian from '../../components/mypage/RatingChartAccordian';
 import RatedMovieAccordian from '../../components/mypage/RatedMovieAccordian';
 import CommentAccordian from '../../components/mypage/CommentAccordian';
 import PreferredGenreAccordian from '../../components/mypage/PreferredGenreAccordian';
 import DeleteUserAccordian from '../../components/mypage/DeleteUserAccordian';
 import ProfileBox from '../../components/mypage/ProfileBox';
-import { User } from 'firebase/auth';
 import useMyRatingsQuery from '../../hooks/rating/useMyRatingsQuery';
 import Rating from '../../models/Rating';
 import Comment from '../../models/Comment';
 import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
 import LoadingPage from '../../components/ui/LoadingPage';
-import { useNavigate } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
-import { Helmet } from 'react-helmet-async';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app';
+import { RootState } from '../../store';
 
 const MyPage = () => {
   const { enqueueSnackbar } = useSnackbar();

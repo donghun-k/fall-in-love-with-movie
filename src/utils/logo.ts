@@ -1,4 +1,5 @@
 import { PaletteMode } from '@mui/material';
+
 import logoLight from '../assets/logos/logo-light-mode.png';
 import logoDark from '../assets/logos/logo-dark-mode.png';
 import logoColLight from '../assets/logos/logo-col-light-mode.png';

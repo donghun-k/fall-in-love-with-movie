@@ -15,10 +15,11 @@ import {
   Typography,
 } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
-import Rating from '../../models/Rating';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import Rating from '../../models/Rating';
 
 interface Props {
   myRatings: Rating[];

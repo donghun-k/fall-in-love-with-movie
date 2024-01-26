@@ -10,21 +10,21 @@ import {
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import SortIcon from '@mui/icons-material/Sort';
 import CreateIcon from '@mui/icons-material/Create';
-import MovieDetail from '../../models/MovieDetail';
 import { useState, MouseEvent, useEffect } from 'react';
+import { User } from 'firebase/auth';
+import { useQueryClient } from '@tanstack/react-query';
+import { DocumentReference } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
+
+import MovieDetail from '../../models/MovieDetail';
 import CommentItem from './CommentItem';
 import EditCommentDialog from './EditCommentDialog';
-import { User } from 'firebase/auth';
 import { SortOptionType } from '../../services/comment';
 import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
-import { useQueryClient } from '@tanstack/react-query';
 import Comment from '../../models/Comment';
-import { DocumentReference } from 'firebase/firestore';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../app';
-
+import { RootState } from '../../store';
 interface Props {
   movieDetail: MovieDetail;
 }
