@@ -12,7 +12,7 @@ const initialState: DialogState = {
 };
 
 export const dialogSlice = createSlice({
-  name: 'Dialog',
+  name: 'dialog',
   initialState,
   reducers: {
     openDialog: (state, action: PayloadAction<DialogState>) => {
