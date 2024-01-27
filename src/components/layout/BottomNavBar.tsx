@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import BottomNavigation from '@mui/material/BottomNavigation';
@@ -9,24 +9,24 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import LoginIcon from '@mui/icons-material/Login';
 
-import { openSearchDialog } from '../../store/searchDialogSlice';
 import { RootState } from '../../store';
 import { signOut } from '../../services/auth';
+import useDialog from '../../hooks/useDialog';
 
 const BottomNavBar = () => {
-  const dispatch = useDispatch();
+  const { openDialog } = useDialog();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { user, isCheckingAuth } = useSelector(
     (state: RootState) => state.auth
   );
 
-  const handleNavigate = (path: string) => {
-    navigate(path);
+  const handleOpenDialog = () => {
+    openDialog({ type: 'search', props: null });
   };
 
-  const handleSearch = () => {
-    dispatch(openSearchDialog());
+  const handleNavigate = (path: string) => {
+    navigate(path);
   };
 
   const handleSignOut = async () => {
@@ -59,7 +59,7 @@ const BottomNavBar = () => {
         label="홈"
       />
       <BottomNavigationAction
-        onClick={handleSearch}
+        onClick={handleOpenDialog}
         icon={<SearchIcon />}
         label="검색"
       />

@@ -2,13 +2,13 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import { authSlice } from './authSlice';
 import { paletteModeSlice } from './paletteModeSlice';
-import { searchDialogSlice } from './searchDialogSlice';
+import { dialogSlice } from './dialogSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     paletteMode: paletteModeSlice.reducer,
-    searchDialog: searchDialogSlice.reducer,
+    dialog: dialogSlice.reducer,
   },
 });
 

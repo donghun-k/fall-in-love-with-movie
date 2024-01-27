@@ -16,12 +16,12 @@ import { useSelector } from 'react-redux';
 
 import MovieDetail from '../../models/MovieDetail';
 import CommentItem from './CommentItem';
-import EditCommentDialog from './EditCommentDialog';
 import { SortOptionType } from '../../services/comment';
 import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../hooks/comment/useCommentsInfiniteQuery';
 import useMyCommentQuery from '../../hooks/comment/useMyCommentQuery';
 import { RootState } from '../../store';
+import useDialog from '../../hooks/useDialog';
 interface Props {
   movieDetail: MovieDetail;
 }
@@ -29,13 +29,14 @@ interface Props {
 const CommentSection = ({ movieDetail }: Props) => {
   const { id: movieId } = movieDetail;
   const queryClient = useQueryClient();
+
   const { user } = useSelector((state: RootState) => state.auth);
-  const [openCommentDialog, setOpenCommentDialog] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState<SortOptionType>('latest');
   const { data: myComment } = useMyCommentQuery({
     movieId,
   });
+  const { openDialog } = useDialog();
   const {
     data,
     fetchNextPage,
@@ -54,6 +55,10 @@ const CommentSection = ({ movieDetail }: Props) => {
     queryClient.resetQueries(['comments', movieId]);
   }, [queryClient, movieId]);
 
+  const handleOpenDialog = () => {
+    openDialog({ type: 'editComment', props: { movieDetail, myComment } });
+  };
+
   const handleViewMoreComments = () => {
     fetchNextPage();
   };
@@ -69,12 +74,6 @@ const CommentSection = ({ movieDetail }: Props) => {
   };
   const handleCloseSortMenu = () => {
     setAnchorEl(null);
-  };
-  const handleOpenEditCommentDialog = () => {
-    setOpenCommentDialog(true);
-  };
-  const handleCloseEditCommentDialog = () => {
-    setOpenCommentDialog(false);
   };
 
   return (
@@ -147,7 +146,7 @@ const CommentSection = ({ movieDetail }: Props) => {
         </Box>
         {user && !myComment && (
           <Button
-            onClick={handleOpenEditCommentDialog}
+            onClick={handleOpenDialog}
             startIcon={<CreateIcon />}
             variant="contained"
             size="small"
@@ -170,7 +169,7 @@ const CommentSection = ({ movieDetail }: Props) => {
           <MyCommentItem
             myComment={myComment}
             movieId={movieId}
-            handleOpenEditCommentDialog={handleOpenEditCommentDialog}
+            handleOpenDialog={handleOpenDialog}
           />
         )}
         {comments &&
@@ -218,13 +217,6 @@ const CommentSection = ({ movieDetail }: Props) => {
           </Typography>
         )}
       </Box>
-      {openCommentDialog && (
-        <EditCommentDialog
-          movieDetail={movieDetail}
-          myComment={myComment ?? undefined}
-          handleCloseEditCommentDialog={handleCloseEditCommentDialog}
-        />
-      )}
     </Box>
   );
 };

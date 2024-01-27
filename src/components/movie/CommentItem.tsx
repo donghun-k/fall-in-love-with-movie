@@ -63,7 +63,7 @@ const CommentItem = ({
     }
   };
 
-  const handleCancelLikes = async () => {
+  const handleCancelLike = async () => {
     if (!user) {
       enqueueSnackbar('공감을 취소하려면 로그인이 필요합니다.', {
         variant: 'error',
@@ -217,7 +217,7 @@ const CommentItem = ({
         >
           <Button
             startIcon={alreadyLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            onClick={alreadyLiked ? handleCancelLikes : handleAddLike}
+            onClick={alreadyLiked ? handleCancelLike : handleAddLike}
             sx={{
               padding: '0 5px',
               minWidth: '50px',

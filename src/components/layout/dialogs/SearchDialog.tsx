@@ -6,31 +6,29 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import { FormEventHandler, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FormEventHandler, useEffect } from 'react';
 
-import useSearch from '../../hooks/search/useSearch';
-import useMediaQueries from '../../hooks/useMediaQueries';
-import { RootState } from '../../store';
-import { closeSearchDialog } from '../../store/searchDialogSlice';
+import useSearch from '../../../hooks/search/useSearch';
+import useMediaQueries from '../../../hooks/useMediaQueries';
+import useDialog from '../../../hooks/useDialog';
 
 const SearchDialog = () => {
-  const dispatch = useDispatch();
   const { searchInput, handleInputChange, handleSearch } = useSearch();
   const { isMdUp } = useMediaQueries();
-  const { openDialog } = useSelector((state: RootState) => state.searchDialog);
 
-  const handleCloseSearchDialog = useCallback(() => {
-    dispatch(closeSearchDialog());
-  }, [dispatch]);
+  const { closeDialog } = useDialog();
+
+  const handleCloseDialog = () => {
+    closeDialog();
+  };
 
   useEffect(() => {
-    if (isMdUp) handleCloseSearchDialog();
-  }, [isMdUp, handleCloseSearchDialog]);
+    if (isMdUp) handleCloseDialog();
+  }, [isMdUp, handleCloseDialog]);
 
   const handleSearchBtnClick: FormEventHandler<HTMLElement> = (e) => {
     e.preventDefault();
-    handleCloseSearchDialog();
+    handleCloseDialog();
     handleSearch();
   };
 
@@ -38,7 +36,7 @@ const SearchDialog = () => {
     <Dialog
       component="form"
       onSubmit={handleSearchBtnClick}
-      open={openDialog}
+      open={true}
       fullWidth={true}
     >
       <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -56,7 +54,7 @@ const SearchDialog = () => {
         <Button type="submit" variant="contained">
           검색
         </Button>
-        <Button variant="contained" onClick={handleCloseSearchDialog}>
+        <Button variant="contained" onClick={handleCloseDialog}>
           취소
         </Button>
       </DialogActions>

@@ -12,14 +12,10 @@ import useDeleteCommentMutation from '../../hooks/comment/useDeleteCommentMutati
 interface Props {
   movieId: number;
   myComment: MyComment;
-  handleOpenEditCommentDialog: () => void;
+  handleOpenDialog: () => void;
 }
 
-const MyCommentItem = ({
-  movieId,
-  myComment,
-  handleOpenEditCommentDialog,
-}: Props) => {
+const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
   const commentRef = myComment.commentRef;
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
@@ -200,7 +196,7 @@ const MyCommentItem = ({
             }}
           >
             <Button
-              onClick={handleOpenEditCommentDialog}
+              onClick={handleOpenDialog}
               sx={{
                 minWidth: 'fit-content',
                 padding: '0 5px',

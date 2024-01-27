@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 import { Suspense } from 'react';
 
 import BottomNavBar from './BottomNavBar';
-import SearchDialog from './SearchDialog';
 import NavBar from './NavBar';
 import MuiContextProvider from '../../contexts/MuiContext';
 import LoadingPage from '../ui/LoadingPage';
+import DialogContainer from './DialogContainer';
 
 const Layout = () => {
   return (
@@ -32,7 +32,7 @@ const Layout = () => {
         <Grid item xs={0} md={1} lg={2} />
       </Grid>
       <BottomNavBar />
-      <SearchDialog />
+      <DialogContainer />
     </MuiContextProvider>
   );
 };

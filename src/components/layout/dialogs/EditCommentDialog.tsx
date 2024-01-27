@@ -11,28 +11,25 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 
-import usePostCommentMutation from '../../hooks/comment/usePostCommentMutation';
-import LoadingBackdrop from '../ui/LoadingBackdrop';
-import useUpdateCommentMutation from '../../hooks/comment/useUpdateCommentMutation';
-import useMyRatingQuery from '../../hooks/rating/useMyRatingQuery';
-import MyComment from '../../models/MyComment';
-import MovieDetail from '../../models/MovieDetail';
+import usePostCommentMutation from '../../../hooks/comment/usePostCommentMutation';
+import LoadingBackdrop from '../../ui/LoadingBackdrop';
+import useUpdateCommentMutation from '../../../hooks/comment/useUpdateCommentMutation';
+import useMyRatingQuery from '../../../hooks/rating/useMyRatingQuery';
+import MyComment from '../../../models/MyComment';
+import MovieDetail from '../../../models/MovieDetail';
+import useDialog from '../../../hooks/useDialog';
 
 interface Props {
   movieDetail: MovieDetail;
   myComment?: MyComment;
-  handleCloseEditCommentDialog: () => void;
 }
 
-const EditCommentDialog = ({
-  movieDetail,
-  myComment,
-  handleCloseEditCommentDialog,
-}: Props) => {
+const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
   const { id: movieId, title: movieTitle } = movieDetail;
   const isUpdateMode = !!myComment;
   const prevContent = myComment?.content ?? '';
   const commentRef = myComment?.commentRef;
+  const { closeDialog } = useDialog();
   const { enqueueSnackbar } = useSnackbar();
   const [commentContent, setCommentContent] = useState(prevContent);
   const [commentLength, setCommentLength] = useState(prevContent.length);
@@ -50,6 +47,10 @@ const EditCommentDialog = ({
     });
 
   const queryClient = useQueryClient();
+
+  const handleCloseDialog = () => {
+    closeDialog();
+  };
 
   const handleCommentContentChange = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -74,7 +75,7 @@ const EditCommentDialog = ({
       enqueueSnackbar('코멘트가 작성되었습니다.', {
         variant: 'success',
       });
-      handleCloseEditCommentDialog();
+      handleCloseDialog();
       queryClient.resetQueries(['myComments']);
       queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myComment', movieId]);
@@ -82,6 +83,8 @@ const EditCommentDialog = ({
       enqueueSnackbar('코멘트 작성에 실패하였습니다.', {
         variant: 'error',
       });
+    } finally {
+      handleCloseDialog();
     }
   };
 
@@ -100,7 +103,7 @@ const EditCommentDialog = ({
     }
     try {
       await updateCommentMutate({ content: commentContent });
-      handleCloseEditCommentDialog();
+      handleCloseDialog();
       queryClient.resetQueries(['myComments']);
       queryClient.resetQueries(['myRatings']);
       queryClient.invalidateQueries(['myComment', movieId]);
@@ -108,6 +111,8 @@ const EditCommentDialog = ({
       enqueueSnackbar('코멘트 수정에 실패하였습니다.', {
         variant: 'error',
       });
+    } finally {
+      handleCloseDialog();
     }
   };
 
@@ -151,7 +156,7 @@ const EditCommentDialog = ({
           </Button>
         )}
 
-        <Button variant="contained" onClick={handleCloseEditCommentDialog}>
+        <Button variant="contained" onClick={handleCloseDialog}>
           취소
         </Button>
       </DialogActions>
