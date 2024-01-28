@@ -1,11 +1,12 @@
 import { useDispatch } from 'react-redux';
+
 import { DialogState, closeDialog, openDialog } from '../store/dialogSlice';
 
 const useDialog = () => {
   const dispatch = useDispatch();
 
-  const handleOpenDialog = ({ type, props }: DialogState) => {
-    dispatch(openDialog({ type, props }));
+  const handleOpenDialog = ({ dialogInfo }: DialogState) => {
+    dispatch(openDialog({ dialogInfo }));
   };
   const handleCloseDialog = () => {
     dispatch(closeDialog());

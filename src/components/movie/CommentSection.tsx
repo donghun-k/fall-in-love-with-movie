@@ -56,7 +56,9 @@ const CommentSection = ({ movieDetail }: Props) => {
   }, [queryClient, movieId]);
 
   const handleOpenDialog = () => {
-    openDialog({ type: 'editComment', props: { movieDetail, myComment } });
+    openDialog({
+      dialogInfo: { type: 'editComment', props: { movieDetail, myComment } },
+    });
   };
 
   const handleViewMoreComments = () => {

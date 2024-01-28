@@ -19,9 +19,9 @@ import MyComment from '../../../models/MyComment';
 import MovieDetail from '../../../models/MovieDetail';
 import useDialog from '../../../hooks/useDialog';
 
-interface Props {
+export interface Props {
   movieDetail: MovieDetail;
-  myComment?: MyComment;
+  myComment?: MyComment | null;
 }
 
 const EditCommentDialog = ({ movieDetail, myComment }: Props) => {

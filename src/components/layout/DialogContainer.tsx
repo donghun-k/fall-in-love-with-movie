@@ -1,9 +1,32 @@
 import { useSelector } from 'react-redux';
+
 import { RootState } from '../../store';
 import SearchDialog from './dialogs/SearchDialog';
-import EditCommentDialog from './dialogs/EditCommentDialog';
+import EditCommentDialog, {
+  Props as EditCommentDialogProps,
+} from './dialogs/EditCommentDialog';
 
-export type DialogType = 'search' | 'editComment';
+interface SeachDialogInfo {
+  type: 'search';
+  props: null;
+}
+
+interface EditCommentDialogInfo {
+  type: 'editComment';
+  props: EditCommentDialogProps;
+}
+
+interface NoneDialogInfo {
+  type: null;
+  props: null;
+}
+
+export type DialogInfo =
+  | SeachDialogInfo
+  | EditCommentDialogInfo
+  | NoneDialogInfo;
+
+export type DialogType = Exclude<DialogInfo['type'], null>;
 
 const DIALOG_COMPONENTS: Record<DialogType, JSX.ElementType> = {
   search: SearchDialog,
@@ -11,7 +34,9 @@ const DIALOG_COMPONENTS: Record<DialogType, JSX.ElementType> = {
 };
 
 const DialogContainer = () => {
-  const { type, props } = useSelector((state: RootState) => state.dialog);
+  const {
+    dialogInfo: { type, props },
+  } = useSelector((state: RootState) => state.dialog);
 
   if (!type) return null;
 

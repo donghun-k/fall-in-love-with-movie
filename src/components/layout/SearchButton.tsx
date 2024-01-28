@@ -1,12 +1,15 @@
 import { Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+
 import useDialog from '../../hooks/useDialog';
 
 const SearchButton = () => {
   const { openDialog } = useDialog();
 
   const handleOpenDialog = () => {
-    openDialog({ type: 'search', props: null });
+    openDialog({
+      dialogInfo: { type: 'search', props: null },
+    });
   };
 
   return (
