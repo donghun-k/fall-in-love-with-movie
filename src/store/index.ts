@@ -10,6 +10,10 @@ export const store = configureStore({
     paletteMode: paletteModeSlice.reducer,
     dialog: dialogSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
