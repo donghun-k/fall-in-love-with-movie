@@ -6,7 +6,7 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material';
-import { FormEventHandler, useEffect } from 'react';
+import { FormEventHandler } from 'react';
 
 import useSearch from '../../../hooks/search/useSearch';
 import useMediaQueries from '../../../hooks/useMediaQueries';
@@ -22,9 +22,7 @@ const SearchDialog = () => {
     closeDialog();
   };
 
-  useEffect(() => {
-    if (isMdUp) handleCloseDialog();
-  }, [isMdUp, handleCloseDialog]);
+  if (isMdUp) handleCloseDialog();
 
   const handleSearchBtnClick: FormEventHandler<HTMLElement> = (e) => {
     e.preventDefault();
@@ -38,6 +36,7 @@ const SearchDialog = () => {
       onSubmit={handleSearchBtnClick}
       open={true}
       fullWidth={true}
+      maxWidth="xs"
     >
       <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
         검색
