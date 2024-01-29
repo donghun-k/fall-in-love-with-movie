@@ -7,9 +7,7 @@ const SearchButton = () => {
   const { openDialog } = useDialog();
 
   const handleOpenDialog = () => {
-    openDialog({
-      dialogInfo: { type: 'search', props: null },
-    });
+    openDialog({ type: 'search', props: null });
   };
 
   return (
