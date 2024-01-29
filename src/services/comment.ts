@@ -169,11 +169,16 @@ interface GetCommentsParams {
   lastDocRef?: DocumentReference;
 }
 
+interface GetCommentsResponse {
+  comments: Comment[];
+  hasMore: boolean;
+}
+
 export const getComments = async ({
   movieId,
   sortOption = 'latest',
   lastDocRef,
-}: GetCommentsParams) => {
+}: GetCommentsParams): Promise<GetCommentsResponse> => {
   let sortBy: QueryOrderByConstraint;
   if (sortOption === 'latest') {
     sortBy = orderBy('createdAt', 'desc');
@@ -199,9 +204,9 @@ export const getComments = async ({
             where('movieId', '==', movieId),
             sortBy,
             where('rating', '!=', null),
-            limit(5)
+            limit(6)
           )
-        : query(commentsRef, where('movieId', '==', movieId), sortBy, limit(5));
+        : query(commentsRef, where('movieId', '==', movieId), sortBy, limit(6));
   } else {
     const lastDoc = await getDoc(lastDocRef);
     commentsQuery = query(
@@ -209,18 +214,27 @@ export const getComments = async ({
       where('movieId', '==', movieId),
       sortBy,
       startAfter(lastDoc),
-      limit(5)
+      limit(6)
     );
   }
 
   const commentsSnapshot = await getDocs(commentsQuery);
-  const result = commentsSnapshot.docs.map((doc) => {
+  const comments = commentsSnapshot.docs.slice(0, 5).map((doc) => {
     return {
       ...doc.data(),
       commentRef: doc.ref,
     } as Comment;
   });
-  return result;
+
+  console.log('comments', comments);
+  const hasMore = commentsSnapshot.docs.length === 6;
+
+  console.log('hasMore', hasMore);
+
+  return {
+    comments,
+    hasMore,
+  };
 };
 
 // GET MY COMMENTS
