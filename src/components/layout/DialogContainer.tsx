@@ -6,7 +6,7 @@ import EditCommentDialog, {
   Props as EditCommentDialogProps,
 } from './dialogs/EditCommentDialog';
 
-interface SeachDialogInfo {
+interface SearchDialogInfo {
   type: 'search';
   props: null;
 }
@@ -22,7 +22,7 @@ interface NoneDialogInfo {
 }
 
 export type DialogInfo =
-  | SeachDialogInfo
+  | SearchDialogInfo
   | EditCommentDialogInfo
   | NoneDialogInfo;
 

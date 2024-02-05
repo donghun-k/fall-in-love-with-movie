@@ -22,9 +22,7 @@ const BottomNavBar = () => {
   );
 
   const handleOpenDialog = () => {
-    openDialog({
-      dialogInfo: { type: 'search', props: null },
-    });
+    openDialog({ type: 'search', props: null });
   };
 
   const handleNavigate = (path: string) => {

@@ -48,7 +48,9 @@ const CommentSection = ({ movieDetail }: Props) => {
     movieId,
     sortOption,
   });
-  const comments = data?.pages.flatMap((comment) => comment);
+  const comments = data?.pages
+    .map((page) => page.comments)
+    .flatMap((comment) => comment);
   const openSortMenu = Boolean(anchorEl);
 
   useEffect(() => {
@@ -56,9 +58,7 @@ const CommentSection = ({ movieDetail }: Props) => {
   }, [queryClient, movieId]);
 
   const handleOpenDialog = () => {
-    openDialog({
-      dialogInfo: { type: 'editComment', props: { movieDetail, myComment } },
-    });
+    openDialog({ type: 'editComment', props: { movieDetail, myComment } });
   };
 
   const handleViewMoreComments = () => {
@@ -77,6 +77,8 @@ const CommentSection = ({ movieDetail }: Props) => {
   const handleCloseSortMenu = () => {
     setAnchorEl(null);
   };
+
+  console.log(hasNextPage);
 
   return (
     <Box
