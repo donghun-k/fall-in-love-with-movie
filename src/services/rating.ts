@@ -1,6 +1,6 @@
 import {
-  addDoc,
   collection,
+  doc,
   getDocs,
   getFirestore,
   query,
@@ -41,8 +41,7 @@ export const updateRating = async ({
     where('userId', '==', userId),
     where('movieId', '==', movieId)
   );
-
-  const commetQuery = query(
+  const commentQuery = query(
     commentsRef,
     where('authorId', '==', userId),
     where('movieId', '==', movieId)
@@ -50,7 +49,7 @@ export const updateRating = async ({
 
   const [ratingSnapshot, commentSnapshot] = await Promise.all([
     getDocs(ratingQuery),
-    getDocs(commetQuery),
+    getDocs(commentQuery),
   ]);
 
   const ratingDocs = ratingSnapshot.docs;
@@ -58,27 +57,24 @@ export const updateRating = async ({
 
   await runTransaction(db, async (transaction) => {
     if (ratingSnapshot.empty) {
-      const newRating: Rating = {
+      const newRatingRef = doc(collection(db, 'ratings'));
+      transaction.set(newRatingRef, {
         userId,
         movieId,
         movieTitle,
         movieGenreIds,
         rating,
         ratedAt: Date.now(),
-      };
-      await addDoc(ratingsRef, newRating);
-      console.log('별점이 정상적으로 등록되었습니다.');
+      });
     } else {
       const ratingDocRef = ratingDocs[0].ref;
       if (rating === 0) {
         transaction.delete(ratingDocRef);
-        console.log('별점이 정상적으로 삭제되었습니다.');
       } else {
         transaction.update(ratingDocRef, {
           rating,
           ratedAt: Date.now(),
         });
-        console.log('별점이 정상적으로 수정되었습니다.');
       }
     }
     if (!commentSnapshot.empty) {
@@ -89,7 +85,7 @@ export const updateRating = async ({
       console.log('코멘트의 별점이 정상적으로 수정되었습니다.');
     }
   });
-  console.log('별점 등록 과정이 정상적으로 완료되었습니다.');
+  console.log('별점 처리가 정상적으로 완료되었습니다.');
 };
 
 // GET MY RATING
