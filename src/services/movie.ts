@@ -30,7 +30,6 @@ export const searchMovie = async ({ query, page = 1 }: SearchMovieParams) => {
     options
   );
   const json: SearchMovieResponse = await res.json();
-  // console.log(json);
   return json;
 };
 

@@ -44,3 +44,7 @@ export const onUserStateChange = (callback: NextFn<User | null>) => {
     callback(user);
   });
 };
+
+export const getCurrentUser = () => {
+  return auth.currentUser;
+};

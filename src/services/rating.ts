@@ -7,10 +7,10 @@ import {
   runTransaction,
   where,
 } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
 
 import app from './firebase';
 import Rating from '../models/Rating';
+import { getCurrentUser } from './auth';
 
 const db = getFirestore(app);
 const ratingsRef = collection(db, 'ratings');
@@ -30,7 +30,7 @@ export const updateRating = async ({
   movieGenreIds,
   rating,
 }: UpdateRatingParams) => {
-  const user = getAuth().currentUser;
+  const user = getCurrentUser();
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
   }
@@ -98,7 +98,7 @@ interface GetMyRatingParams {
 }
 
 export const getMyRating = async ({ movieId }: GetMyRatingParams) => {
-  const user = getAuth().currentUser;
+  const user = getCurrentUser();
   if (!user) {
     return null;
   }
@@ -161,7 +161,7 @@ export const getRatingsStatistics = async ({
 // GET MY RATINGS
 
 export const getMyRatings = async () => {
-  const user = getAuth().currentUser;
+  const user = getCurrentUser();
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
   }

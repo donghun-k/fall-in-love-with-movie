@@ -15,12 +15,12 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
 import { v4 as uuid } from 'uuid';
 
 import Comment from '../models/Comment';
 import app from './firebase';
 import MyComment from '../models/MyComment';
+import { getCurrentUser } from './auth';
 
 const db = getFirestore(app);
 const commentsRef = collection(db, 'comments');
@@ -38,7 +38,7 @@ export const postComment = async ({
   content,
   rating,
 }: PostCommentParams) => {
-  const user = getAuth(app).currentUser;
+  const user = getCurrentUser();
   if (!user || !user.displayName || !user.photoURL) {
     throw new Error('로그인 상태가 아닙니다.');
   }
@@ -87,7 +87,7 @@ interface GetMyCommentParams {
 }
 
 export const getMyComment = async ({ movieId }: GetMyCommentParams) => {
-  const user = getAuth(app).currentUser;
+  const user = getCurrentUser();
   if (!user) {
     return null;
   }
@@ -141,7 +141,7 @@ export const updateComment = async ({
   commentRef,
   content,
 }: UpdateCommentParams) => {
-  const user = getAuth(app).currentUser;
+  const user = getCurrentUser();
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
   }
@@ -225,7 +225,7 @@ export const getComments = async ({
 
 // GET MY COMMENTS
 export const getMyComments = async () => {
-  const user = getAuth(app).currentUser;
+  const user = getCurrentUser();
   if (!user) {
     console.log('로그인 상태가 아닙니다.');
     return;

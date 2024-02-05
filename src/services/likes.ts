@@ -1,4 +1,3 @@
-import { getAuth } from 'firebase/auth';
 import {
   DocumentReference,
   arrayRemove,
@@ -7,13 +6,15 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 
+import { getCurrentUser } from './auth';
+
 // POST LIKES
 interface AddLikesParams {
   commentRef: DocumentReference;
 }
 
 export const addLikes = async ({ commentRef }: AddLikesParams) => {
-  const user = getAuth().currentUser;
+  const user = getCurrentUser();
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
   }
@@ -37,7 +38,7 @@ interface cancelLikesParams {
 }
 
 export const cancelLikes = async ({ commentRef }: cancelLikesParams) => {
-  const user = getAuth().currentUser;
+  const user = getCurrentUser();
   if (!user) {
     throw new Error('로그인 상태가 아닙니다.');
   }
