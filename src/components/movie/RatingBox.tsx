@@ -86,10 +86,10 @@ const RatingBox = ({ movieDetail }: Props) => {
     <Box
       sx={{
         width: '100%',
-        height: { xs: '20%', sm: '15%' },
+        height: { xs: '20%', md: '15%' },
         display: 'flex',
         padding: '10px',
-        flexDirection: { xs: 'column-reverse', sm: 'row' },
+        flexDirection: { xs: 'column-reverse', md: 'row' },
         justifyContent: user ? 'space-between' : 'center',
         alignItems: 'center',
       }}
@@ -114,14 +114,21 @@ const RatingBox = ({ movieDetail }: Props) => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'row-reverse', sm: 'column' },
-              alignItems: { xs: 'center', sm: 'flex-end' },
-              textAlign: { xs: 'center', sm: 'right' },
-              gap: { xs: '10px', sm: '0px' },
+              flexDirection: { xs: 'row-reverse', md: 'column' },
+              alignItems: { xs: 'center', md: 'flex-end' },
+              textAlign: { xs: 'center', md: 'right' },
+              gap: { xs: '10px', md: '0px' },
             }}
           >
             {rating !== 0 ? (
-              <>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: { xs: 'row-reverse', md: 'column' },
+                  alignItems: { xs: 'center', md: 'flex-end' },
+                  gap: { xs: '10px', md: '0px' },
+                }}
+              >
                 <Typography
                   sx={{
                     fontSize: { xs: '1.5rem', sm: '1rem', md: '1.5rem' },
@@ -131,13 +138,13 @@ const RatingBox = ({ movieDetail }: Props) => {
                 </Typography>
                 <Typography
                   sx={{
-                    fontSize: { xs: '.8rem', sm: '.6rem', md: '.8rem' },
+                    fontSize: '.8rem',
                     color: 'text.secondary',
                   }}
                 >
                   내 별점
                 </Typography>
-              </>
+              </Box>
             ) : (
               <Typography
                 sx={{

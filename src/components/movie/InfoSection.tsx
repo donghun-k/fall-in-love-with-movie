@@ -104,8 +104,8 @@ const InfoSection = ({ movieDetail }: Props) => {
         <Typography
           sx={{
             width: '100%',
-            height: { xs: '30%', sm: '40%' },
-            fontSize: { xs: '0.8rem', sm: '1rem' },
+            height: { xs: '30%', md: '40%' },
+            fontSize: { xs: '0.8rem', md: '1rem' },
             color: 'text.secondary',
             overflow: 'auto',
             padding: '10px',

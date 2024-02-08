@@ -22,7 +22,8 @@ ChartJS.register(
 );
 
 const chartOptions = {
-  responsive: false,
+  responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     legend: {
       display: false,
@@ -62,40 +63,49 @@ const RatingInfoBox = ({ movieId }: Props) => {
     <Box
       sx={{
         width: '100%',
-        height: { xs: '50%', sm: '40%' },
+        height: { xs: '50%', md: '40%' },
         display: 'flex',
-        flexDirection: { xs: 'column-reverse', sm: 'row' },
+        flexDirection: { xs: 'column-reverse', md: 'row' },
+        gap: { xs: '30px', sm: '10px' },
         justifyContent: isLoading
           ? 'center'
           : { xs: 'space-evenly', sm: 'space-between' },
         alignItems: 'center',
-        padding: '10px',
+        padding: { xs: '20px 0', sm: '10px' },
       }}
     >
       {isLoading ? (
         <CircularProgress />
       ) : (
         <>
-          <Bar
-            options={chartOptions}
-            data={{
-              labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-              datasets: [
-                {
-                  label: '별점 분포',
-                  data: ratingData,
-                  backgroundColor: theme.palette.primary.main,
-                },
-              ],
+          <Box
+            sx={{
+              paddingTop: { xs: '0', sm: '10px' },
+              width: { xs: '80%', sm: '260px', md: '360px' },
+              height: { xs: '100%', sm: '70%', md: '100%' },
             }}
-          />
+          >
+            <Bar
+              options={chartOptions}
+              data={{
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+                datasets: [
+                  {
+                    label: '별점 분포',
+                    data: ratingData,
+                    backgroundColor: theme.palette.primary.main,
+                  },
+                ],
+              }}
+            />
+          </Box>
           <Box
             sx={{
               display: 'flex',
-              flexDirection: { xs: 'row-reverse', sm: 'column' },
-              alignItems: { xs: 'center', sm: 'flex-end' },
-              textAlign: { xs: 'center', sm: 'right' },
-              gap: { xs: '10px', sm: '0px' },
+              flexDirection: { xs: 'row-reverse', md: 'column' },
+              alignItems: { xs: 'center', md: 'flex-end' },
+              textAlign: { xs: 'center', md: 'right' },
+              gap: { xs: '10px', md: '0px' },
             }}
           >
             <Typography
@@ -107,12 +117,12 @@ const RatingInfoBox = ({ movieId }: Props) => {
             </Typography>
             <Typography
               sx={{
-                fontSize: { xs: '.8rem', sm: '.6rem', md: '.8rem' },
+                fontSize: '.8rem',
                 color: 'text.secondary',
               }}
             >
-              평균 별점
-              <br />({totalRatingCount}명)
+              <span>평균 별점</span>
+              <span>({totalRatingCount}명)</span>
             </Typography>
           </Box>
         </>
