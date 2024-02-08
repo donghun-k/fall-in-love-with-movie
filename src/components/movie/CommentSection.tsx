@@ -138,7 +138,7 @@ const CommentSection = ({ movieDetail }: Props) => {
               등록순
             </MenuItem>
             <MenuItem data-value="likeCount" onClick={handleSetSortOption}>
-              공감순
+              좋아요순
             </MenuItem>
             <MenuItem data-value="highRated" onClick={handleSetSortOption}>
               높은 별점순

@@ -47,7 +47,9 @@ const CommentItem = ({
 
   const handleAddLike = async () => {
     if (!user) {
-      enqueueSnackbar('공감 하려면 로그인이 필요합니다.', { variant: 'error' });
+      enqueueSnackbar(`'좋아요'를 하려면 로그인이 필요합니다.`, {
+        variant: 'error',
+      });
       return;
     }
     if (isUpdatingLikes) return;
@@ -56,16 +58,16 @@ const CommentItem = ({
 
     try {
       await updateLikesMutate('add');
-      enqueueSnackbar('공감이 등록되었습니다.', { variant: 'success' });
+      enqueueSnackbar(`'좋아요'가 등록되었습니다.`, { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar('공감 등록에 실패하였습니다.', { variant: 'error' });
+      enqueueSnackbar(`'좋아요' 등록에 실패하였습니다.`, { variant: 'error' });
       rollback();
     }
   };
 
   const handleCancelLike = async () => {
     if (!user) {
-      enqueueSnackbar('공감을 취소하려면 로그인이 필요합니다.', {
+      enqueueSnackbar(`'좋아요'를 취소하려면 로그인이 필요합니다.`, {
         variant: 'error',
       });
       return;
@@ -80,9 +82,9 @@ const CommentItem = ({
 
     try {
       await updateLikesMutate('cancel');
-      enqueueSnackbar('공감이 취소되었습니다.', { variant: 'success' });
+      enqueueSnackbar(`'좋아요'가 취소되었습니다.`, { variant: 'success' });
     } catch (error) {
-      enqueueSnackbar('공감 취소에 실패하였습니다.', { variant: 'error' });
+      enqueueSnackbar(`'좋아요' 취소에 실패하였습니다.`, { variant: 'error' });
       rollback();
     }
   };
