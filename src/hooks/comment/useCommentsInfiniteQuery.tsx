@@ -6,8 +6,11 @@ import {
 import { DocumentReference } from 'firebase/firestore';
 import { User } from 'firebase/auth';
 
-import { SortOptionType, getComments } from '../../services/comment';
-import Comment from '../../models/Comment';
+import {
+  GetCommentsResponse,
+  SortOptionType,
+  getComments,
+} from '../../services/comment';
 
 interface Params {
   movieId: number;
@@ -37,18 +40,17 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
     user: User
   ) => {
     await queryClient.cancelQueries(['comments', movieId, sortOption]);
-    const previousData = queryClient.getQueryData<InfiniteData<Comment[]>>([
-      'comments',
-      movieId,
-      sortOption,
-    ]);
+    const previousData = queryClient.getQueryData<
+      InfiniteData<GetCommentsResponse>
+    >(['comments', movieId, sortOption]);
 
-    queryClient.setQueryData<InfiniteData<Comment[]>>(
+    queryClient.setQueryData<InfiniteData<GetCommentsResponse>>(
       ['comments', movieId, sortOption],
       (old) => {
         if (!old) return;
-        const newData = old.pages.map((page) => {
-          return page.map((comment) => {
+        const updatedData = old.pages.map((page) => {
+          const { comments, hasMore } = page;
+          const updatedComments = comments.map((comment) => {
             if (comment.commentRef.id !== commentRef.id) return comment;
             if (type === 'add') {
               return {
@@ -64,10 +66,11 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
               };
             }
           });
+          return { comments: updatedComments, hasMore };
         });
         return {
           ...old,
-          pages: newData,
+          pages: updatedData,
         };
       }
     );

@@ -165,7 +165,7 @@ interface GetCommentsParams {
   lastDocRef?: DocumentReference;
 }
 
-interface GetCommentsResponse {
+export interface GetCommentsResponse {
   comments: Comment[];
   hasMore: boolean;
 }
