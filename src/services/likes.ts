@@ -29,7 +29,6 @@ export const addLikes = async ({ commentRef }: AddLikesParams) => {
     likes: arrayUnion(userId),
     likesCount: commentDoc.data().likes.length + 1,
   });
-  console.log(`정상적으로 '좋아요'가 등록되었습니다.`);
 };
 
 // DELETE LIKES
@@ -53,5 +52,4 @@ export const cancelLikes = async ({ commentRef }: cancelLikesParams) => {
     likes: arrayRemove(userId),
     likesCount: commentDoc.data().likes.length - 1,
   });
-  console.log(`정상적으로 '좋아요'가 삭제되었습니다.`);
 };

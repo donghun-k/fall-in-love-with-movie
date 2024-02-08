@@ -67,7 +67,6 @@ const CommentSection = ({ movieDetail }: Props) => {
 
   const handleSetSortOption = (event: MouseEvent<HTMLLIElement>) => {
     const value = event.currentTarget.dataset.value as SortOptionType;
-    console.log(value);
     setSortOption(value);
     setAnchorEl(null);
   };
@@ -77,8 +76,6 @@ const CommentSection = ({ movieDetail }: Props) => {
   const handleCloseSortMenu = () => {
     setAnchorEl(null);
   };
-
-  console.log(hasNextPage);
 
   return (
     <Box

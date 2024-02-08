@@ -82,10 +82,8 @@ export const updateRating = async ({
       transaction.update(commentDocRef, {
         rating: rating === 0 ? null : rating,
       });
-      console.log('코멘트의 별점이 정상적으로 수정되었습니다.');
     }
   });
-  console.log('별점 처리가 정상적으로 완료되었습니다.');
 };
 
 // GET MY RATING

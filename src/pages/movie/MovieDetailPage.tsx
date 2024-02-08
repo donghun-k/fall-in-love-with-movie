@@ -22,7 +22,6 @@ const MovieDetailPage = () => {
 
   useEffect(() => {
     if (Number.isNaN(movieIdNumber)) {
-      console.log('잘못된 접근입니다.');
       enqueueSnackbar('잘못된 접근입니다.', {
         variant: 'error',
       });

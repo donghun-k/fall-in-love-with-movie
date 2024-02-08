@@ -77,8 +77,6 @@ export const postComment = async ({
   };
 
   await setDoc(newDocRef, comment);
-
-  console.log('코멘트가 정상적으로 작성되었습니다. ', newDocRef.id);
 };
 
 // GET MY COMMENT
@@ -128,7 +126,6 @@ interface DeleteCommentParams {
 
 export const deleteComment = async ({ commentRef }: DeleteCommentParams) => {
   await deleteDoc(commentRef);
-  console.log('코멘트가 정상적으로 삭제되었습니다.');
 };
 
 // UPDATE COMMENT
@@ -153,7 +150,6 @@ export const updateComment = async ({
     updatedAt: Date.now(),
     isUpdated: true,
   });
-  console.log('코멘트가 정상적으로 수정되었습니다.');
 };
 
 // GET COMMENTS
@@ -226,10 +222,7 @@ export const getComments = async ({
     } as Comment;
   });
 
-  console.log('comments', comments);
   const hasMore = commentsSnapshot.docs.length === 6;
-
-  console.log('hasMore', hasMore);
 
   return {
     comments,
@@ -241,7 +234,6 @@ export const getComments = async ({
 export const getMyComments = async () => {
   const user = getCurrentUser();
   if (!user) {
-    console.log('로그인 상태가 아닙니다.');
     return;
   }
   const { uid: userId } = user;
