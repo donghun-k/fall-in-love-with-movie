@@ -231,10 +231,10 @@ export const getComments = async ({
 };
 
 // GET MY COMMENTS
-export const getMyComments = async () => {
+export const getMyComments = async (): Promise<Comment[]> => {
   const user = getCurrentUser();
   if (!user) {
-    return;
+    return [];
   }
   const { uid: userId } = user;
   const commentsQuery = query(commentsRef, where('authorId', '==', userId));
