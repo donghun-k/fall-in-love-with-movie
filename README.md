@@ -30,7 +30,7 @@
 
 **Firebase Authentication**을 이용해 **Google**과 **Github** 계정으로 소셜 로그인을 할 수 있습니다.
 
-로그인 성공 시 응답으로 받은 `User` 객체는 **Redux**로 관리하며 애플리케이션 전역에서 접근하고 사용할 수 있습니다.
+로그인 성공 시 응답으로 받은 `User` 객체는 **Redux**로 관리됩니다. 
 
 <br/>
 
@@ -56,7 +56,7 @@
 
 사용자가 남긴 별점 평가는 **Cloud Firestore**에 저장됩니다.
 
-저장된 별점 데이터의 분포를 **Chart.js**로 시각화하여 제공합니다.
+저장된 별점 데이터의 분포를 **Chart.js**로 시각화하여 보여줍니다.
 
 <br/>
 
@@ -84,7 +84,7 @@ Like 기능에는 **Optimistic update** 기법을 적용해 즉각적인 UI 반�
 |:---:|:---:|
 |![mypage-activities](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/0e274669-3ba5-4fea-9779-65a6394328aa)|![mypage-delete-account](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/f1c12ca6-c8dc-4918-a67a-8c8d7ce17826)|
 
-『내 별점 분포』, 『선호하는 장르』, 『평가한 영화』, 『내가 작성한 코멘트』 등의 섹션을 통해 사용자가 자신의 활동을 한눈에 확인할 수 있습니다.
+**『내 별점 분포』, 『선호하는 장르』, 『평가한 영화』, 『내가 작성한 코멘트』** 섹션을 통해 사용자가 자신의 활동을 한눈에 확인할 수 있습니다.
 
 **Firebase Authentication**에 등록된 계정을 삭제할 수 있습니다.
 
