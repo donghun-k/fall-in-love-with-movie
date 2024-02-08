@@ -57,6 +57,8 @@ const SearchPage = () => {
             top: '80px',
             zIndex: 1,
             backgroundColor: 'background.default',
+            opacity: 0.8,
+            marginBottom: { xs: '10px', sm: '15px' },
           }}
         >
           <Typography
@@ -83,7 +85,11 @@ const SearchPage = () => {
             </span>
             의 검색 결과 <span className="total">{totalResult}</span>건
           </Typography>
-          <Divider />
+          <Divider
+            sx={{
+              borderBottomWidth: '2px',
+            }}
+          />
         </Box>
         <Box
           sx={{
