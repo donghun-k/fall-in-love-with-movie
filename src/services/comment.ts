@@ -234,7 +234,7 @@ export const getComments = async ({
 export const getMyComments = async (): Promise<Comment[]> => {
   const user = getCurrentUser();
   if (!user) {
-    return [];
+    throw new Error('로그인 상태가 아닙니다.');
   }
   const { uid: userId } = user;
   const commentsQuery = query(commentsRef, where('authorId', '==', userId));
