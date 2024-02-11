@@ -7,16 +7,16 @@ interface Params {
 }
 
 const useMovieDetailQuery = ({ movieId }: Params) => {
-  return useQuery(
-    ['movieDetail', movieId],
-    () => {
+  return useQuery({
+    queryKey: ['movieDetail', movieId],
+
+    queryFn: () => {
       return getMovieDetail({ movieId });
     },
-    {
-      enabled: !!movieId,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
+
+    enabled: !!movieId,
+    staleTime: 1000 * 60 * 60 * 24
+  });
 };
 
 export default useMovieDetailQuery;

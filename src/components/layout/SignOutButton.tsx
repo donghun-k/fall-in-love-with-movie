@@ -12,11 +12,21 @@ const SignOutButton = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      queryClient.removeQueries(['myComment']);
-      queryClient.removeQueries(['myRating']);
-      queryClient.removeQueries(['myRatings']);
-      queryClient.removeQueries(['myComments']);
-      queryClient.invalidateQueries(['comments']);
+      queryClient.removeQueries({
+        queryKey: ['myComment']
+      });
+      queryClient.removeQueries({
+        queryKey: ['myRating']
+      });
+      queryClient.removeQueries({
+        queryKey: ['myRatings']
+      });
+      queryClient.removeQueries({
+        queryKey: ['myComments']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['comments']
+      });
 
       enqueueSnackbar('로그아웃 되었습니다.', { variant: 'success' });
     } catch (error) {

@@ -9,17 +9,17 @@ interface Params {
 
 const useMyCommentQuery = ({ movieId }: Params) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  return useQuery(
-    ['myComment', movieId, user?.uid],
-    () => {
+  return useQuery({
+    queryKey: ['myComment', movieId, user?.uid],
+
+    queryFn: () => {
       return getMyComment({ movieId });
     },
-    {
-      enabled: !!movieId && !!user,
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
+
+    enabled: !!movieId && !!user,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60 * 24
+  });
 };
 
 export default useMyCommentQuery;

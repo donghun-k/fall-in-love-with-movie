@@ -8,16 +8,16 @@ interface Params {
 }
 
 const usePostCommentMutation = ({ movieId, movieTitle }: Params) => {
-  return useMutation(
-    ({ content, rating }: { content: string; rating: number }) => {
+  return useMutation({
+    mutationFn: ({ content, rating }: { content: string; rating: number }) => {
       return postComment({
         movieId,
         movieTitle,
         content,
         rating,
       });
-    }
-  );
+    },
+  });
 };
 
 export default usePostCommentMutation;

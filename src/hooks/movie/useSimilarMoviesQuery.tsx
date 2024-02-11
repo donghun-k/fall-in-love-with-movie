@@ -7,16 +7,16 @@ interface Params {
 }
 
 const useSimilarMoviesQuery = ({ movieId }: Params) => {
-  return useQuery(
-    ['similarMovies', movieId],
-    () => {
+  return useQuery({
+    queryKey: ['similarMovies', movieId],
+
+    queryFn: () => {
       return getSimilarMovies({ movieId });
     },
-    {
-      enabled: !!movieId,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
+
+    enabled: !!movieId,
+    staleTime: 1000 * 60 * 60 * 24
+  });
 };
 
 export default useSimilarMoviesQuery;

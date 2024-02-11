@@ -8,11 +8,10 @@ interface Params {
 }
 
 const useUpdateCommentMutation = ({ commentRef }: Params) => {
-  return useMutation(({ content }: { content: string }) => {
-    return updateComment({
-      commentRef,
-      content,
-    });
+  return useMutation({
+    mutationFn: (content: string) => {
+      return updateComment({ commentRef, content });
+    },
   });
 };
 

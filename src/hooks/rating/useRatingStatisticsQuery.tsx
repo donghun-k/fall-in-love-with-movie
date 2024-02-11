@@ -7,15 +7,15 @@ interface Params {
 }
 
 const useRatingStatisticsQuery = ({ movieId }: Params) => {
-  return useQuery(
-    ['ratingStatistics', movieId],
-    () => {
+  return useQuery({
+    queryKey: ['ratingStatistics', movieId],
+
+    queryFn: () => {
       return getRatingsStatistics({ movieId });
     },
-    {
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
+
+    staleTime: 1000 * 60 * 60 * 24,
+  });
 };
 
 export default useRatingStatisticsQuery;

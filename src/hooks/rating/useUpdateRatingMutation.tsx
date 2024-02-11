@@ -13,8 +13,10 @@ const useUodateRatingMutation = ({
   movieTitle,
   movieGenreIds,
 }: Params) => {
-  return useMutation((rating: number) => {
-    return updateRating({ movieId, movieTitle, movieGenreIds, rating });
+  return useMutation({
+    mutationFn: async (rating: number) => {
+      return updateRating({ movieId, movieTitle, movieGenreIds, rating });
+    },
   });
 };
 

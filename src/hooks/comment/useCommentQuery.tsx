@@ -8,17 +8,17 @@ interface Params {
 }
 
 const useCommentQuery = ({ commentRef }: Params) => {
-  return useQuery(
-    ['comment', commentRef],
-    () => {
+  return useQuery({
+    queryKey: ['comment', commentRef],
+
+    queryFn: () => {
       return getComment({ commentRef });
     },
-    {
-      enabled: !!commentRef,
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 60 * 10,
-    }
-  );
+
+    enabled: !!commentRef,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 10
+  });
 };
 
 export default useCommentQuery;

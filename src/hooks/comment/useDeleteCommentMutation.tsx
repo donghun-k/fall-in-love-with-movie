@@ -8,8 +8,10 @@ interface Params {
 }
 
 const useDeleteCommentMutation = ({ commentRef }: Params) => {
-  return useMutation(() => {
-    return deleteComment({ commentRef });
+  return useMutation({
+    mutationFn: () => {
+      return deleteComment({ commentRef });
+    },
   });
 };
 

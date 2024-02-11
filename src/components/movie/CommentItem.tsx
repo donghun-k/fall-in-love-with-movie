@@ -39,7 +39,7 @@ const CommentItem = ({
     isUpdated,
     rating,
   } = comment;
-  const { mutateAsync: updateLikesMutate, isLoading: isUpdatingLikes } =
+  const { mutateAsync: updateLikesMutate, isPending: isUpdatingLikes } =
     useUpdateLikesMutation({ commentRef });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 

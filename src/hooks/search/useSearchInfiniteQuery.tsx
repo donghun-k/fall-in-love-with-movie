@@ -7,23 +7,26 @@ interface Params {
 }
 
 const useSearchInfiniteQuery = ({ query }: Params) => {
-  return useInfiniteQuery(
-    ['search', query],
-    ({ pageParam = 1 }) => {
+  return useInfiniteQuery({
+    queryKey: ['search', query],
+
+    queryFn: ({ pageParam }: { pageParam?: number }) => {
       return searchMovie({
         query,
         page: Number(pageParam),
       });
     },
-    {
-      getNextPageParam: (lastPage) => {
-        return lastPage.page + 1 <= lastPage.total_pages
-          ? lastPage.page + 1
-          : false;
-      },
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
+
+    initialPageParam: 1,
+
+    getNextPageParam: (lastPage) => {
+      return lastPage.page + 1 <= lastPage.total_pages
+        ? lastPage.page + 1
+        : undefined;
+    },
+
+    staleTime: 1000 * 60 * 60 * 24,
+  });
 };
 
 export default useSearchInfiniteQuery;

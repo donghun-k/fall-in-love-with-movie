@@ -8,10 +8,12 @@ interface Params {
 }
 
 const useUpdateLikesMutation = ({ commentRef }: Params) => {
-  return useMutation((type: 'add' | 'cancel') => {
-    const mutationFn = type === 'add' ? addLikes : cancelLikes;
+  return useMutation({
+    mutationFn: (type: 'add' | 'cancel') => {
+      const mutate = type === 'add' ? addLikes : cancelLikes;
 
-    return mutationFn({ commentRef });
+      return mutate({ commentRef });
+    },
   });
 };
 

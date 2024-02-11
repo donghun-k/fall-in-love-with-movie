@@ -35,7 +35,7 @@ const RatingBox = ({ movieDetail }: Props) => {
   } = useMyRatingQuery({
     movieId,
   });
-  const { mutateAsync: updateRating, isLoading: isPostingRating } =
+  const { mutateAsync: updateRating, isPending: isPostingRating } =
     useUpdateRatingMutation({
       movieId,
       movieTitle,
@@ -51,11 +51,21 @@ const RatingBox = ({ movieDetail }: Props) => {
       enqueueSnackbar('별점이 변경되었습니다.', {
         variant: 'success',
       });
-      queryClient.resetQueries(['myComments']);
-      queryClient.resetQueries(['myRatings']);
-      queryClient.invalidateQueries(['myRating', movieId]);
-      queryClient.invalidateQueries(['myComment', movieId]);
-      queryClient.invalidateQueries(['ratingStatistics', movieId]);
+      queryClient.resetQueries({
+        queryKey: ['myComments'],
+      });
+      queryClient.resetQueries({
+        queryKey: ['myRatings'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['myRating', movieId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['myComment', movieId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['ratingStatistics', movieId],
+      });
     } catch (error) {
       enqueueSnackbar('별점 변경에 실패하였습니다.', {
         variant: 'error',

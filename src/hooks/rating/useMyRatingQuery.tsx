@@ -9,17 +9,17 @@ interface Params {
 
 const useMyRatingQuery = ({ movieId }: Params) => {
   const { user } = useSelector((state: RootState) => state.auth);
-  return useQuery(
-    ['myRating', movieId, user?.uid],
-    () => {
+  return useQuery({
+    queryKey: ['myRating', movieId, user?.uid],
+
+    queryFn: () => {
       return getMyRating({ movieId });
     },
-    {
-      enabled: !!movieId && !!user,
-      refetchOnWindowFocus: false,
-      staleTime: 1000 * 60 * 60 * 24,
-    }
-  );
+
+    enabled: !!movieId && !!user,
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60 * 24,
+  });
 };
 
 export default useMyRatingQuery;

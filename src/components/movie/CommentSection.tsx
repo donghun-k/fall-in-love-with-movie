@@ -54,7 +54,9 @@ const CommentSection = ({ movieDetail }: Props) => {
   const openSortMenu = Boolean(anchorEl);
 
   useEffect(() => {
-    queryClient.resetQueries(['comments', movieId]);
+    queryClient.resetQueries({
+      queryKey: ['comments', movieId]
+    });
   }, [queryClient, movieId]);
 
   const handleOpenDialog = () => {
