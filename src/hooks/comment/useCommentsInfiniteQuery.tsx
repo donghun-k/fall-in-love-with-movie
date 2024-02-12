@@ -31,7 +31,7 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
     getNextPageParam: (lastPage) => {
       return lastPage.hasMore
         ? lastPage.comments[lastPage.comments.length - 1].commentRef
-        : undefined;
+        : null;
     },
 
     staleTime: 1000 * 60 * 1,

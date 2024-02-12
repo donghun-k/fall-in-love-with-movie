@@ -16,7 +16,7 @@ export interface SearchMovieResponse {
   total_results: number;
 }
 
-export const searchMovie = async ({ query, page = 1 }: SearchMovieParams) => {
+export const searchMovie = async ({ query, page }: SearchMovieParams) => {
   const options = {
     method: 'GET',
     headers: {

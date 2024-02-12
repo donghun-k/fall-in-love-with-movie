@@ -10,10 +10,10 @@ const useSearchInfiniteQuery = ({ query }: Params) => {
   return useInfiniteQuery({
     queryKey: ['search', query],
 
-    queryFn: ({ pageParam }: { pageParam?: number }) => {
+    queryFn: ({ pageParam }: { pageParam: number }) => {
       return searchMovie({
         query,
-        page: Number(pageParam),
+        page: pageParam,
       });
     },
 
@@ -22,7 +22,7 @@ const useSearchInfiniteQuery = ({ query }: Params) => {
     getNextPageParam: (lastPage) => {
       return lastPage.page + 1 <= lastPage.total_pages
         ? lastPage.page + 1
-        : undefined;
+        : null;
     },
 
     staleTime: 1000 * 60 * 60 * 24,
