@@ -4,20 +4,17 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import StarIcon from '@mui/icons-material/Star';
 import { User } from 'firebase/auth';
 import { useSnackbar } from 'notistack';
-import { DocumentReference } from 'firebase/firestore';
+import { useQueryClient } from '@tanstack/react-query';
 
 import Comment from '../../models/Comment';
 import { convertTimestampToDateString } from '../../utils/date';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
 import useToggleLikeMutation from '../../hooks/likes/useToggleLikeMutation';
+import { UpdateLikesOptimisticallyFn } from '../../hooks/comment/useCommentsInfiniteQuery';
 interface CommentItemProps {
   user: User | null;
   comment: Comment;
-  updateLikesOptimistically: (
-    commentRef: DocumentReference,
-    option: 'add' | 'cancel',
-    user: User
-  ) => Promise<() => void>;
+  updateLikesOptimistically: UpdateLikesOptimisticallyFn;
 }
 
 const CommentItem = ({
@@ -27,6 +24,7 @@ const CommentItem = ({
 }: CommentItemProps) => {
   const userId = user?.uid ?? '';
   const { enqueueSnackbar } = useSnackbar();
+  const queryClient = useQueryClient();
   const {
     commentRef,
     likeCount,
@@ -40,13 +38,45 @@ const CommentItem = ({
     rating,
   } = comment;
   const isLiked = likes.includes(userId);
-  const { mutateAsync: updateLikesMutate, isPending } = useToggleLikeMutation({
+  const { mutate: toggleLike, isPending } = useToggleLikeMutation({
     commentRef,
-    isLiked,
+    onMutate: async (isLiked) => {
+      if (!user) return;
+      const previousData = await updateLikesOptimistically({
+        commentRef,
+        isLiked,
+        user,
+      });
+      return {
+        previousData,
+      };
+    },
+    onSuccess: (_, isLiked) => {
+      if (isLiked)
+        enqueueSnackbar(`'좋아요'가 취소되었습니다.`, { variant: 'success' });
+      else
+        enqueueSnackbar(`'좋아요'가 등록되었습니다.`, { variant: 'success' });
+    },
+    onError: (_, isLiked, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(
+          ['comments', commentRef.id],
+          context.previousData
+        );
+      }
+      if (isLiked)
+        enqueueSnackbar(`'좋아요' 취소에 실패하였습니다.`, {
+          variant: 'error',
+        });
+      else
+        enqueueSnackbar(`'좋아요' 등록에 실패하였습니다.`, {
+          variant: 'error',
+        });
+    },
   });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
-  const handleAddLike = async () => {
+  const handleToggleLike = () => {
     if (!user) {
       enqueueSnackbar(`'좋아요'를 하려면 로그인이 필요합니다.`, {
         variant: 'error',
@@ -54,40 +84,7 @@ const CommentItem = ({
       return;
     }
     if (isPending) return;
-
-    const rollback = await updateLikesOptimistically(commentRef, 'add', user);
-
-    try {
-      await updateLikesMutate();
-      enqueueSnackbar(`'좋아요'가 등록되었습니다.`, { variant: 'success' });
-    } catch (error) {
-      enqueueSnackbar(`'좋아요' 등록에 실패하였습니다.`, { variant: 'error' });
-      rollback();
-    }
-  };
-
-  const handleCancelLike = async () => {
-    if (!user) {
-      enqueueSnackbar(`'좋아요'를 취소하려면 로그인이 필요합니다.`, {
-        variant: 'error',
-      });
-      return;
-    }
-    if (isPending) return;
-
-    const rollback = await updateLikesOptimistically(
-      commentRef,
-      'cancel',
-      user
-    );
-
-    try {
-      await updateLikesMutate();
-      enqueueSnackbar(`'좋아요'가 취소되었습니다.`, { variant: 'success' });
-    } catch (error) {
-      enqueueSnackbar(`'좋아요' 취소에 실패하였습니다.`, { variant: 'error' });
-      rollback();
-    }
+    toggleLike(isLiked);
   };
 
   if (!comment) return null;
@@ -220,7 +217,7 @@ const CommentItem = ({
         >
           <Button
             startIcon={isLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            onClick={isLiked ? handleCancelLike : handleAddLike}
+            onClick={handleToggleLike}
             sx={{
               padding: '0 5px',
               minWidth: '50px',

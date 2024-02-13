@@ -19,31 +19,32 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
   const commentRef = myComment.commentRef;
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
-  const { mutateAsync: deleteCommentMutate } = useDeleteCommentMutation({
+  const { mutate: deleteComment } = useDeleteCommentMutation({
     commentRef,
-  });
-  const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
-
-  const handleDeleteComment = async () => {
-    try {
-      await deleteCommentMutate();
-      queryClient.resetQueries({
-        queryKey: ['myComments']
-      });
-      queryClient.resetQueries({
-        queryKey: ['myRatings']
-      });
+    onSuccess: () => {
       enqueueSnackbar('댓글이 삭제되었습니다.', {
         variant: 'success',
       });
-      queryClient.invalidateQueries({
-        queryKey: ['myComment', movieId]
+      queryClient.resetQueries({
+        queryKey: ['myComments'],
       });
-    } catch (error) {
+      queryClient.resetQueries({
+        queryKey: ['myRatings'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['myComment', movieId],
+      });
+    },
+    onError: () => {
       enqueueSnackbar('댓글 삭제에 실패하였습니다.', {
         variant: 'error',
       });
-    }
+    },
+  });
+  const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
+
+  const handleDeleteComment = () => {
+    deleteComment();
   };
 
   const {

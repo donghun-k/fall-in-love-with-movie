@@ -17,6 +17,18 @@ interface Params {
   sortOption: SortOptionType;
 }
 
+export type PreviousData = InfiniteData<GetCommentsResponse> | undefined;
+
+export type UpdateLikesOptimisticallyFn = ({
+  commentRef,
+  isLiked,
+  user,
+}: {
+  commentRef: DocumentReference;
+  isLiked: boolean;
+  user: User;
+}) => Promise<PreviousData>;
+
 const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
   const queryClient = useQueryClient();
   const queryResponse = useInfiniteQuery({
@@ -37,11 +49,15 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
     staleTime: 1000 * 60 * 1,
   });
 
-  const updateLikesOptimistically = async (
-    commentRef: DocumentReference,
-    type: 'add' | 'cancel',
-    user: User
-  ) => {
+  const updateLikesOptimistically: UpdateLikesOptimisticallyFn = async ({
+    commentRef,
+    isLiked,
+    user,
+  }: {
+    commentRef: DocumentReference;
+    isLiked: boolean;
+    user: User;
+  }) => {
     await queryClient.cancelQueries({
       queryKey: ['comments', movieId, sortOption],
     });
@@ -57,7 +73,7 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
           const { comments, hasMore } = page;
           const updatedComments = comments.map((comment) => {
             if (comment.commentRef.id !== commentRef.id) return comment;
-            if (type === 'add') {
+            if (!isLiked) {
               return {
                 ...comment,
                 likes: [...comment.likes, user?.uid ?? ''],
@@ -80,11 +96,7 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
       }
     );
 
-    const rollback = () => {
-      queryClient.setQueryData(['comments', movieId, sortOption], previousData);
-    };
-
-    return rollback;
+    return previousData;
   };
 
   return { ...queryResponse, updateLikesOptimistically };

@@ -36,14 +36,57 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
   const { data: rating } = useMyRatingQuery({
     movieId,
   });
-  const { mutateAsync: postCommentMutate, isPending: isPostingComment } =
-    usePostCommentMutation({
-      movieId,
-      movieTitle,
-    });
-  const { mutateAsync: updateCommentMutate, isPending: isUpdatingComment } =
+  const { mutate: postComment, isPending: isPosting } = usePostCommentMutation({
+    movieId,
+    movieTitle,
+    onSuccess: () => {
+      enqueueSnackbar('코멘트가 작성되었습니다.', {
+        variant: 'success',
+      });
+      queryClient.resetQueries({
+        queryKey: ['myComments'],
+      });
+      queryClient.resetQueries({
+        queryKey: ['myRatings'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['myComment', movieId],
+      });
+    },
+    onError: () => {
+      enqueueSnackbar('코멘트 작성에 실패하였습니다.', {
+        variant: 'error',
+      });
+    },
+    onSettled: () => {
+      handleCloseDialog();
+    },
+  });
+  const { mutate: updateComment, isPending: isUpdating } =
     useUpdateCommentMutation({
       commentRef: commentRef!,
+      onSuccess: () => {
+        enqueueSnackbar('코멘트가 수정되었습니다.', {
+          variant: 'success',
+        });
+        queryClient.resetQueries({
+          queryKey: ['myComments'],
+        });
+        queryClient.resetQueries({
+          queryKey: ['myRatings'],
+        });
+        queryClient.invalidateQueries({
+          queryKey: ['myComment', movieId],
+        });
+      },
+      onError: () => {
+        enqueueSnackbar('코멘트 수정에 실패하였습니다.', {
+          variant: 'error',
+        });
+      },
+      onSettled: () => {
+        handleCloseDialog();
+      },
     });
 
   const queryClient = useQueryClient();
@@ -67,31 +110,10 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
       });
       return;
     }
-    try {
-      await postCommentMutate({
-        content: commentContent,
-        rating: rating ?? 0,
-      });
-      enqueueSnackbar('코멘트가 작성되었습니다.', {
-        variant: 'success',
-      });
-      handleCloseDialog();
-      queryClient.resetQueries({
-        queryKey: ['myComments'],
-      });
-      queryClient.resetQueries({
-        queryKey: ['myRatings'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['myComment', movieId],
-      });
-    } catch (error) {
-      enqueueSnackbar('코멘트 작성에 실패하였습니다.', {
-        variant: 'error',
-      });
-    } finally {
-      handleCloseDialog();
-    }
+    postComment({
+      content: commentContent,
+      rating: rating ?? 0,
+    });
   };
 
   const handleUpdateComment = async () => {
@@ -107,28 +129,10 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
       });
       return;
     }
-    try {
-      await updateCommentMutate(commentContent);
-      handleCloseDialog();
-      queryClient.resetQueries({
-        queryKey: ['myComments'],
-      });
-      queryClient.resetQueries({
-        queryKey: ['myRatings'],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ['myComment', movieId],
-      });
-    } catch (error) {
-      enqueueSnackbar('코멘트 수정에 실패하였습니다.', {
-        variant: 'error',
-      });
-    } finally {
-      handleCloseDialog();
-    }
+    updateComment(commentContent);
   };
 
-  if (isPostingComment || isUpdatingComment) return <LoadingBackdrop />;
+  if (isPosting || isUpdating) return <LoadingBackdrop />;
   return (
     <Dialog open={true} fullWidth={true}>
       <DialogTitle>{isUpdateMode ? '코멘트 수정' : '코멘트 작성'}</DialogTitle>

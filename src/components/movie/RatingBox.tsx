@@ -35,19 +35,11 @@ const RatingBox = ({ movieDetail }: Props) => {
   } = useMyRatingQuery({
     movieId,
   });
-  const { mutateAsync: updateRating, isPending: isPostingRating } =
-    useUpdateRatingMutation({
-      movieId,
-      movieTitle,
-      movieGenreIds,
-    });
-
-  const handleUpdateRating = async (
-    _: SyntheticEvent,
-    value: number | null
-  ) => {
-    try {
-      await updateRating(value ?? 0);
+  const { mutate: updateRating, isPending } = useUpdateRatingMutation({
+    movieId,
+    movieTitle,
+    movieGenreIds,
+    onSuccess: () => {
       enqueueSnackbar('별점이 변경되었습니다.', {
         variant: 'success',
       });
@@ -66,16 +58,21 @@ const RatingBox = ({ movieDetail }: Props) => {
       queryClient.invalidateQueries({
         queryKey: ['ratingStatistics', movieId],
       });
-    } catch (error) {
+    },
+    onError: () => {
       enqueueSnackbar('별점 변경에 실패하였습니다.', {
         variant: 'error',
       });
-    }
+    },
+  });
+
+  const handleUpdateRating = (_: SyntheticEvent, value: number | null) => {
+    updateRating(value ?? 0);
   };
 
   if (
     isCheckingAuth ||
-    (user && (isRatingLoading || isRatingFetching || isPostingRating))
+    (user && (isRatingLoading || isRatingFetching || isPending))
   ) {
     return (
       <Box
