@@ -8,7 +8,7 @@ interface Params {
   movieGenreIds: number[];
 }
 
-const useUodateRatingMutation = ({
+const useUpdateRatingMutation = ({
   movieId,
   movieTitle,
   movieGenreIds,
@@ -26,4 +26,4 @@ const useUodateRatingMutation = ({
   });
 };
 
-export default useUodateRatingMutation;
+export default useUpdateRatingMutation;
