@@ -9,7 +9,7 @@ import { DocumentReference } from 'firebase/firestore';
 import Comment from '../../models/Comment';
 import { convertTimestampToDateString } from '../../utils/date';
 import useCommentExpand from '../../hooks/comment/useCommentExpand';
-import useUpdateLikesMutation from '../../hooks/likes/useUpdateLikesMutation';
+import useToggleLikeMutation from '../../hooks/likes/useToggleLikeMutation';
 interface CommentItemProps {
   user: User | null;
   comment: Comment;
@@ -39,8 +39,9 @@ const CommentItem = ({
     isUpdated,
     rating,
   } = comment;
-  const { mutateAsync: updateLikesMutate, isPending: isUpdatingLikes } =
-    useUpdateLikesMutation({ commentRef });
+  const { mutateAsync: updateLikesMutate, isPending } = useToggleLikeMutation({
+    commentRef,
+  });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
 
   const alreadyLiked = likes.includes(userId);
@@ -52,12 +53,12 @@ const CommentItem = ({
       });
       return;
     }
-    if (isUpdatingLikes) return;
+    if (isPending) return;
 
     const rollback = await updateLikesOptimistically(commentRef, 'add', user);
 
     try {
-      await updateLikesMutate('add');
+      await updateLikesMutate();
       enqueueSnackbar(`'좋아요'가 등록되었습니다.`, { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(`'좋아요' 등록에 실패하였습니다.`, { variant: 'error' });
@@ -72,7 +73,7 @@ const CommentItem = ({
       });
       return;
     }
-    if (isUpdatingLikes) return;
+    if (isPending) return;
 
     const rollback = await updateLikesOptimistically(
       commentRef,
@@ -81,7 +82,7 @@ const CommentItem = ({
     );
 
     try {
-      await updateLikesMutate('cancel');
+      await updateLikesMutate();
       enqueueSnackbar(`'좋아요'가 취소되었습니다.`, { variant: 'success' });
     } catch (error) {
       enqueueSnackbar(`'좋아요' 취소에 실패하였습니다.`, { variant: 'error' });
