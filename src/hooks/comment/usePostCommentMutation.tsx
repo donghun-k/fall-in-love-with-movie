@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 import { postComment } from '../../services/comment';
 
@@ -7,9 +7,20 @@ interface Params {
   movieTitle: string;
 }
 
-const usePostCommentMutation = ({ movieId, movieTitle }: Params) => {
+interface MutationFnParams {
+  content: string;
+  rating: number;
+}
+
+const usePostCommentMutation = ({
+  movieId,
+  movieTitle,
+  onSuccess,
+  onError,
+  onSettled,
+}: Params & UseMutationOptions<void, Error, MutationFnParams, void>) => {
   return useMutation({
-    mutationFn: ({ content, rating }: { content: string; rating: number }) => {
+    mutationFn: ({ content, rating }: MutationFnParams) => {
       return postComment({
         movieId,
         movieTitle,
@@ -17,6 +28,9 @@ const usePostCommentMutation = ({ movieId, movieTitle }: Params) => {
         rating,
       });
     },
+    onSuccess,
+    onError,
+    onSettled,
   });
 };
 

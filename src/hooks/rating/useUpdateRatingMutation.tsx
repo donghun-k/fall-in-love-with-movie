@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 
 import { updateRating } from '../../services/rating';
 
@@ -12,11 +12,17 @@ const useUodateRatingMutation = ({
   movieId,
   movieTitle,
   movieGenreIds,
-}: Params) => {
+  onSuccess,
+  onError,
+  onSettled,
+}: Params & UseMutationOptions<void, Error, number, void>) => {
   return useMutation({
     mutationFn: async (rating: number) => {
       return updateRating({ movieId, movieTitle, movieGenreIds, rating });
     },
+    onSuccess,
+    onError,
+    onSettled,
   });
 };
 
