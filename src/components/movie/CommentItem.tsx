@@ -39,12 +39,12 @@ const CommentItem = ({
     isUpdated,
     rating,
   } = comment;
+  const isLiked = likes.includes(userId);
   const { mutateAsync: updateLikesMutate, isPending } = useToggleLikeMutation({
     commentRef,
+    isLiked,
   });
   const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
-
-  const alreadyLiked = likes.includes(userId);
 
   const handleAddLike = async () => {
     if (!user) {
@@ -219,8 +219,8 @@ const CommentItem = ({
           }}
         >
           <Button
-            startIcon={alreadyLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
-            onClick={alreadyLiked ? handleCancelLike : handleAddLike}
+            startIcon={isLiked ? <ThumbUpIcon /> : <ThumbUpOffAltIcon />}
+            onClick={isLiked ? handleCancelLike : handleAddLike}
             sx={{
               padding: '0 5px',
               minWidth: '50px',

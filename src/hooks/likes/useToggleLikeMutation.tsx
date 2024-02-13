@@ -5,10 +5,12 @@ import { toggleLike } from '../../services/likes';
 
 interface Params {
   commentRef: DocumentReference;
+  isLiked: boolean;
 }
 
 const useToggleLikeMutation = ({
   commentRef,
+  isLiked,
   onMutate,
   onSuccess,
   onError,
@@ -16,7 +18,7 @@ const useToggleLikeMutation = ({
 }: Params & UseMutationOptions<void, Error, void, void>) => {
   return useMutation({
     mutationFn: () => {
-      return toggleLike({ commentRef });
+      return toggleLike({ commentRef, isLiked });
     },
     onMutate,
     onSuccess,
