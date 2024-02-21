@@ -34,6 +34,7 @@ const SearchBar = () => {
     >
       <InputBase
         sx={{
+          width: '100%',
           ml: 1,
           color: 'text.secondary',
         }}
