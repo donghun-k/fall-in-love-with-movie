@@ -1,13 +1,14 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 
-const HomePage = lazy(() => import('../pages/home/HomePage'));
-const SignInPage = lazy(() => import('../pages/signIn/SignInPage'));
-const SearchPage = lazy(() => import('../pages/search/SearchPage'));
-const MovieDetailPage = lazy(() => import('../pages/movie/MovieDetailPage'));
-const MyPage = lazy(() => import('../pages/mypage/MyPage'));
-const PrivateRoute = lazy(() => import('../pages/PrivateRoute'));
-const PublicRoute = lazy(() => import('../pages/PublicRoute'));
+const HomePage = lazy(() => import('../pages/page'));
+const SignInPage = lazy(() => import('../pages/signIn/page'));
+const SearchPage = lazy(() => import('../pages/search/page'));
+const MovieDetailPage = lazy(() => import('../pages/movie/page'));
+const MyPage = lazy(() => import('../pages/mypage/page'));
+const PrivateRoute = lazy(() => import('./PrivateRoute'));
+const PublicRoute = lazy(() => import('./PublicRoute'));
 
 const routes = [
   {

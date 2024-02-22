@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-import { DialogInfo } from '../components/layout/DialogContainer';
+import { DialogInfo } from '../components/Layout/DialogContainer';
 
 export interface DialogState {
   dialogInfo: DialogInfo;

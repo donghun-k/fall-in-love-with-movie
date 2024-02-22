@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 
 import { closeDialog, openDialog } from '../store/dialogSlice';
-import { DialogInfo } from '../components/layout/DialogContainer';
+import { DialogInfo } from '../components/Layout/DialogContainer';
 
 const useDialog = () => {
   const dispatch = useDispatch();
