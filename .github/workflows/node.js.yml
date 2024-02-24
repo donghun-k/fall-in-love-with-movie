@@ -11,6 +11,9 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
     env:
       TZ: 'Asia/Seoul'
     steps:
@@ -25,6 +28,7 @@ jobs:
       - name: Run tests
         run: yarn test
   build:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
