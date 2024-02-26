@@ -6,15 +6,15 @@
 <br/>
 
 ## ⚒️ Tech stack
-|Language|User Interface|State Management|
-|:---:|:---:|:---:|
-|![image](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/3ca9aaba-151d-4958-8a44-a83a5b71a1fc)|![image](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/77f75a78-fed9-4d11-8a7b-bdf519fad6ce)&nbsp;&nbsp;&nbsp;&nbsp;![image](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/f4612863-f2d8-4444-b942-d6c439381c23)|![redux](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/c36f7314-52f2-4bee-adf4-ab238e230c37)&nbsp;&nbsp;&nbsp;&nbsp;![image](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/c9263ea3-a154-4f80-8a08-031f01643e2f)|
-|TypeScript|React & MUI|Redux Toolkit & React Query|
+|Language|User Interface|Client State<br>Management|Server State<br>Management|
+|:---:|:---:|:---:|:---:|
+|![typescript](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/c08c5cfd-51c2-4ba7-8e72-3d45a2c7463d)|![react](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/88482791-9a28-4a79-8a78-2e9a8e0788aa)&nbsp;&nbsp;&nbsp;&nbsp;![mui](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/bb9ed19b-d242-4363-a13e-64be34a9d312)|![redux](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/90e3c6c5-e7ae-4fbb-a87e-a0a60f8d50d0)|![react-query](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/f3ae2ebe-a4ce-4109-825e-de5006dd147e)|
+|TypeScript|React + MUI|Redux Toolkit|React Query|
 
-|Database|Deployment|Bundler|
-|:---:|:---:|:---:|
-|![firebase](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/abb25f5d-8862-4619-be81-d3953ce6bfe1)|![s3](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/92af66a6-826b-4844-8cf4-bf13eaef153f)&nbsp;&nbsp;&nbsp;&nbsp;![cloud-front](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/90079b28-e258-4adf-986c-aeaa88aa1654)|![vite](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/3b5a9c6f-246b-41d6-9764-e8e0a81fc280)|
-|Firebase Cloud Firestore|AWS S3 + CloudFront|Vite|
+|Database|Deployment|Test|Build Tool|
+|:---:|:---:|:---:|:---:|
+|![firebase](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/8056df3a-380a-4b18-a45b-7c8a1403efd6)|![s3](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/b49c207d-431d-417f-952e-9faa3ba25ef8)&nbsp;&nbsp;&nbsp;&nbsp;![cloud-front](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/27e70884-9c1e-4805-b100-a227375549ba)|![vitest](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/9eb460f6-253a-4e33-98f7-1047b25c3d30)|![vite](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/b515fdc3-b21b-447a-973e-1f8dc30dffec)|
+|Cloud Firestore|AWS S3 + CloudFront|Vitest|Vite|
 <br/>
 
 ## 🏛️ Architecture
