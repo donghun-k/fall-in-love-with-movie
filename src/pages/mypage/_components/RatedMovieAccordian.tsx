@@ -92,12 +92,10 @@ const RatedMovieAccordian = ({ myRatings }: Props) => {
         }}
       >
         <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: '40px',
-          }}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          height="40px"
         >
           <Select
             value={String(sortOption)}
@@ -141,39 +139,11 @@ const RatedMovieAccordian = ({ myRatings }: Props) => {
               },
             }}
           >
-            <MenuItem value={0}>
-              <StarIcon /> All
-            </MenuItem>
-            <MenuItem value={1}>
-              <StarIcon /> 1
-            </MenuItem>
-            <MenuItem value={2}>
-              <StarIcon /> 2
-            </MenuItem>
-            <MenuItem value={3}>
-              <StarIcon /> 3
-            </MenuItem>
-            <MenuItem value={4}>
-              <StarIcon /> 4
-            </MenuItem>
-            <MenuItem value={5}>
-              <StarIcon /> 5
-            </MenuItem>
-            <MenuItem value={6}>
-              <StarIcon /> 6
-            </MenuItem>
-            <MenuItem value={7}>
-              <StarIcon /> 7
-            </MenuItem>
-            <MenuItem value={8}>
-              <StarIcon /> 8
-            </MenuItem>
-            <MenuItem value={9}>
-              <StarIcon /> 9
-            </MenuItem>
-            <MenuItem value={10}>
-              <StarIcon /> 10
-            </MenuItem>
+            {Array.from({ length: 11 }, (_, index) => (
+              <MenuItem value={index} key={index}>
+                <StarIcon /> {index === 0 ? 'All' : index}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
         <Divider
@@ -198,13 +168,7 @@ const RatedMovieAccordian = ({ myRatings }: Props) => {
             </ListItem>
           ))}
           {sortedRatings.length === 0 && (
-            <Typography
-              sx={{
-                textAlign: 'center',
-              }}
-            >
-              평가한 영화가 없습니다.
-            </Typography>
+            <Typography textAlign="center">평가한 영화가 없습니다.</Typography>
           )}
         </List>
         <Divider
@@ -212,12 +176,7 @@ const RatedMovieAccordian = ({ myRatings }: Props) => {
             margin: '5px 0',
           }}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <Box display="flex" justifyContent="center">
           <Pagination
             onChange={handleSetPage}
             count={Math.ceil(sortedRatings.length / 5)}

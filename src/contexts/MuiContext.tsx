@@ -1,6 +1,7 @@
 import {
   CssBaseline,
   IconButton,
+  ThemeOptions,
   ThemeProvider,
   createTheme,
 } from '@mui/material';
@@ -52,7 +53,7 @@ const SnackbarCloseButton = ({ snackbarKey }: { snackbarKey: SnackbarKey }) => {
 
 export default MuiContextProvider;
 
-const getDesignTokens = (mode: PaletteMode) => ({
+const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
   components: {
     MuiCssBaseline: {
       styleOverrides: `
@@ -85,6 +86,13 @@ const getDesignTokens = (mode: PaletteMode) => ({
           text-decoration: none;
         }
       `,
+    },
+    MuiTypography: {
+      defaultProps: {
+        variantMapping: {
+          body2: 'span',
+        },
+      },
     },
   },
   typography: {

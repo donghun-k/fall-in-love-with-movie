@@ -57,43 +57,31 @@ const PreferredGenreAccordian = ({ myRatings }: Props) => {
       <AccordionSummary>선호하는 장르</AccordionSummary>
       <AccordionDetails>
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-          }}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-evenly"
+          alignItems="center"
         >
           {[...genreData].splice(0, 3).map((data) => (
             <Box
               key={data.genreName}
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
             >
-              <Typography
-                sx={{
-                  fontSize: { xs: '1.1rem', sm: '1.5rem' },
-                }}
-              >
+              <Typography fontSize={{ xs: '1.1rem', sm: '1.5rem' }}>
                 {data.genreName}
               </Typography>
               <Typography
-                sx={{
-                  color: 'text.secondary',
-                  fontSize: { xs: '.8rem', sm: '1rem' },
-                }}
+                fontSize={{ xs: '.8rem', sm: '1rem' }}
+                color="text.secondary"
               >
                 평균 {data.averageRating}점
               </Typography>
               <Typography
-                sx={{
-                  color: 'text.secondary',
-                  fontSize: { xs: '.7rem', sm: '.8rem' },
-                }}
+                fontSize={{ xs: '.7rem', sm: '.8rem' }}
+                color="text.secondary"
               ></Typography>
             </Box>
           ))}
@@ -104,42 +92,32 @@ const PreferredGenreAccordian = ({ myRatings }: Props) => {
           }}
         />
         <Box
-          sx={{
-            padding: '0 10px',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: { xx: '10%', sm: '20%' },
-          }}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+          flexWrap="wrap"
+          gap={{ xx: '10%', sm: '20%' }}
+          padding="0 10px"
         >
           {genreData.map((data, i) => {
             if (i < 3) return null;
             return (
               <Box
                 key={data.genreName}
-                sx={{
-                  padding: { xs: '5px', sm: '10px' },
-                  width: { xs: '40%', sm: '30%' },
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                }}
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="center"
+                width={{ xs: '40%', sm: '30%' }}
+                padding={{ xs: '5px', sm: '10px' }}
               >
-                <Typography
-                  sx={{
-                    fontSize: { xs: '.8rem', sm: '1rem' },
-                  }}
-                >
+                <Typography fontSize={{ xs: '.8rem', sm: '1rem' }}>
                   {data.genreName}
                 </Typography>
                 <Typography
-                  sx={{
-                    color: 'text.secondary',
-                    fontSize: { xs: '.8rem', sm: '1rem' },
-                  }}
+                  fontSize={{ xs: '.8rem', sm: '1rem' }}
+                  color="text.secondary"
                 >
                   {data.averageRating}점
                 </Typography>

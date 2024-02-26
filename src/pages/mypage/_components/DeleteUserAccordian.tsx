@@ -62,49 +62,39 @@ const DeleteUserAccordian = () => {
       </AccordionSummary>
       <AccordionDetails>
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'justify-evenly',
-            alignItems: 'flex-start',
-            gap: '20px',
-          }}
+          display="flex"
+          flexDirection="column"
+          justifyContent="justify-evenly"
+          alignItems="flex-start"
+          gap="20px"
         >
           <Typography
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              gap: '10px',
-              fontSize: { xs: '1rem', sm: '1.2rem' },
-            }}
+            display="flex"
+            flexDirection="row"
+            justifyContent="flex-start"
+            alignItems="center"
+            gap="10px"
+            fontSize={{ xs: '1rem', sm: '1.2rem' }}
           >
             <WarningIcon />
             정말로 계정을 삭제하시겠습니까?
           </Typography>
           <Typography
-            sx={{
-              color: 'text.secondary',
-              fontSize: { xs: '.8rem', sm: '1rem' },
-            }}
+            fontSize={{ xs: '.8rem', sm: '1rem' }}
+            color="text.secondary"
           >
             계정을 삭제하면 복구할 수 없으며, 등록한 평가와 코멘트는 자동으로
             삭제되지 않습니다.
           </Typography>
           <Typography
-            sx={{
-              color: 'text.secondary',
-              fontSize: { xs: '.8rem', sm: '1rem' },
-            }}
+            fontSize={{ xs: '.8rem', sm: '1rem' }}
+            color="text.secondary"
           >
             정말로 삭제하시려면 아래에{' '}
             <Typography
               component="span"
-              sx={{
-                fontFamily: 'sans-serif',
-                fontStyle: 'italic',
-              }}
+              fontFamily="sans-serif"
+              fontStyle="italic"
             >
               네, 확인했습니다.
             </Typography>{' '}

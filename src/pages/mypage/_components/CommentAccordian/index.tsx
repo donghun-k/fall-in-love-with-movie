@@ -78,12 +78,10 @@ const CommentAccordian = ({ myComments }: Props) => {
         }}
       >
         <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: '40px',
-          }}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          height="40px"
         >
           <Select
             value={String(sortOption)}
@@ -121,11 +119,7 @@ const CommentAccordian = ({ myComments }: Props) => {
             />
           ))}
           {sortedComments.length === 0 && (
-            <Typography
-              sx={{
-                textAlign: 'center',
-              }}
-            >
+            <Typography textAlign="center">
               작성한 코멘트가 없습니다.
             </Typography>
           )}
@@ -135,12 +129,7 @@ const CommentAccordian = ({ myComments }: Props) => {
             margin: '5px 0',
           }}
         />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
+        <Box display="flex" justifyContent="center">
           <Pagination
             onChange={handleSetPage}
             count={Math.ceil(sortedComments.length / 5)}

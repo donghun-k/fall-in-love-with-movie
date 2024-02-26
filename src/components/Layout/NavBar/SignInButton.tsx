@@ -13,12 +13,10 @@ const SignInButton = () => {
       >
         <Typography
           variant="subtitle2"
+          display={{ xs: 'none', md: 'block' }}
           pt={0.5}
           mr={0.5}
           fontWeight={600}
-          sx={{
-            display: { xs: 'none', md: 'block' },
-          }}
         >
           로그인
         </Typography>

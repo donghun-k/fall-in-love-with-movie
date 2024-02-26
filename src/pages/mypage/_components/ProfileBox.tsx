@@ -10,14 +10,12 @@ const ProfileBox = ({ user }: Props) => {
 
   return (
     <Box
-      sx={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '20px',
-        gap: '10px',
-      }}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      width="100%"
+      padding="20px"
+      gap="10px"
     >
       <Avatar
         src={photoURL ?? ''}
@@ -26,12 +24,7 @@ const ProfileBox = ({ user }: Props) => {
           height: '100px',
         }}
       />
-      <Typography
-        sx={{
-          fontSize: '20px',
-          fontWeight: 'bold',
-        }}
-      >
+      <Typography fontSize="20px" fontWeight="bold">
         {displayName}
       </Typography>
     </Box>

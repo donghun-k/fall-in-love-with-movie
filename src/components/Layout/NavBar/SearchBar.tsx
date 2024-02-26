@@ -18,7 +18,7 @@ const SearchBar = () => {
       onSubmit={handleSubmit}
       sx={{
         backgroundColor: 'background.paper',
-        p: '2px 4px',
+        padding: '2px 4px',
         display: 'flex',
         alignItems: 'center',
         height: '50px',
@@ -35,7 +35,7 @@ const SearchBar = () => {
       <InputBase
         sx={{
           width: '100%',
-          ml: 1,
+          marginLeft: 1,
           color: 'text.secondary',
         }}
         value={searchInput}
@@ -46,7 +46,7 @@ const SearchBar = () => {
         aria-label="search"
         type="submit"
         sx={{
-          p: '10px',
+          padding: '10px',
           transition: '0.3s',
           '&:hover': {
             color: 'text.buttonHover',

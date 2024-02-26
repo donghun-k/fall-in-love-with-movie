@@ -15,30 +15,28 @@ const TitleSection = () => {
   return (
     <Box
       component="section"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: { xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' },
-        gap: '10px',
-        paddingBottom: '80px',
-      }}
+      display="flex"
+      flexDirection="column"
+      alignItems="center"
+      justifyContent="center"
+      height={{ xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' }}
+      gap="10px"
+      paddingBottom="80px"
     >
       <Box
+        width={{ xs: '150px', md: '200px' }}
+        height={{ xs: '120px', md: '160px' }}
         sx={{
-          width: { xs: '150px', md: '200px' },
-          height: { xs: '120px', md: '160px' },
           backgroundImage: `url(${LOGO_IMAGES[paletteMode].logoIcon})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
       />
       <Typography
+        fontSize={{ xs: '20px', md: '30px' }}
+        color="text.secondary"
+        fontWeight="bold"
         sx={{
-          fontSize: { xs: '20px', md: '30px' },
-          color: 'text.secondary',
-          fontWeight: 'bold',
           '& span': {
             fontSize: { xs: '30px', md: '45px' },
             color: 'text.primary',
@@ -49,13 +47,8 @@ const TitleSection = () => {
         ovie
       </Typography>
       <Typography
-        sx={{
-          fontSize: { xs: '16px', md: '20px' },
-          marginBottom: {
-            xs: '10px',
-            sm: '15px',
-          },
-        }}
+        fontSize={{ xs: '16px', md: '20px' }}
+        marginBottom={{ xs: '10px', sm: '15px' }}
       >
         영화 별점 평가 및 코멘트 서비스
       </Typography>

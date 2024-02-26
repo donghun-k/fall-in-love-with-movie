@@ -29,10 +29,10 @@ const BackdropSection = ({ movieDetail }: BackdropSectionProps) => {
   return (
     <Box
       component="section"
+      position="relative"
+      width="100vw"
+      height={{ xs: '280px', sm: '350px' }}
       sx={{
-        width: '100vw',
-        height: { xs: '280px', sm: '350px' },
-        position: 'relative',
         '& img': {
           width: '100%',
           height: '100%',
@@ -45,56 +45,58 @@ const BackdropSection = ({ movieDetail }: BackdropSectionProps) => {
     >
       {backdropSrc && <img src={backdropSrc} alt={title} />}
       <Box
+        position="absolute"
+        top="0"
+        width="100%"
+        height="50px"
         sx={{
-          position: 'absolute',
-          top: '0',
-          width: '100%',
-          height: '50px',
           background:
             'linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 100%)',
         }}
       ></Box>
       <Box
+        position="absolute"
+        bottom="0"
+        width="100%"
+        height="250px"
         sx={{
-          position: 'absolute',
-          bottom: '0',
-          width: '100%',
-          height: '250px',
           background:
             'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.9) 100%)',
         }}
       ></Box>
-      <Grid container sx={{ position: 'absolute', bottom: 0 }}>
+      <Grid container position="absolute" bottom="0">
         <Grid item xs={0} md={1} lg={2} />
         <Grid
           item
           xs={12}
           md={10}
           lg={8}
-          sx={{ padding: { xs: '10px 10px', md: '10px 0' } }}
+          padding={{ xs: '10px 10px', md: '10px 0' }}
         >
           <Typography
-            sx={{ fontSize: { xs: '28px', sm: '36px' } }}
+            fontSize={{
+              xs: '28px',
+              sm: '36px',
+            }}
             color="white"
           >
             {title}
           </Typography>
           <Typography
             color="lightgray"
-            sx={{ fontSize: { xs: '16px', sm: '20px' }, marginBottom: '5px' }}
+            fontSize={{ xs: '16px', sm: '20px' }}
+            marginBottom="5px"
           >
             {original_title}
           </Typography>
           <Typography
             color="lightgray"
-            sx={{ fontSize: { xs: '12px', sm: '14px' }, marginBottom: '8px' }}
+            fontSize={{ xs: '12px', sm: '14px' }}
+            marginBottom="8px"
           >
             {releaseYear} · {runtime}분 · {country}
           </Typography>
-          <Typography
-            color="lightgray"
-            sx={{ fontSize: { xs: '12px', sm: '14px' } }}
-          >
+          <Typography color="lightgray" fontSize={{ xs: '12px', sm: '14px' }}>
             {genresString}
           </Typography>
         </Grid>

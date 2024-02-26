@@ -38,7 +38,7 @@ const SearchDialog = () => {
       fullWidth={true}
       maxWidth="xs"
     >
-      <DialogTitle sx={{ display: 'flex', justifyContent: 'center' }}>
+      <DialogTitle display="flex" justifyContent="center">
         검색
       </DialogTitle>
       <DialogContent>

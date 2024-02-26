@@ -152,12 +152,7 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
             marginBottom: '10px',
           }}
         />
-        <Typography
-          sx={{
-            width: '100%',
-            padding: '0 10px',
-          }}
-        >
+        <Typography width="100%" padding="0 10px">
           {commentLength} / 300
         </Typography>
       </DialogContent>

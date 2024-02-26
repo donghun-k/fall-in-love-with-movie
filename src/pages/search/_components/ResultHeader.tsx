@@ -8,34 +8,36 @@ interface Props {
 const ResultHeader = ({ query, totalResult }: Props) => (
   <Box
     position="sticky"
+    top="80px"
+    paddingTop="5px"
+    marginBottom={{ xs: '10px', sm: '15px' }}
+    zIndex="1"
+    bgcolor="background.default"
     sx={{
-      paddingTop: '5px',
-      top: '80px',
-      zIndex: 1,
-      backgroundColor: 'background.default',
       opacity: 0.8,
-      marginBottom: { xs: '10px', sm: '15px' },
     }}
   >
     <Typography
-      sx={{
-        padding: { xs: '10px 20px', sm: '10px 10px' },
-        color: 'text.secondary',
-        fontSize: { xs: '.9rem', sm: '1.5rem' },
-        '& .query': {
-          color: 'text.primary',
-          fontSize: { xs: '1.1rem', sm: '2rem' },
-        },
-        '& .total': {
-          color: 'text.primary',
-          fontSize: { xs: '1rem', sm: '1.5rem' },
-        },
-      }}
+      fontSize={{ xs: '.9rem', sm: '1.5rem' }}
+      color="text.secondary"
+      padding={{ xs: '10px 20px', sm: '10px 10px' }}
     >
-      <span className="query">
+      <Typography
+        variant="body2"
+        fontSize={{ xs: '1.1rem', sm: '2rem' }}
+        color="text.primary"
+      >
         "{query.length > 8 ? [...query].splice(0, 8).join('') + '...' : query}"
-      </span>
-      의 검색 결과 <span className="total">{totalResult}</span>건
+      </Typography>
+      의 검색 결과{' '}
+      <Typography
+        variant="body2"
+        fontSize={{ xs: '1rem', sm: '1.5rem' }}
+        color="text.primary"
+      >
+        {totalResult}
+      </Typography>
+      건
     </Typography>
     <Divider
       sx={{

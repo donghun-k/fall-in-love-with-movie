@@ -58,40 +58,32 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
   } = myComment;
   return (
     <Box
-      sx={{
-        width: '100%',
-        height: 'fit-content',
-        padding: '10px',
-        backgroundColor: 'background.paper',
-        borderRadius: '10px',
-      }}
+      width="100%"
+      height="fit-content"
+      padding="10px"
+      bgcolor="background.paper"
+      borderRadius="10px"
     >
       <Box
-        sx={{
-          width: '100%',
-          height: 'fit-content',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-        }}
+        display="flex"
+        flexDirection="column"
+        alignItems="flex-start"
+        width="100%"
+        height="fit-content"
       >
         <Box
-          sx={{
-            width: '100%',
-            height: '40px',
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
+          height="40px"
         >
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              gap: '10px',
-            }}
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            gap="10px"
           >
             <Avatar
               src={userProfileImage}
@@ -102,21 +94,17 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
             />
             <Box>
               <Typography
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'flex-end',
-                  fontSize: { xs: '0.8rem', sm: '1rem' },
-                  gap: '5px',
-                }}
+                display="flex"
+                flexDirection="row"
+                alignItems="flex-end"
+                gap="5px"
+                fontSize={{ xs: '0.8rem', sm: '1rem' }}
               >
                 {username}
               </Typography>
               <Typography
-                sx={{
-                  fontSize: { xs: '0.6rem', sm: '0.8rem' },
-                  color: 'text.secondary',
-                }}
+                fontSize={{ xs: '0.6rem', sm: '0.8rem' }}
+                color="text.secondary"
               >
                 {convertTimestampToDateString(createdAt)}
                 {isUpdated && ' (수정됨)'}
@@ -124,7 +112,7 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
             </Box>
           </Box>
           {Boolean(rating) && (
-            <Chip sx={{}} icon={<StarIcon />} label={rating} size="small" />
+            <Chip icon={<StarIcon />} label={rating} size="small" />
           )}
         </Box>
         <Divider
@@ -135,15 +123,15 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
         />
         <Typography
           ref={contentRef}
+          width="100%"
+          height="fit-content"
+          maxHeight={expand ? 'none' : '60px'}
+          lineHeight="20px"
+          fontSize={{ xs: '0.8rem', sm: '1rem' }}
+          color="text.secondary"
+          overflow="hidden"
+          paddingRight="5px"
           sx={{
-            width: '100%',
-            fontSize: { xs: '0.8rem', sm: '1rem' },
-            lineHeight: '20px',
-            height: 'fit-content',
-            maxHeight: `${expand ? 'none' : '60px'}`,
-            color: 'text.secondary',
-            overflow: 'hidden',
-            paddingRight: '5px',
             ...(!expand && {
               display: '-webkit-box',
               WebkitLineClamp: 3,
@@ -172,6 +160,7 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
           }}
         />
         <Box
+          display="flex"
           sx={{
             width: '100%',
             height: '25px',

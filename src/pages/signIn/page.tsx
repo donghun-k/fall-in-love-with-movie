@@ -12,24 +12,20 @@ const SignInPage = () => {
       </Helmet>
       <Box
         component="main"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-          paddingBottom: '20vh',
-        }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+        paddingBottom="20vh"
       >
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '300px',
-            height: '100%',
-          }}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          width="300px"
+          height="100%"
         >
           <Typography color="primary.main" fontSize={40} fontWeight={800}>
             로그인
@@ -41,14 +37,12 @@ const SignInPage = () => {
             }}
           />
           <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-            }}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            gap="10px"
+            width="100%"
           >
             <GoogleSignInButton />
             <GitHubSignInButton />

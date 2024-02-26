@@ -82,38 +82,25 @@ const CommentSection = ({ movieDetail }: Props) => {
   return (
     <Box
       component="section"
-      sx={{
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: { xs: '0 10px', md: '0' },
-      }}
+      display="flex"
+      flexDirection="column"
+      width="100%"
+      padding={{ xs: '0 10px', md: '0' }}
     >
       <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '10px',
-        }}
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        width="100%"
+        gap="10px"
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: '10px',
-          }}
-        >
+        <Box display="flex" flexDirection="row" alignItems="center" gap="10px">
           <Typography
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
-              fontSize: { xs: '1.2rem', sm: '1.5rem' },
-            }}
+            display="flex"
+            alignItems="center"
+            gap="10px"
+            fontSize={{ xs: '1.2rem', sm: '1.5rem' }}
           >
             <ChatBubbleIcon />
             코멘트
@@ -160,13 +147,11 @@ const CommentSection = ({ movieDetail }: Props) => {
       </Box>
       <Divider sx={{ width: '100%' }} />
       <Box
-        sx={{
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px',
-          padding: '10px 0',
-        }}
+        display="flex"
+        flexDirection="column"
+        gap="10px"
+        width="100%"
+        padding="10px 0"
       >
         {user && myComment && (
           <MyCommentItem
@@ -188,12 +173,10 @@ const CommentSection = ({ movieDetail }: Props) => {
           })}
         {(isCommentsLoading || isCommentsFetching) && (
           <Box
-            sx={{
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="100%"
           >
             <CircularProgress />
           </Box>
@@ -210,12 +193,7 @@ const CommentSection = ({ movieDetail }: Props) => {
           </Button>
         )}
         {comments && comments?.length === 0 && (
-          <Typography
-            sx={{
-              padding: '10px 0',
-              fontSize: { xs: '1rem', sm: '1.2rem' },
-            }}
-          >
+          <Typography fontSize={{ xs: '1rem', sm: '1.2rem' }} padding="10px 0">
             아직 이 영화에 대한 코멘트가 없습니다.
           </Typography>
         )}

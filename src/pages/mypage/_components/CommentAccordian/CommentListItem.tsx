@@ -29,35 +29,24 @@ const CommentListItem = ({ comment, handleListItemClick }: Props) => {
         }}
       >
         <Box
-          sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          width="100%"
         >
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-            }}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="flex-start"
           >
             <Typography
-              sx={{
-                fontSize: { xs: '1rem', sm: '1.2rem' },
-                fontWeight: 'bold',
-              }}
+              fontSize={{ xs: '1rem', sm: '1.2rem' }}
+              fontWeight="bold"
             >
               {comment.movieTitle}
             </Typography>
-            <Typography
-              sx={{
-                fontSize: '0.8rem',
-                color: 'text.secondary',
-              }}
-            >
+            <Typography fontSize="0.8rem" color="text.secondary">
               {convertTimestampToDateString(comment.createdAt)}
             </Typography>
           </Box>
@@ -70,15 +59,15 @@ const CommentListItem = ({ comment, handleListItemClick }: Props) => {
           }}
         />
         <Typography
+          display="-webkit-box"
+          width="100%"
+          height="fit-content"
+          maxHeight="60px"
+          lineHeight="20px"
+          fontSize={{ xs: '0.8rem', sm: '1rem' }}
+          color="text.secondary"
+          overflow="hidden"
           sx={{
-            width: '100%',
-            fontSize: { xs: '0.8rem', sm: '1rem' },
-            lineHeight: '20px',
-            height: 'fit-content',
-            maxHeight: '60px',
-            color: 'text.secondary',
-            overflow: 'hidden',
-            display: '-webkit-box',
             WebkitLineClamp: 3,
             WebkitBoxOrient: 'vertical',
           }}

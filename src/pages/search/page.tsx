@@ -39,24 +39,17 @@ const SearchPage = () => {
       <Helmet>
         <title>"{query}" 검색 결과 - FILM</title>
       </Helmet>
-      <Box
-        component="main"
-        sx={{
-          padding: { xs: '0px 30px', md: '0' },
-        }}
-      >
+      <Box component="main" padding={{ xs: '0px 30px', md: '0' }}>
         <ResultHeader query={query} totalResult={totalResult} />
         <ResultGrid movieList={movieList} />
         {movieList.length === 0 && <NoResultMessage />}
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            padding: '10px',
-            paddingBottom: '40px',
-          }}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          padding="10px"
+          paddingBottom="40px"
         >
           {isFetching && <CircularProgress />}
           {!isFetching && hasNextPage && (

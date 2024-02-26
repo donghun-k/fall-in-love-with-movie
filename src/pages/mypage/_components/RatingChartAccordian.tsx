@@ -88,13 +88,11 @@ const RatingChartAccordian = ({ myRatings }: Props) => {
       <AccordionSummary>내 별점 분포</AccordionSummary>
       <AccordionDetails>
         <Box
-          sx={{
-            padding: '10px',
-            paddingTop: '20px',
-            backgroundColor: 'background.paper',
-            borderRadius: '10px',
-            overflow: 'hidden',
-          }}
+          padding="10px"
+          paddingTop="20px"
+          bgcolor="background.paper"
+          borderRadius="10px"
+          overflow="hidden"
         >
           <Bar
             options={chartOptions}
@@ -116,62 +114,42 @@ const RatingChartAccordian = ({ myRatings }: Props) => {
           }}
         />
         <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            height: '80px',
-            justifyContent: 'space-evenly',
-          }}
+          display="flex"
+          justifyContent="space-evenly"
+          width="100%"
+          height="80px"
         >
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
           >
             <Typography
-              sx={{
-                fontWeight: 'bold',
-                fontSize: '.8rem',
-                color: 'text.secondary',
-              }}
+              fontSize=".8rem"
+              fontWeight="bold"
+              color="text.secondary"
             >
               평가한 작품 수
             </Typography>
-            <Typography
-              sx={{
-                fontWeight: 'bold',
-                fontSize: '1.4rem',
-              }}
-            >
+            <Typography fontSize="1.4rem" fontWeight="bold">
               {totalRatingCount}
             </Typography>
           </Box>
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
           >
             <Typography
-              sx={{
-                fontWeight: 'bold',
-                fontSize: '.8rem',
-                color: 'text.secondary',
-              }}
+              fontSize=".8rem"
+              fontWeight="bold"
+              color="text.secondary"
             >
               평균 별점
             </Typography>
-            <Typography
-              sx={{
-                fontWeight: 'bold',
-                fontSize: '1.4rem',
-              }}
-            >
+            <Typography fontSize="1.4rem" fontWeight="bold">
               {averageRating}
             </Typography>
           </Box>

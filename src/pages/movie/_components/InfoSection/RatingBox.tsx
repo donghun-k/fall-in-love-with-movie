@@ -76,13 +76,11 @@ const RatingBox = ({ movieDetail }: Props) => {
   ) {
     return (
       <Box
-        sx={{
-          width: '100%',
-          height: { xs: '20%', sm: '15%' },
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        width="100%"
+        height={{ xs: '20%', sm: '15%' }}
       >
         <CircularProgress />
       </Box>
@@ -91,15 +89,13 @@ const RatingBox = ({ movieDetail }: Props) => {
 
   return (
     <Box
-      sx={{
-        width: '100%',
-        height: { xs: '20%', md: '15%' },
-        display: 'flex',
-        padding: '10px',
-        flexDirection: { xs: 'column-reverse', md: 'row' },
-        justifyContent: user ? 'space-between' : 'center',
-        alignItems: 'center',
-      }}
+      display="flex"
+      flexDirection={{ xs: 'column-reverse', md: 'row' }}
+      justifyContent={user ? 'space-between' : 'center'}
+      alignItems="center"
+      width="100%"
+      height={{ xs: '20%', md: '15%' }}
+      padding="10px"
     >
       {user ? (
         <>
@@ -119,45 +115,32 @@ const RatingBox = ({ movieDetail }: Props) => {
             />
           </Box>
           <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'row-reverse', md: 'column' },
-              alignItems: { xs: 'center', md: 'flex-end' },
-              textAlign: { xs: 'center', md: 'right' },
-              gap: { xs: '10px', md: '0px' },
-            }}
+            display="flex"
+            flexDirection={{ xs: 'row-reverse', md: 'column' }}
+            alignItems={{ xs: 'center', md: 'flex-end' }}
+            textAlign={{ xs: 'center', md: 'right' }}
+            gap={{ xs: '10px', md: '0px' }}
           >
             {rating !== 0 ? (
               <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: { xs: 'row-reverse', md: 'column' },
-                  alignItems: { xs: 'center', md: 'flex-end' },
-                  gap: { xs: '10px', md: '0px' },
-                }}
+                display="flex"
+                flexDirection={{ xs: 'row-reverse', md: 'column' }}
+                alignItems={{ xs: 'center', md: 'flex-end' }}
+                gap={{ xs: '10px', md: '0px' }}
               >
                 <Typography
-                  sx={{
-                    fontSize: { xs: '1.5rem', sm: '1rem', md: '1.5rem' },
-                  }}
+                  fontSize={{ xs: '1.5rem', sm: '1rem', md: '1.5rem' }}
                 >
                   {rating}
                 </Typography>
-                <Typography
-                  sx={{
-                    fontSize: '.8rem',
-                    color: 'text.secondary',
-                  }}
-                >
+                <Typography fontSize=".8rem" color="text.secondary">
                   내 별점
                 </Typography>
               </Box>
             ) : (
               <Typography
-                sx={{
-                  fontSize: { xs: '1.2rem', sm: '1rem', md: '1.2rem' },
-                  color: 'text.secondary',
-                }}
+                fontSize={{ xs: '1.2rem', sm: '1rem', md: '1.2rem' }}
+                color="text.secondary"
               >
                 평가하기
               </Typography>

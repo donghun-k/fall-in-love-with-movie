@@ -21,15 +21,15 @@ const NavBar = () => {
     <Box
       component="nav"
       position="sticky"
+      top="0px"
+      display="flex"
+      width="100vw"
+      height="80px"
+      justifyContent="center"
+      alignItems="center"
+      zIndex="100"
       sx={{
-        top: '0px',
-        display: 'flex',
-        width: '100vw',
-        height: '80px',
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: 'background.nav',
-        zIndex: 100,
       }}
     >
       <Grid container>
@@ -45,12 +45,10 @@ const NavBar = () => {
           >
             <LogoButton />
             <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                gap: '10px',
-              }}
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              gap="10px"
             >
               {isSmUp && isMdDown && <SearchButton />}
               {isSmUp && !isMdDown && <SearchBar />}

@@ -14,12 +14,10 @@ const MyPageButton = () => {
         <AccountCircleIcon fontSize="large" />
         <Typography
           variant="subtitle2"
+          display={{ xs: 'none', md: 'block' }}
           pt={0.5}
           ml={0.5}
           fontWeight={600}
-          sx={{
-            display: { xs: 'none', md: 'block' },
-          }}
         >
           내 정보
         </Typography>

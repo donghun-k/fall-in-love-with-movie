@@ -44,25 +44,21 @@ const MyPage = () => {
       </Helmet>
       <Box
         component="main"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          minHeight: { xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' },
-          padding: '20px',
-        }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        minHeight={{ xs: 'calc(100vh - 160px)', sm: 'calc(100vh - 80px)' }}
+        padding="20px"
       >
         <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            width: '100%',
-            maxWidth: '500px',
-            gap: '10px',
-          }}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          gap="10px"
+          width="100%"
+          maxWidth="500px"
         >
           <ProfileBox user={user} />
           <RatingChartAccordian myRatings={myRatings} />

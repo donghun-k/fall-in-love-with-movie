@@ -49,15 +49,13 @@ const MovieDetailPage = () => {
       </Helmet>
       <Box
         component="main"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: { xs: '10px', sm: '30px' },
-          marginBottom: '30px',
-          padding: { xs: '0px 30px', md: '0' },
-        }}
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        justifyContent="center"
+        gap={{ xs: '10px', sm: '30px' }}
+        marginBottom="30px"
+        padding={{ xs: '0px 30px', md: '0' }}
       >
         <BackdropSection movieDetail={movieDetail} />
         <InfoSection movieDetail={movieDetail} />

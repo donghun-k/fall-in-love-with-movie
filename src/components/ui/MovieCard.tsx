@@ -32,30 +32,30 @@ const MovieCard = ({ movie }: Props) => {
         to={`/movie/${movie.id}`}
       >
         <Box
+          width="100%"
+          overflow="hidden"
           sx={{
-            width: '100%',
             aspectRatio: 2 / 3,
             '& img': {
               width: '100%',
               height: '100%',
               objectFit: 'cover',
             },
-            overflow: 'hidden',
           }}
         >
           {imgSrc ? (
             <img src={imgSrc} alt="title" />
           ) : (
             <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
+              width="100%"
+              height="100%"
+              color="text.secondary"
               sx={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
                 backgroundColor: 'background.paper',
-                color: 'text.secondary',
                 transition: 'transform .3s ease-in-out',
                 '&:hover': {
                   transform: 'scale(1.1)',
@@ -73,24 +73,22 @@ const MovieCard = ({ movie }: Props) => {
         </Box>
       </Link>
       <Box
-        sx={{
-          width: '100%',
-          padding: '5px',
-          paddingBottom: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'flex-start',
-        }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="flex-start"
+        width="100%"
+        padding="5px"
+        paddingBottom="10px"
       >
         <Tooltip title={title} placement="top">
           <Typography
+            fontSize={{ xs: '.8rem', sm: '.9rem', lg: '1rem' }}
+            width="90%"
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
             sx={{
-              fontSize: { xs: '.8rem', sm: '.9rem', lg: '1rem' },
-              width: '90%',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
               '& a': {
                 color: 'text.primary',
                 textDecoration: 'none',
@@ -104,10 +102,12 @@ const MovieCard = ({ movie }: Props) => {
           </Typography>
         </Tooltip>
         <Typography
-          sx={{
-            fontSize: { xs: '.7rem', sm: '.8rem', lg: '.9rem' },
-            color: 'text.secondary',
+          fontSize={{
+            xs: '.7rem',
+            sm: '.8rem',
+            lg: '.9rem',
           }}
+          color="text.secondary"
         >
           {releaseYear}
         </Typography>
