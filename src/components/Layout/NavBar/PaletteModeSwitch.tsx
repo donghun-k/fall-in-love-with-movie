@@ -1,18 +1,11 @@
 import { Switch } from '@mui/material';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { RootState } from '../../../store';
-import { togglePaletteMode } from '../../../store/paletteModeSlice';
+import usePaletteMode from '../../../hooks/usePaletteMode';
 
 const PaletteModeSwitch = () => {
-  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
-  const dispatch = useDispatch();
-
-  const handleSwitchChange = () => {
-    dispatch(togglePaletteMode());
-  };
+  const { paletteMode, handleTogglePaletteMode } = usePaletteMode();
 
   return (
     <Switch
@@ -50,7 +43,7 @@ const PaletteModeSwitch = () => {
       icon={<LightModeIcon />}
       checkedIcon={<DarkModeIcon />}
       checked={paletteMode === 'dark'}
-      onChange={handleSwitchChange}
+      onChange={handleTogglePaletteMode}
     />
   );
 };

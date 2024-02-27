@@ -10,12 +10,11 @@ import { PaletteMode } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useSnackbar, SnackbarKey, SnackbarProvider } from 'notistack';
 import CloseIcon from '@mui/icons-material/Close';
-import { useSelector } from 'react-redux';
 
-import { RootState } from '../store';
+import usePaletteMode from '../hooks/usePaletteMode';
 
 const MuiContextProvider = ({ children }: { children: ReactNode }) => {
-  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
+  const { paletteMode } = usePaletteMode();
   const theme = useMemo(
     () => createTheme(getDesignTokens(paletteMode)),
     [paletteMode]

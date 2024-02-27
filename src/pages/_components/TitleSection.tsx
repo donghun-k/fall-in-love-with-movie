@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux';
 
 import LOGO_IMAGES from '../../utils/logo';
 import { RootState } from '../../store';
+import usePaletteMode from '../../hooks/usePaletteMode';
 
 const TitleSection = () => {
-  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
+  const { paletteMode } = usePaletteMode();
   const { user, isCheckingAuth } = useSelector(
     (state: RootState) => state.auth
   );

@@ -1,12 +1,11 @@
 import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 import LOGO_IMAGES from '../../../utils/logo';
-import { RootState } from '../../../store';
+import usePaletteMode from '../../../hooks/usePaletteMode';
 
 const LogoButton = () => {
-  const { paletteMode } = useSelector((state: RootState) => state.paletteMode);
+  const { paletteMode } = usePaletteMode();
 
   return (
     <Link to="/">
