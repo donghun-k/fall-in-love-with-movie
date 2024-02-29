@@ -28,9 +28,7 @@ const NavBar = () => {
       justifyContent="center"
       alignItems="center"
       zIndex="100"
-      sx={{
-        backgroundColor: 'background.nav',
-      }}
+      bgcolor="custom.nav"
     >
       <Grid container>
         <Grid item xs={0} md={1} lg={2} />

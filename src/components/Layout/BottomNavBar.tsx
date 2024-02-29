@@ -43,7 +43,7 @@ const BottomNavBar = () => {
       showLabels
       sx={{
         position: 'sticky',
-        backgroundColor: 'background.nav',
+        backgroundColor: 'custom.nav',
         display: { xs: 'flex', sm: 'none' },
         bottom: 0,
         flexDirection: 'row',

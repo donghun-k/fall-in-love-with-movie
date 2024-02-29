@@ -25,7 +25,7 @@ const SearchBar = () => {
         width: '220px',
         transition: '0.3s',
         '&:hover, &:focus-within': {
-          backgroundColor: 'background.paperFocus',
+          backgroundColor: 'custom.paperFocus',
         },
         '&:focus-within': {
           width: '250px',

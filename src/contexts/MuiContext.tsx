@@ -110,12 +110,14 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           background: {
             default: '#fff',
             paper: '#fff9fa',
-            paperFocus: '#fff',
-            nav: grey[100],
           },
           text: {
             primary: '#000',
             secondary: grey[600],
+          },
+          custom: {
+            nav: grey[100],
+            paperFocus: '#fff',
           },
         }
       : {
@@ -128,13 +130,29 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           background: {
             default: '#000',
             paper: grey[900],
-            paperFocus: grey[800],
-            nav: '#111',
           },
           text: {
             primary: '#fff',
             secondary: grey[400],
           },
+          custom: {
+            nav: '#111',
+            paperFocus: grey[800],
+          },
         }),
   },
 });
+declare module '@mui/material/styles/createPalette' {
+  interface Palette {
+    custom: {
+      nav: string;
+      paperFocus: string;
+    };
+  }
+  interface PaletteOptions {
+    custom?: {
+      nav?: string;
+      paperFocus?: string;
+    };
+  }
+}
