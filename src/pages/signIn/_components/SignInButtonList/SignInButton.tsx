@@ -1,13 +1,19 @@
+import { ReactElement } from 'react';
 import { Button } from '@mui/material';
-import GoogleIcon from '@mui/icons-material/Google';
 import { enqueueSnackbar } from 'notistack';
 
-import { signIn } from '../../../services/auth';
+import { AuthType, signIn } from '../../../../services/auth';
 
-const GoogleSignInButton = () => {
+interface Props {
+  provider: AuthType;
+  startIcon: ReactElement;
+  buttonText: string;
+}
+
+const SocialSignInButton = ({ provider, startIcon, buttonText }: Props) => {
   const handleSignIn = async () => {
     try {
-      await signIn('google');
+      await signIn(provider);
       enqueueSnackbar('로그인 되었습니다.', { variant: 'success' });
     } catch (error) {
       console.error(error);
@@ -19,7 +25,7 @@ const GoogleSignInButton = () => {
       onClick={handleSignIn}
       variant="outlined"
       size="large"
-      startIcon={<GoogleIcon />}
+      startIcon={startIcon}
       fullWidth
       sx={{
         color: 'text.primary',
@@ -31,9 +37,9 @@ const GoogleSignInButton = () => {
         },
       }}
     >
-      Google 로그인
+      {buttonText}
     </Button>
   );
 };
 
-export default GoogleSignInButton;
+export default SocialSignInButton;

@@ -1,8 +1,7 @@
 import { Box, Divider, Typography } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 
-import GoogleSignInButton from './_components/GoogleSignInButton';
-import GitHubSignInButton from './_components/GitHubSignInButton';
+import SignInButtonList from './_components/SignInButtonList';
 
 const SignInPage = () => {
   return (
@@ -36,17 +35,7 @@ const SignInPage = () => {
               marginBottom: '30px',
             }}
           />
-          <Box
-            display="flex"
-            flexDirection="column"
-            justifyContent="center"
-            alignItems="center"
-            gap="10px"
-            width="100%"
-          >
-            <GoogleSignInButton />
-            <GitHubSignInButton />
-          </Box>
+          <SignInButtonList />
         </Box>
       </Box>
     </>
