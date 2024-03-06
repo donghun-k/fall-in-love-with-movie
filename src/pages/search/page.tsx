@@ -1,4 +1,4 @@
-import { Box, Button, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
@@ -8,6 +8,7 @@ import LoadingPage from '../../components/ui/LoadingPage';
 import ResultHeader from './_components/ResultHeader';
 import ResultGrid from './_components/ResultGrid';
 import NoResultMessage from './_components/NoResultMessage';
+import ViewMore from './_components/ViewMore';
 
 const SearchPage = () => {
   const navigate = useNavigate();
@@ -43,21 +44,11 @@ const SearchPage = () => {
         <ResultHeader query={query} totalResult={totalResult} />
         <ResultGrid movieList={movieList} />
         {movieList.length === 0 && <NoResultMessage />}
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          alignItems="center"
-          padding="10px"
-          paddingBottom="40px"
-        >
-          {isFetching && <CircularProgress />}
-          {!isFetching && hasNextPage && (
-            <Button fullWidth size="large" onClick={handleViewMore}>
-              더 보기
-            </Button>
-          )}
-        </Box>
+        <ViewMore
+          isFetching={isFetching}
+          hasNextPage={hasNextPage}
+          handleViewMore={handleViewMore}
+        />
       </Box>
     </>
   );
