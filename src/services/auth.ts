@@ -15,7 +15,7 @@ import app from './firebase';
 
 const auth = getAuth(app);
 
-type AuthType = 'google' | 'github';
+export type AuthType = 'google' | 'github';
 
 const AUTH_PROVIDER: Record<AuthType, AuthProvider> = {
   google: new GoogleAuthProvider(),
