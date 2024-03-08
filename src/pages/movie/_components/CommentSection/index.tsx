@@ -15,7 +15,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 
 import MovieDetail from '../../../../models/MovieDetail';
-import CommentItem from './CommentItem';
+import OtherCommentItem from './OtherCommentItem';
 import { SortOptionType } from '../../../../services/comment';
 import MyCommentItem from './MyCommentItem';
 import useCommentsInfiniteQuery from '../../../../hooks/comment/useCommentsInfiniteQuery';
@@ -162,8 +162,9 @@ const CommentSection = ({ movieDetail }: Props) => {
         )}
         {comments &&
           comments.map((comment, i) => {
+            if (comment.authorId === user?.uid) return null;
             return (
-              <CommentItem
+              <OtherCommentItem
                 key={i}
                 user={user}
                 comment={comment}
