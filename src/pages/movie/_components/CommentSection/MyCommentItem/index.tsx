@@ -1,10 +1,10 @@
-import MyComment from '../../../../../models/MyComment';
+import Comment from '../../../../../models/Comment';
 import CommentItem from '../CommentItem';
 import CommentActions from './CommentActions';
 
 interface Props {
   movieId: number;
-  myComment: MyComment;
+  myComment: Comment;
   handleOpenDialog: () => void;
 }
 

@@ -19,7 +19,6 @@ import { v4 as uuid } from 'uuid';
 
 import Comment from '../models/Comment';
 import app from './firebase';
-import MyComment from '../models/MyComment';
 import { getCurrentUser } from './auth';
 
 const db = getFirestore(app);
@@ -103,7 +102,7 @@ export const getMyComment = async ({ movieId }: GetMyCommentParams) => {
   return {
     ...commentDoc.data(),
     commentRef: commentDoc.ref,
-  } as MyComment;
+  } as Comment;
 };
 
 // GET COMMENT

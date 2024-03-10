@@ -4,11 +4,11 @@ import { useSnackbar } from 'notistack';
 import { useQueryClient } from '@tanstack/react-query';
 
 import useDeleteCommentMutation from '../../../../../hooks/comment/useDeleteCommentMutation';
-import MyComment from '../../../../../models/MyComment';
+import Comment from '../../../../../models/Comment';
 
 interface Props {
   movieId: number;
-  myComment: MyComment;
+  myComment: Comment;
   handleOpenDialog: () => void;
 }
 

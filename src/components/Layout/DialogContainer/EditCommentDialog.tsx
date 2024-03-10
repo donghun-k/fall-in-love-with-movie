@@ -15,13 +15,13 @@ import usePostCommentMutation from '../../../hooks/comment/usePostCommentMutatio
 import LoadingBackdrop from '../../ui/LoadingBackdrop';
 import useUpdateCommentMutation from '../../../hooks/comment/useUpdateCommentMutation';
 import useMyRatingQuery from '../../../hooks/rating/useMyRatingQuery';
-import MyComment from '../../../models/MyComment';
+import Comment from '../../../models/Comment';
 import MovieDetail from '../../../models/MovieDetail';
 import useDialog from '../../../hooks/useDialog';
 
 export interface Props {
   movieDetail: MovieDetail;
-  myComment?: MyComment | null;
+  myComment?: Comment | null;
 }
 
 const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
