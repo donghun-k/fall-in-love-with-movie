@@ -20,6 +20,7 @@ const CommentContent = ({ content }: Prop) => {
         color="text.secondary"
         overflow="hidden"
         paddingRight="5px"
+        whiteSpace="pre-wrap"
         sx={{
           ...(!expand && {
             display: '-webkit-box',

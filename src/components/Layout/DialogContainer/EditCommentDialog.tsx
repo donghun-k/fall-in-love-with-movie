@@ -129,6 +129,7 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
       });
       return;
     }
+    console.log(commentContent);
     updateComment(commentContent);
   };
 
