@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 
@@ -29,10 +29,11 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
   const isUpdateMode = !!myComment;
   const prevContent = myComment?.content ?? '';
   const commentRef = myComment?.commentRef;
+  const queryClient = useQueryClient();
   const { closeDialog } = useDialog();
   const { enqueueSnackbar } = useSnackbar();
-  const [commentContent, setCommentContent] = useState(prevContent);
-  const [commentLength, setCommentLength] = useState(prevContent.length);
+  const commentInputRef = useRef<HTMLInputElement>(null);
+  const commentLengthRef = useRef<HTMLDivElement>(null);
   const { data: rating } = useMyRatingQuery({
     movieId,
   });
@@ -59,7 +60,7 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
       });
     },
     onSettled: () => {
-      handleCloseDialog();
+      closeDialog();
     },
   });
   const { mutate: updateComment, isPending: isUpdating } =
@@ -85,27 +86,37 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
         });
       },
       onSettled: () => {
-        handleCloseDialog();
+        closeDialog();
       },
     });
 
-  const queryClient = useQueryClient();
-
-  const handleCloseDialog = () => {
-    closeDialog();
+  const getCommentContent = () => {
+    return commentInputRef.current?.value ?? '';
   };
 
-  const handleCommentContentChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (e.target.value.length > 300) return;
-    setCommentContent(e.target.value);
-    setCommentLength(e.target.value.length);
+  const handleCommentInput = () => {
+    let content = getCommentContent();
+    if (content.length > 300) {
+      commentInputRef.current!.value = content.slice(0, 300);
+      content = getCommentContent();
+      enqueueSnackbar('코멘트는 300자 이내로 작성해주세요.', {
+        variant: 'error',
+      });
+    }
+    if (commentLengthRef.current === null) return;
+    commentLengthRef.current.textContent = `${content.length} / 300`;
   };
 
   const handlePostComment = async () => {
+    const commentContent = getCommentContent();
     if (commentContent.trim().length === 0) {
       enqueueSnackbar('내용을 입력해주세요.', {
+        variant: 'error',
+      });
+      return;
+    }
+    if (commentContent.length > 300) {
+      enqueueSnackbar('코멘트는 300자 이내로 작성해주세요.', {
         variant: 'error',
       });
       return;
@@ -117,6 +128,8 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
   };
 
   const handleUpdateComment = async () => {
+    const commentContent = getCommentContent();
+    console.log(commentContent);
     if (prevContent === commentContent) {
       enqueueSnackbar('내용이 변경되지 않았습니다.', {
         variant: 'error',
@@ -129,7 +142,12 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
       });
       return;
     }
-    console.log(commentContent);
+    if (commentContent.length > 300) {
+      enqueueSnackbar('코멘트는 300자 이내로 작성해주세요.', {
+        variant: 'error',
+      });
+      return;
+    }
     updateComment(commentContent);
   };
 
@@ -143,9 +161,10 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
           fullWidth
           multiline
           rows={3}
-          value={commentContent}
+          defaultValue={prevContent}
+          inputRef={commentInputRef}
+          onInput={handleCommentInput}
           placeholder="300자 이내로 이 영화에 대한 코멘트를 남겨주세요."
-          onChange={handleCommentContentChange}
           sx={{
             textarea: {
               fontSize: { xs: '0.8rem', sm: '1rem' },
@@ -153,8 +172,8 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
             marginBottom: '10px',
           }}
         />
-        <Typography width="100%" padding="0 10px">
-          {commentLength} / 300
+        <Typography width="100%" padding="0 10px" ref={commentLengthRef}>
+          {prevContent.length} / 300
         </Typography>
       </DialogContent>
       <DialogActions>
@@ -168,7 +187,7 @@ const EditCommentDialog = ({ movieDetail, myComment }: Props) => {
           </Button>
         )}
 
-        <Button variant="contained" onClick={handleCloseDialog}>
+        <Button variant="contained" onClick={closeDialog}>
           취소
         </Button>
       </DialogActions>
