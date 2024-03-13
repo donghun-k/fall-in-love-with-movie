@@ -1,4 +1,5 @@
 import { Button, Typography } from '@mui/material';
+import { useRef } from 'react';
 
 import useCommentExpand from '../../../../../hooks/comment/useCommentExpand';
 
@@ -7,7 +8,12 @@ interface Prop {
 }
 
 const CommentContent = ({ content }: Prop) => {
-  const { expand, isOverflow, contentRef, handleExpand } = useCommentExpand();
+  const contentRef = useRef<HTMLDivElement>(null);
+  const calculateIsOverflow = () =>
+    (contentRef.current?.scrollHeight ?? 0) > 60;
+  const { expand, isOverflow, handleExpand } = useCommentExpand({
+    calculateIsOverflow,
+  });
   return (
     <>
       <Typography

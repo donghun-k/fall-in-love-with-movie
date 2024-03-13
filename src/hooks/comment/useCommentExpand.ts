@@ -1,15 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+// useCommentExpand.ts
+import { useEffect, useState } from 'react';
 
-const useCommentExpand = () => {
+interface Params {
+  calculateIsOverflow: () => boolean;
+}
+
+const useCommentExpand = ({ calculateIsOverflow }: Params) => {
   const [expand, setExpand] = useState(false);
   const [isOverflow, setIsOverflow] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (contentRef.current) {
-      setIsOverflow(contentRef.current.scrollHeight > 60);
-    }
-  }, [contentRef]);
+    setIsOverflow(calculateIsOverflow());
+  }, [calculateIsOverflow]);
 
   const handleExpand = () => {
     setExpand((prev) => !prev);
@@ -17,7 +19,6 @@ const useCommentExpand = () => {
   return {
     expand,
     isOverflow,
-    contentRef,
     handleExpand,
   };
 };
