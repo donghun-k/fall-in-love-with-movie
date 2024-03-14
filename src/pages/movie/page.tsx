@@ -8,7 +8,7 @@ import BackdropSection from './_components/BackdropSection';
 import InfoSection from './_components/InfoSection';
 import CommentSection from './_components/CommentSection';
 import SimilarSection from './_components/SimilarSection';
-import useMovieDetailQuery from '../../hooks/movie/useMovieDetailQuery';
+import useMovieDetailQuery from '../../hooks/queries/useMovieDetailQuery';
 import LoadingPage from '../../components/ui/LoadingPage';
 
 const MovieDetailPage = () => {

@@ -10,8 +10,8 @@ import CommentAccordian from './_components/CommentAccordian';
 import PreferredGenreAccordian from './_components/PreferredGenreAccordian';
 import DeleteUserAccordian from './_components/DeleteUserAccordian';
 import ProfileBox from './_components/ProfileBox';
-import useMyRatingsQuery from '../../hooks/rating/useMyRatingsQuery';
-import useMyCommentsQuery from '../../hooks/comment/useMyCommentsQuery';
+import useMyRatingsQuery from '../../hooks/queries/useMyRatingsQuery';
+import useMyCommentsQuery from '../../hooks/queries/useMyCommentsQuery';
 import LoadingPage from '../../components/ui/LoadingPage';
 import { RootState } from '../../store';
 

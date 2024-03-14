@@ -11,10 +11,10 @@ import { useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 
-import usePostCommentMutation from '../../../hooks/comment/usePostCommentMutation';
+import usePostCommentMutation from '../../../hooks/mutations/usePostCommentMutation';
 import LoadingBackdrop from '../../ui/LoadingBackdrop';
-import useUpdateCommentMutation from '../../../hooks/comment/useUpdateCommentMutation';
-import useMyRatingQuery from '../../../hooks/rating/useMyRatingQuery';
+import useUpdateCommentMutation from '../../../hooks/mutations/useUpdateCommentMutation';
+import useMyRatingQuery from '../../../hooks/queries/useMyRatingQuery';
 import Comment from '../../../models/Comment';
 import MovieDetail from '../../../models/MovieDetail';
 import useDialog from '../../../hooks/useDialog';

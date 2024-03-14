@@ -2,7 +2,7 @@ import { UseMutationOptions, useMutation } from '@tanstack/react-query';
 import { DocumentReference } from 'firebase/firestore';
 
 import { toggleLike } from '../../services/likes';
-import { PreviousData } from '../comment/useCommentsInfiniteQuery';
+import { PreviousData } from '../queries/useCommentsInfiniteQuery';
 
 interface Params {
   commentRef: DocumentReference;

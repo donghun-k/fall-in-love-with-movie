@@ -3,7 +3,7 @@ import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import { useSnackbar } from 'notistack';
 import { useQueryClient } from '@tanstack/react-query';
 
-import useDeleteCommentMutation from '../../../../../hooks/comment/useDeleteCommentMutation';
+import useDeleteCommentMutation from '../../../../../hooks/mutations/useDeleteCommentMutation';
 import Comment from '../../../../../models/Comment';
 
 interface Props {

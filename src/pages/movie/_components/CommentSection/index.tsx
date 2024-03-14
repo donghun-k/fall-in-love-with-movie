@@ -18,8 +18,8 @@ import MovieDetail from '../../../../models/MovieDetail';
 import OtherCommentItem from './OtherCommentItem';
 import { SortOptionType } from '../../../../services/comment';
 import MyCommentItem from './MyCommentItem';
-import useCommentsInfiniteQuery from '../../../../hooks/comment/useCommentsInfiniteQuery';
-import useMyCommentQuery from '../../../../hooks/comment/useMyCommentQuery';
+import useCommentsInfiniteQuery from '../../../../hooks/queries/useCommentsInfiniteQuery';
+import useMyCommentQuery from '../../../../hooks/queries/useMyCommentQuery';
 import { RootState } from '../../../../store';
 import useDialog from '../../../../hooks/useDialog';
 interface Props {

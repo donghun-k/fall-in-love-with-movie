@@ -2,7 +2,7 @@ import { IconButton, InputBase, Paper } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { FormEventHandler } from 'react';
 
-import useSearch from '../../../hooks/search/useSearch';
+import useSearch from '../../../hooks/useSearch';
 
 const SearchBar = () => {
   const { searchInput, handleInputChange, handleSearch } = useSearch();

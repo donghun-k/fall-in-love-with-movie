@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 
-import useSearchInfiniteQuery from '../../hooks/search/useSearchInfiniteQuery';
+import useSearchInfiniteQuery from '../../hooks/queries/useSearchInfiniteQuery';
 import LoadingPage from '../../components/ui/LoadingPage';
 import ResultHeader from './_components/ResultHeader';
 import ResultGrid from './_components/ResultGrid';

@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import { useRef } from 'react';
 
-import useCommentExpand from '../../../../../hooks/comment/useCommentExpand';
+import useCommentExpand from '../../../../../hooks/useCommentExpand';
 
 interface Prop {
   content: string;

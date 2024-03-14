@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { FormEventHandler } from 'react';
 
-import useSearch from '../../../hooks/search/useSearch';
+import useSearch from '../../../hooks/useSearch';
 import useMediaQueries from '../../../hooks/useMediaQueries';
 import useDialog from '../../../hooks/useDialog';
 

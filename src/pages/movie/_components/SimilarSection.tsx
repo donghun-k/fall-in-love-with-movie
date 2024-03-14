@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import TheatersIcon from '@mui/icons-material/Theaters';
 
 import MovieCard from '../../../components/ui/MovieCard';
-import useSimilarMoviesQuery from '../../../hooks/movie/useSimilarMoviesQuery';
+import useSimilarMoviesQuery from '../../../hooks/queries/useSimilarMoviesQuery';
 
 interface Props {
   movieId: number;

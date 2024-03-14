@@ -11,8 +11,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useSnackbar } from 'notistack';
 import { useSelector } from 'react-redux';
 
-import useMyRatingQuery from '../../../../hooks/rating/useMyRatingQuery';
-import useUpdateRatingMutation from '../../../../hooks/rating/useUpdateRatingMutation';
+import useMyRatingQuery from '../../../../hooks/queries/useMyRatingQuery';
+import useUpdateRatingMutation from '../../../../hooks/mutations/useUpdateRatingMutation';
 import MovieDetail from '../../../../models/MovieDetail';
 import { RootState } from '../../../../store';
 interface Props {

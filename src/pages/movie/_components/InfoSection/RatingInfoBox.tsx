@@ -10,7 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 
-import useRatingStatisticsQuery from '../../../../hooks/rating/useRatingStatisticsQuery';
+import useRatingStatisticsQuery from '../../../../hooks/queries/useRatingStatisticsQuery';
 
 ChartJS.register(
   CategoryScale,

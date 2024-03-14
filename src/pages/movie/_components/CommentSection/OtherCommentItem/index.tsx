@@ -1,7 +1,7 @@
 import { User } from 'firebase/auth';
 
 import Comment from '../../../../../models/Comment';
-import { UpdateLikesOptimisticallyFn } from '../../../../../hooks/comment/useCommentsInfiniteQuery';
+import { UpdateLikesOptimisticallyFn } from '../../../../../hooks/queries/useCommentsInfiniteQuery';
 import Likes from './Likes';
 import CommentItem from '../CommentItem';
 interface Props {

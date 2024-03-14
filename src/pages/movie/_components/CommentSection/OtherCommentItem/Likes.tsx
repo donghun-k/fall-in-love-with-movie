@@ -6,8 +6,8 @@ import { useQueryClient } from '@tanstack/react-query';
 import { User } from 'firebase/auth';
 
 import Comment from '../../../../../models/Comment';
-import useToggleLikeMutation from '../../../../../hooks/likes/useToggleLikeMutation';
-import { UpdateLikesOptimisticallyFn } from '../../../../../hooks/comment/useCommentsInfiniteQuery';
+import useToggleLikeMutation from '../../../../../hooks/mutations/useToggleLikeMutation';
+import { UpdateLikesOptimisticallyFn } from '../../../../../hooks/queries/useCommentsInfiniteQuery';
 
 interface Props {
   user: User | null;
