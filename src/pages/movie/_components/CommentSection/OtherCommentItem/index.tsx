@@ -2,7 +2,7 @@ import { User } from 'firebase/auth';
 
 import Comment from '../../../../../models/Comment';
 import { UpdateLikesOptimisticallyFn } from '../../../../../hooks/queries/useCommentsInfiniteQuery';
-import Likes from './Likes';
+import OtherCommentActions from './OtherCommentActions';
 import CommentItem from '../CommentItem';
 interface Props {
   user: User | null;
@@ -26,13 +26,14 @@ const OtherCommentItem = ({
       isUpdated={isUpdated}
       rating={rating}
       content={content}
-    >
-      <Likes
-        user={user}
-        comment={comment}
-        updateLikesOptimistically={updateLikesOptimistically}
-      />
-    </CommentItem>
+      commentActions={
+        <OtherCommentActions
+          user={user}
+          comment={comment}
+          updateLikesOptimistically={updateLikesOptimistically}
+        />
+      }
+    />
   );
 };
 

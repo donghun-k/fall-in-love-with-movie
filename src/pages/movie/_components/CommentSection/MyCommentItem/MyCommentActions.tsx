@@ -12,7 +12,7 @@ interface Props {
   handleOpenDialog: () => void;
 }
 
-const CommentActions = ({ movieId, myComment, handleOpenDialog }: Props) => {
+const MyCommentActions = ({ movieId, myComment, handleOpenDialog }: Props) => {
   const { likeCount, commentRef } = myComment;
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
@@ -45,14 +45,11 @@ const CommentActions = ({ movieId, myComment, handleOpenDialog }: Props) => {
   return (
     <Box
       display="flex"
-      sx={{
-        width: '100%',
-        height: '25px',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
+      flexDirection="row"
+      justifyContent="space-between"
+      alignItems="center"
+      width="100%"
+      height="25px"
     >
       <Button
         startIcon={<ThumbUpOffAltIcon />}
@@ -67,13 +64,12 @@ const CommentActions = ({ movieId, myComment, handleOpenDialog }: Props) => {
         {likeCount}
       </Button>
       <Box
-        sx={{
-          width: 'fit-content',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '10px',
-        }}
+        display="flex"
+        flexDirection="row"
+        justifyContent="space-between"
+        alignItems="center"
+        width="fit-content"
+        gap="10px"
       >
         <Button
           onClick={handleOpenDialog}
@@ -98,4 +94,4 @@ const CommentActions = ({ movieId, myComment, handleOpenDialog }: Props) => {
   );
 };
 
-export default CommentActions;
+export default MyCommentActions;

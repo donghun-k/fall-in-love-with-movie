@@ -1,6 +1,6 @@
 import Comment from '../../../../../models/Comment';
 import CommentItem from '../CommentItem';
-import CommentActions from './CommentActions';
+import MyCommentActions from './MyCommentActions';
 
 interface Props {
   movieId: number;
@@ -20,13 +20,14 @@ const MyCommentItem = ({ movieId, myComment, handleOpenDialog }: Props) => {
       rating={rating}
       content={content}
       type="myComment"
-    >
-      <CommentActions
-        movieId={movieId}
-        myComment={myComment}
-        handleOpenDialog={handleOpenDialog}
-      />
-    </CommentItem>
+      commentActions={
+        <MyCommentActions
+          movieId={movieId}
+          myComment={myComment}
+          handleOpenDialog={handleOpenDialog}
+        />
+      }
+    />
   );
 };
 

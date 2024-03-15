@@ -11,7 +11,7 @@ interface Props {
   isUpdated: boolean;
   rating: number | null;
   content: string;
-  children: ReactNode;
+  commentActions: ReactNode;
   type?: 'myComment' | 'otherComment';
 }
 
@@ -22,7 +22,7 @@ const CommentItem = ({
   isUpdated,
   rating,
   content,
-  children,
+  commentActions,
   type = 'otherComment',
 }: Props) => {
   return (
@@ -60,7 +60,7 @@ const CommentItem = ({
             margin: '10px 0',
           }}
         />
-        {children}
+        {commentActions}
       </Box>
     </Box>
   );

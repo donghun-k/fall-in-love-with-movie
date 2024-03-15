@@ -15,7 +15,11 @@ interface Props {
   updateLikesOptimistically: UpdateLikesOptimisticallyFn;
 }
 
-const Likes = ({ user, comment, updateLikesOptimistically }: Props) => {
+const OtherCommentActions = ({
+  user,
+  comment,
+  updateLikesOptimistically,
+}: Props) => {
   const userId = user?.uid ?? '';
   const { commentRef, likeCount, likes, authorId } = comment;
   const queryClient = useQueryClient();
@@ -97,4 +101,4 @@ const Likes = ({ user, comment, updateLikesOptimistically }: Props) => {
   );
 };
 
-export default Likes;
+export default OtherCommentActions;
