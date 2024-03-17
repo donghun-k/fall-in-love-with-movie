@@ -3,10 +3,12 @@ name: Node.js CI
 on:
   push:
     branches: ['main']
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - 'client/**' # client 폴더 내의 변경사항에 대해서만 반응
   pull_request:
     branches: ['main']
+    paths:
+      - 'client/**' # client 폴더 내의 변경사항에 대해서만 반응
 
 jobs:
   test:
@@ -22,11 +24,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
+          cache: 'yarn'
+          cache-dependency-path: 'client/yarn.lock' # client 폴더 내의 yarn.lock 파일을 캐시 경로로 지정
       - name: Install dependencies
         run: yarn install
+        working-directory: ./client # client 폴더를 작업 경로로 지정
       - name: Run tests
         run: yarn test
+        working-directory: ./client # client 폴더를 작업 경로로 지정
   build:
     needs: test
     runs-on: ubuntu-latest
@@ -39,7 +44,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: yarn
+          cache: 'yarn'
+          cache-dependency-path: 'client/yarn.lock' # client 폴더 내의 yarn.lock 파일을 캐시 경로로 지정
       - name: Create env file
         env:
           VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY }}
@@ -54,13 +60,16 @@ jobs:
           echo "VITE_TMDB_API_KEY=${VITE_TMDB_API_KEY}" >> .env
           echo "VITE_TMDB_ACCESS_TOKEN=${VITE_TMDB_ACCESS_TOKEN}" >> .env
           cat .env
+        working-directory: ./client # client 폴더를 작업 경로로 지정
       - run: yarn install
+        working-directory: ./client # client 폴더를 작업 경로로 지정
       - run: yarn build
+        working-directory: ./client # client 폴더를 작업 경로로 지정
       - uses: awact/s3-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          SOURCE_DIR: './dist'
+          SOURCE_DIR: './client/dist' # 빌드된 결과물의 경로 수정
           AWS_REGION: 'ap-northeast-2'
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
