@@ -1,26 +1,32 @@
 {
-  "root": true,
   "env": {
     "browser": true,
-    "es2020": true
+    "es2021": true
   },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:@tanstack/eslint-plugin-query/recommended",
-    "prettier"
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+    "plugin:prettier/recommended"
   ],
-  "ignorePatterns": ["dist", ".eslintrc.json"],
   "parser": "@typescript-eslint/parser",
-  "plugins": ["import", "react-refresh"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [],
   "rules": {
-    "react-refresh/only-export-components": [
-      "warn",
-      {
-        "allowConstantExport": true
-      }
-    ],
+    "no-unused-vars": "warn",
+    "prettier/prettier": "error",
+    "react/react-in-jsx-scope": "off",
     "import/order": [
       "error",
       {
@@ -40,5 +46,13 @@
         ]
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "./tsconfig.json"
+      }
+    }
   }
 }
