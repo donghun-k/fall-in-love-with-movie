@@ -1,10 +1,22 @@
 import express, { Request, Response } from 'express';
+import cors from 'cors';
 
 const app = express();
 
-const PORT = process.env.PORT || 1;
-const { TMDB_ACCESS_TOKEN } = process.env;
+const {
+  PORT,
+  TMDB_ACCESS_TOKEN,
+  CORS_ALLOWED_ORIGIN_DEV,
+  CORS_ALLOWED_ORIGIN_PROD,
+} = process.env;
 
+const corsOptions = {
+  origin: [CORS_ALLOWED_ORIGIN_DEV, CORS_ALLOWED_ORIGIN_PROD].filter(
+    (origin): origin is string => Boolean(origin),
+  ),
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
