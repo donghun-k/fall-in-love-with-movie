@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 const app = express();
 
 const PORT = process.env.PORT || 1;
-const { VITE_TMDB_ACCESS_TOKEN } = process.env;
+const { TMDB_ACCESS_TOKEN } = process.env;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -19,7 +19,7 @@ app.get('/search/movie', async (req: Request, res: Response) => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: `Bearer ${VITE_TMDB_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
         },
       },
     );
@@ -41,7 +41,7 @@ app.get('/movie/:movieId', async (req: Request, res: Response) => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: `Bearer ${VITE_TMDB_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
         },
       },
     );
@@ -63,7 +63,7 @@ app.get('/movie/:movieId/similar', async (req: Request, res: Response) => {
         method: 'GET',
         headers: {
           accept: 'application/json',
-          Authorization: `Bearer ${VITE_TMDB_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${TMDB_ACCESS_TOKEN}`,
         },
       },
     );
