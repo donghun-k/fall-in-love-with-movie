@@ -1,7 +1,7 @@
 import Movie from '../models/Movie';
 import MovieDetail from '../models/MovieDetail';
 
-const { VITE_TMDB_ACCESS_TOKEN } = import.meta.env;
+const { VITE_SERVER_URL } = import.meta.env;
 
 // SEARCH MOVIE
 interface SearchMovieParams {
@@ -17,17 +17,8 @@ export interface SearchMovieResponse {
 }
 
 export const searchMovie = async ({ query, page }: SearchMovieParams) => {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${VITE_TMDB_ACCESS_TOKEN}`,
-    },
-  };
-
   const res = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=true&language=ko-KR&page=${page}`,
-    options
+    `${VITE_SERVER_URL}/search/movie?query=${query}&page=${page}`,
   );
   const json: SearchMovieResponse = await res.json();
   return json;
@@ -41,17 +32,7 @@ interface GetMovieDetailParams {
 export interface GetMovieDetailResponse extends MovieDetail {}
 
 export const getMovieDetail = async ({ movieId }: GetMovieDetailParams) => {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${VITE_TMDB_ACCESS_TOKEN}`,
-    },
-  };
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}?language=ko-KR`,
-    options
-  );
+  const res = await fetch(`${VITE_SERVER_URL}/movie/${movieId}`);
   const json: GetMovieDetailResponse = await res.json();
   return json;
 };
@@ -69,17 +50,7 @@ export interface GetSimilarMoviesResponse {
 }
 
 export const getSimilarMovies = async ({ movieId }: GetSimilarMoviesParams) => {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: `Bearer ${VITE_TMDB_ACCESS_TOKEN}`,
-    },
-  };
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?language=ko-KR`,
-    options
-  );
+  const res = await fetch(`${VITE_SERVER_URL}/movie/${movieId}/similar`);
   const json: GetSimilarMoviesResponse = await res.json();
   return json.results;
 };
