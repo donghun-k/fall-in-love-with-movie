@@ -8,7 +8,7 @@ import LoadingPage from '../components/ui/LoadingPage';
 const PublicRoute = () => {
   const navigate = useNavigate();
   const { user, isCheckingAuth } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
   useEffect(() => {
     if (user) {

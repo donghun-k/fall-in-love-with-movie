@@ -17,7 +17,7 @@ const MuiContextProvider = ({ children }: { children: ReactNode }) => {
   const { paletteMode } = usePaletteMode();
   const theme = useMemo(
     () => createTheme(getDesignTokens(paletteMode)),
-    [paletteMode]
+    [paletteMode],
   );
 
   return (

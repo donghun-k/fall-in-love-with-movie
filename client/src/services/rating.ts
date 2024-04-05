@@ -39,12 +39,12 @@ export const updateRating = async ({
   const ratingQuery = query(
     ratingsRef,
     where('userId', '==', userId),
-    where('movieId', '==', movieId)
+    where('movieId', '==', movieId),
   );
   const commentQuery = query(
     commentsRef,
     where('authorId', '==', userId),
-    where('movieId', '==', movieId)
+    where('movieId', '==', movieId),
   );
 
   const [ratingSnapshot, commentSnapshot] = await Promise.all([
@@ -101,7 +101,7 @@ export const getMyRating = async ({ movieId }: GetMyRatingParams) => {
   const ratingQuery = query(
     ratingsRef,
     where('userId', '==', userId),
-    where('movieId', '==', movieId)
+    where('movieId', '==', movieId),
   );
   const ratingSnapshot = await getDocs(ratingQuery);
 

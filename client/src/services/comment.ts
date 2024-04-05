@@ -50,7 +50,7 @@ export const postComment = async ({
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('authorId', '==', userId)
+    where('authorId', '==', userId),
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (!commentSnapshot.empty) {
@@ -92,7 +92,7 @@ export const getMyComment = async ({ movieId }: GetMyCommentParams) => {
   const commentQuery = query(
     commentsRef,
     where('movieId', '==', movieId),
-    where('authorId', '==', userId)
+    where('authorId', '==', userId),
   );
   const commentSnapshot = await getDocs(commentQuery);
   if (commentSnapshot.empty) {
@@ -199,7 +199,7 @@ export const getComments = async ({
             where('movieId', '==', movieId),
             sortBy,
             where('rating', '!=', null),
-            limit(6)
+            limit(6),
           )
         : query(commentsRef, where('movieId', '==', movieId), sortBy, limit(6));
   } else {
@@ -209,7 +209,7 @@ export const getComments = async ({
       where('movieId', '==', movieId),
       sortBy,
       startAfter(lastDoc),
-      limit(6)
+      limit(6),
     );
   }
 

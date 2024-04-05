@@ -15,7 +15,7 @@ const useSimilarMoviesQuery = ({ movieId }: Params) => {
     },
 
     enabled: !!movieId,
-    staleTime: 1000 * 60 * 60 * 24
+    staleTime: 1000 * 60 * 60 * 24,
   });
 };
 

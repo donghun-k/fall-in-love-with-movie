@@ -14,7 +14,7 @@ import { RootState } from '../../../store';
 const NavBar = () => {
   const { isSmDown, isSmUp, isMdDown } = useMediaQueries();
   const { user, isCheckingAuth } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
 
   return (

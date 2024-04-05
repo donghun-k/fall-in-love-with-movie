@@ -93,7 +93,7 @@ const useCommentsInfiniteQuery = ({ movieId, sortOption }: Params) => {
           ...old,
           pages: updatedData,
         };
-      }
+      },
     );
 
     return previousData;

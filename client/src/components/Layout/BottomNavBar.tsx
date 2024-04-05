@@ -18,7 +18,7 @@ const BottomNavBar = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { user, isCheckingAuth } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
 
   const handleOpenDialog = () => {

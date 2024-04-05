@@ -10,7 +10,7 @@ import usePaletteMode from '../../hooks/usePaletteMode';
 const TitleSection = () => {
   const { paletteMode } = usePaletteMode();
   const { user, isCheckingAuth } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
 
   return (

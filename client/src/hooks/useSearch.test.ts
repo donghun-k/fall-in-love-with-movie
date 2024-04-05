@@ -66,7 +66,7 @@ describe('useSearch', () => {
       '검색어는 30자를 넘을 수 없습니다.',
       {
         variant: 'error',
-      }
+      },
     );
   });
 });

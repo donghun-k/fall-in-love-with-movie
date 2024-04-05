@@ -37,7 +37,7 @@ export const toggleLike = async ({
     throw new Error(
       isLiked
         ? `이미 '좋아요'를 등록했습니다.`
-        : `아직 '좋아요'를 등록하지 않았습니다.`
+        : `아직 '좋아요'를 등록하지 않았습니다.`,
     );
   }
 

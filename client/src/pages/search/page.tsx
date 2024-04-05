@@ -19,7 +19,7 @@ const SearchPage = () => {
 
   const movieList = useMemo(
     () => data?.pages.map((page) => page.results).flat() || [],
-    [data]
+    [data],
   );
 
   const handleViewMore = () => {

@@ -47,7 +47,7 @@ const OtherCommentActions = ({
       if (context?.previousData) {
         queryClient.setQueryData(
           ['comments', commentRef.id],
-          context.previousData
+          context.previousData,
         );
       }
       if (isLiked)

@@ -24,7 +24,7 @@ const RatingBox = ({ movieDetail }: Props) => {
   const { enqueueSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
   const { user, isCheckingAuth } = useSelector(
-    (state: RootState) => state.auth
+    (state: RootState) => state.auth,
   );
   const movieGenreIds = genres.map((genre) => genre.id);
 

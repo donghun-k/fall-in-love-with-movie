@@ -18,7 +18,7 @@ const useMyCommentQuery = ({ movieId }: Params) => {
 
     enabled: !!movieId && !!user,
     refetchOnWindowFocus: false,
-    staleTime: 1000 * 60 * 60 * 24
+    staleTime: 1000 * 60 * 60 * 24,
   });
 };
 
