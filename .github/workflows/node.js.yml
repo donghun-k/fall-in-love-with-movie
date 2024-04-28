@@ -9,6 +9,7 @@ on:
     branches: ['main']
     paths:
       - 'client/**' # client 폴더 내의 변경사항에 대해서만 반응
+  workflow_dispatch:
 
 jobs:
   test:
