@@ -2,7 +2,7 @@
 ![noname](https://github.com/donghun-k/fall-in-love-with-movie/assets/60064471/bccd41af-dac3-44ed-9ab3-d3465baa1fac)
 
 <h3 align="center">🎬 영화 별점 평가 및 코멘트 서비스 🎬</h3>
-<h5 align="center">배포 링크: <a href="https://fall-in-love-with-movie.site">FILM - Fall In Love with Movie</a></h5>
+<h5 align="center">배포 중단</h5>
 <br/>
 
 ## ⚒️ Tech stack
